@@ -13,3 +13,4 @@ Implement something like asq.click but for a computer graphics course
 * Marie Kalousková
 * Jiří Heller
 * Giulio Rebuffo
+* Dimitris Mystriotis
