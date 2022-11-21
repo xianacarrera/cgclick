@@ -1,4 +1,4 @@
-# SA3_project
+# cg.click
 
 ## Project idea
 Implement something like asq.click but for a computer graphics course
@@ -11,3 +11,4 @@ Implement something like asq.click but for a computer graphics course
 ## Participants
 * Xiana Carrera Alonso
 * Marie Kalousková
+* Jiří Heller
