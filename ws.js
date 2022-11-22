@@ -1,3 +1,0 @@
-/**
- * WebSockets - Server side
- */ 
