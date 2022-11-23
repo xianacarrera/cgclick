@@ -12,7 +12,6 @@ function init(){
     currentSlide = 0;
     initSocket();
     changeSlide(currentSlide);
-    addEventListeners();
 }
 
 function changeSlide(index){
