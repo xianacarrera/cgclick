@@ -1,0 +1,77 @@
+/**
+ * This code was primarly created for assignment for Computer Graphics course at USI
+ * by Jiří Heller, Marie Kalousková and Xiana Carrera Alonso
+ * For Software Atelier 3: The Web project we modified it a little bit to make it more tangible
+ */
+
+
+ #shape-div {            /* Blue triangle */
+    border-top: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 80px solid blue;
+    border-left: 40px solid transparent;
+    background-color: white;
+    outline: none;
+    position: absolute;
+    margin-left: 40px;
+    margin-bottom: 60px;
+}
+
+.shapecontainer label {             /* Text in front of the shape */
+    position: absolute;
+    margin-left: 55px;
+    margin-top: 90px;
+    font-size: 0.9em;
+    font-weight: bold;
+    z-index: 2;    /* To be in front of everything else */
+}
+
+.shapecontainer label::before{      /* This allows us to change the label text from the CSS */
+    content: "Triangle";
+    color: rgb(243, 248, 211);
+}
+
+#shape-selector {           /* The checkbox */
+    opacity: 0;     /* Hide it to the user */
+    z-index: 1;     /* To be behind the label and in front of the div */
+    position: absolute;
+    margin-left: 75px;
+    margin-top: 100px;
+    transform: scale(4);    /* To make it easier to click */
+}
+
+#shape-selector:hover ~ #shape-div{     /* When the checkbox is hovered, change the shape color */
+    border-bottom: 80px solid darkblue;
+}
+
+#shape-selector:checked {           /* When the checkbox is checked, make it bigger to adjust it to the cub */
+    transform: scale(6);
+    margin-top: 90px;
+}
+
+#shape-selector:checked ~ #shape-div {
+    /* When the checkbox is checked, change the related div from a triangle to a cube */
+    border-bottom: 40px solid violet;
+    border-left: 40px solid violet;
+    border-top: 40px solid violet;
+    border-right: 40px solid violet;
+    margin-top: 40px;
+}
+
+#shape-selector:checked ~ label {     /* Center the label in the cube */
+    margin-top: 70px;
+    margin-left: 60px;
+    font-size: 1.1em;
+}
+
+#shape-selector:checked ~ label::before {       /* Change the label text */
+    content: "Cube";
+}
+
+#shape-selector:checked:hover ~ #shape-div {      /* When the checkbox is checked and hovered, change the cube color */
+    border-bottom: 40px solid darkviolet;
+    border-left: 40px solid darkviolet;
+    border-top: 40px solid darkviolet;
+    border-right: 40px solid darkviolet;
+}
+

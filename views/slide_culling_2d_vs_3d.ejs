@@ -1,0 +1,29 @@
+<!-- 
+This code was primarly created for assignment for Computer Graphics course at USI
+by Jiří Heller, Marie Kalousková and Xiana Carrera Alonso
+For Software Atelier 3: The Web project we modified it a little bit to make it more tangible 
+-->
+
+<h1>Culling - 2D vs 3D</h1>
+
+<canvas id="webgl-canvas" width="768" height="768"></canvas>
+<div  style="float: right">
+
+    <div class="slidecontainer">
+        Rotation:</br><input type="range" min="0" max="200" value="100" id="rotation">
+    </div>
+
+    <fieldset>
+        <input type="radio" id="culling_on" name="culling" value="culling_on" checked>
+        <label for="culling_on">Culling on</label>
+
+        <input type="radio" id="culling_off" name="culling" value="culling_off">
+        <label for="culling_off">Culling_off</label>
+    </fieldset>
+    <div class="shapecontainer">
+        <input type="checkbox" id="shape-selector"></button> 
+        <label for="shape-selector"></label>
+        <div id="shape-div"></div>                           
+    </div>
+</div>
+
