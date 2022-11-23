@@ -5,3 +5,5 @@ const slides = [
 ]
 
 // document.querySelector("body").innerHTML = slides[0]
+
+document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({});
