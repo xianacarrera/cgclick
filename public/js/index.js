@@ -4,4 +4,4 @@ const slides = [
     "<p>Hello World 3!</p><button>Go to slide 1</button>"
 ]
 
-document.querySelector("body").innerHTML = slides[0]
+// document.querySelector("body").innerHTML = slides[0]
