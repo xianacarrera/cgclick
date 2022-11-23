@@ -49,9 +49,11 @@ Goals of the meeting:
 * Bootstrap (CSS templates)
 * SVG (geometry visualisations?)
 * WebGL (interactive examples of WebGL rasterization)
+   * https://threejs.org/
 * Passport.js (logging-in with roles: teacher vs. students)
     * Teachers would have to be authorized users and create an account with a password
 * Crypto.js (crypting the passwords)
+
 
 
 
