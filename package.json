@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/xianacarrera/cgclick",
-  "author": "Giulio Rebuffo <giulio.rebuffo@gmail.com>",
+  "author": "cg-click group",
   "license": "MIT",
   "dependencies": {
     "ejs": "^3.1.8",
@@ -16,7 +16,7 @@
     "socket.io": "^4.5.3"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "yarn ejsc && nodemon app.js",
     "ejsc": "node ./node_modules/ejsc-views/bin/ejsc -d"
   }
 }

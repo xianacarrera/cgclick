@@ -16,16 +16,26 @@ Goals of the meeting:
 * Dimitris - tester (and pull request reviewer)
 
 ### Goals for Week 1
-1. Create one "room" with a teacher and students where the teacher can show an interactive presentation
+1. Question types
+	* Think of various types of CG-related questions/tasks/interactive elements, e.g.:
+		* open question (later displayed as a word cloud?)
+		* LaTeX equations as answers?
+		* interactive plots (try different gamma values, Phong model coefficients etc.)
+		* WebGL rasterization rendering with sliders
+		* try to match the sample picture
+	* Implement static versions of a few question types
+	* Server only serves static questions and checks answers, interactivity is server-side
+	* No teacher role necessary for now
+2. Create one "room" with a teacher and students where the teacher can show an interactive presentation
     * Use WebSockets to connect the browsers
     * Give different roles to the teacher and students ("log-in" buttons for "teacher" and "student", but max. 1 teacher)
     * Broadcast the teacher's screen to all students, but also allow students to change slides individually (when teacher changes slides, it will move all the students, also the ones without "focus")
-2. Create 3 slides with ejs, html and css and decide on the overall design of the website
+3. Create 3 slides with ejs, html and css and decide on the overall design of the website
     * First slide should be "About" page, where it's written what were our goals and what we did in this first week
-    * Integrate it with bootstrap
+    * Integrate it with Bootstrap
     * Add URL fragments for easier sharing
     * Add navigation history
-3. If we have time: More complex navigation -> change the current slide to a selected slide (browse, maybe even search in slides)
+4. If we have time: More complex navigation -> change the current slide to a selected slide (browse, maybe even search in slides)
     * Possible for both teacher and students
     * Follow feature for returning to the "follow teacher" mode
 
@@ -39,9 +49,11 @@ Goals of the meeting:
 * Bootstrap (CSS templates)
 * SVG (geometry visualisations?)
 * WebGL (interactive examples of WebGL rasterization)
+   * https://threejs.org/
 * Passport.js (logging-in with roles: teacher vs. students)
     * Teachers would have to be authorized users and create an account with a password
 * Crypto.js (crypting the passwords)
+
 
 
 
