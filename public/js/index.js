@@ -4,4 +4,28 @@ const slides = [
     "<p>Hello World 3!</p><button>Go to slide 1</button>"
 ]
 
-document.querySelector("body").innerHTML = slides[0]
+let currentSlide;
+let isTeacher = true;
+
+
+function init(){
+    currentSlide = 0;
+    initSocket();
+    changeSlide(currentSlide);
+    addEventListeners();
+}
+
+function changeSlide(index){
+    document.querySelector("body").innerHTML = slides[index];
+    addEventListeners();
+}
+
+function addEventListeners(){
+    document.querySelector("button").addEventListener("click", () => {
+        console.log("Current slide" + currentSlide)
+        currentSlide = (currentSlide + 1) % slides.length;
+        console.log("Current slide after" + currentSlide)
+        changeSlide(currentSlide);
+        emitChangeSlide(currentSlide);
+    });
+}

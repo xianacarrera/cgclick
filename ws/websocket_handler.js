@@ -4,13 +4,12 @@
  */
 class WebSocketHandler {
 
-    #was_teacher_set = 0
     /**
     * Initializes the WebsocketHandler.
     * @param {State} state state of the app.
     */
     constructor(state) {
-        this.state = state
+        this.state = state;
     }
 
     /**
@@ -18,8 +17,10 @@ class WebSocketHandler {
     * @param {Socket} socket client socket.
     */
     on_connect(socket) {
+        // Notify new participants.
+        socket.emit("generic_init", this.state.stateObject());
         // changeSlide topic should be called whenever slide are sent
-        socket.on('changeSlide', (new_slide) => this.on_change_slide(socket, new_slide).bind(this))
+        socket.on('teacher_changeSlide', (new_slide) => this.on_change_slide(socket, new_slide.slide))
     }
 
     /**
@@ -27,8 +28,8 @@ class WebSocketHandler {
     * @param {Socket} socket client socket.
     * @param {JSON} new_slide the object contains the field slide and will be set.
     */
-    on_change_slide(socket, new_slide) {
-        this.state.slide = new_slide.slide;
+    on_change_slide(socket, slide) {
+        this.state.slide = slide;
         this.on_update(socket, this.state.stateObject());
     }
 
@@ -39,7 +40,7 @@ class WebSocketHandler {
     */
     on_update(socket, state_obj) {
         // update topic should be received by the client and update current slide and whatever accordingly.
-        socket.broadcast.emit('update', state_obj)
+        socket.broadcast.emit('generic_update', state_obj)
     }
 }
 
