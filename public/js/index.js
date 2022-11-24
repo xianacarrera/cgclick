@@ -16,7 +16,7 @@ function init(){
 
 function changeSlide(index){
     document.querySelector("body").innerHTML = slides[index];
-    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({});
+    //document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({});
     addEventListeners();
 }
 
