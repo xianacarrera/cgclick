@@ -1,7 +1,7 @@
 const slides = [
-    "<p>Hello World 1!</p><button>Go to slide 2</button>",
-    "<p>Hello World 2!</p><button>Go to slide 3</button>",
-    "<p>Hello World 3!</p><button>Go to slide 1</button>"
+    ejs.views_slide({}),
+    ejs.views_slide_alpha({}),
+    ejs.views_slide_beta({})
 ]
 
 let currentSlide;
@@ -16,6 +16,7 @@ function init(){
 
 function changeSlide(index){
     document.querySelector("body").innerHTML = slides[index];
+    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({});
     addEventListeners();
 }
 
