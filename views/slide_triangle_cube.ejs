@@ -1,0 +1,40 @@
+<!-- 
+This code was primarly created for assignment for Computer Graphics course at USI
+by Jiří Heller, Marie Kalousková and Xiana Carrera Alonso
+For Software Atelier 3: The Web project we modified it to make it more customizable and tangible 
+-->
+
+<h1>Face Culling</h1>
+
+<canvas id="webgl-canvas" width="768" height="768"></canvas>
+<div  style="float: right">
+
+    <div class="slidecontainer">
+        Rotation:</br><input type="range" min="0" max="200" value="100" id="rotation">
+    </div>
+
+    <% if (culling) { %>
+        <fieldset>
+            <input type="radio" id="culling_on" name="culling" value="culling_on" checked>
+            <label for="culling_on">Face Culling on</label>
+
+            <input type="radio" id="culling_off" name="culling" value="culling_off">
+            <label for="culling_off">Face Culling off</label>
+        </fieldset>
+    <% } %>
+    <% if (depth_test) { %>
+        <fieldset>
+            <input type="radio" id="depth_test_on" name="depth_test" value="depth_test_on" checked>
+            <label for="depth_test_on">Depth Test on</label>
+
+            <input type="radio" id="depth_test_off" name="depth_test" value="depth_test_off">
+            <label for="depth_test_off">Depth Test off</label>
+        </fieldset>
+    <% } %>
+    <div class="shapecontainer">
+        <input type="checkbox" id="shape-selector"></button> 
+        <label for="shape-selector"></label>
+        <div id="shape-div"></div>                           
+    </div>
+</div>
+
