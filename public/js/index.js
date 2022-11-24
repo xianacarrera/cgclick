@@ -1,38 +1,35 @@
-// front end can play with the sildes
-// document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({});
-// let culling = true;
-// let depth_test = true;
-// document.getElementById("slide").innerHTML = ejs.views_slide_triangle_cube({culling, depth_test});
-// start_slide_triangle_cube(culling, depth_test);
-
-const slides = [
-    ejs.views_slide({}),
-    ejs.views_slide_alpha({}),
-    ejs.views_slide_beta({})
+const slideFunctions = [
+    displaySlideOpenQuestion,
+    displaySlideTriangleCube
 ]
 
 let currentSlide;
 let isTeacher = true;
 
-
 function init(){
     currentSlide = 0;
     initSocket();
+    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({});
+    addEventListeners();
     changeSlide(currentSlide);
 }
 
 function changeSlide(index){
-    document.querySelector("body").innerHTML = slides[index];
-    //document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({});
-    addEventListeners();
+    slideFunctions[index]();
+}
+
+function link_listener(e){
+    e.preventDefault();
+    console.log("Current slide: " + currentSlide)
+    currentSlide = e.currentTarget.pathname[1];
+    console.log("Changing to slide: " + currentSlide)
+    changeSlide(currentSlide);
+    emitChangeSlide(currentSlide);
 }
 
 function addEventListeners(){
-    document.querySelector("button").addEventListener("click", () => {
-        console.log("Current slide" + currentSlide)
-        currentSlide = (currentSlide + 1) % slides.length;
-        console.log("Current slide after" + currentSlide)
-        changeSlide(currentSlide);
-        emitChangeSlide(currentSlide);
+    document.querySelectorAll("a").forEach(link=>{
+        link.removeEventListener("click", link_listener);
+        link.addEventListener("click", link_listener);
     });
 }
