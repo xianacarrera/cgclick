@@ -6,7 +6,6 @@
 
 function start_slide_triangle_cube(culling, depth_test) {
 	console.log("Starting");
-	console.log('Culling: ' + culling);
 	// initialze WebGL
 	initWebGL();
 	// create GLSL programs
@@ -18,7 +17,7 @@ function start_slide_triangle_cube(culling, depth_test) {
 
 	// default (first) shape is a triangle
 	is_triangle_shown = true;
-	is_culling_on = true;
+	is_culling_on = false;
 	is_depth_test_on = true;
 
 	let shape_selector = document.getElementById("shape-selector");
