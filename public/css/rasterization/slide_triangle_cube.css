@@ -51,10 +51,7 @@
 
 #shape-selector:checked ~ #shape-div {
     /* When the checkbox is checked, change the related div from a triangle to a cube */
-    border-bottom: 40px solid violet;
-    border-left: 40px solid violet;
-    border-top: 40px solid violet;
-    border-right: 40px solid violet;
+    border: 40px solid violet;
     margin-top: 40px;
 }
 
@@ -69,9 +66,6 @@
 }
 
 #shape-selector:checked:hover ~ #shape-div {      /* When the checkbox is checked and hovered, change the cube color */
-    border-bottom: 40px solid darkviolet;
-    border-left: 40px solid darkviolet;
-    border-top: 40px solid darkviolet;
-    border-right: 40px solid darkviolet;
+    border: 40px solid darkviolet;
 }
 
