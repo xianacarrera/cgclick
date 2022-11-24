@@ -16,8 +16,7 @@ function addConnectionListeners(){
 
     socket.on('generic_update', (state) => {
         console.log("Update", state);
-        document.querySelector("body").innerHTML = slides[state.slide];
-        addEventListeners();
+        changeSlide(state.slide);
     });
 
     socket.on('generic_init', (state) => {
