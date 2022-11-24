@@ -1,3 +1,8 @@
+// front end can play with the sildes
+//document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({});
+//document.getElementById("slide").innerHTML = ejs.views_slide_culling({});
+//start_slide_culling();
+
 const slides = [
     ejs.views_slide({}),
     ejs.views_slide_alpha({}),
