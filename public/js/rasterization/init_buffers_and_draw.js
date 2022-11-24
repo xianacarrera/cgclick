@@ -72,6 +72,7 @@ function draw(){
     gl.clearColor(0.2, 0.2, 0.2, 1.0);
     // clear the rendering area
     gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.clear(gl.DEPTH_BUFFER_BIT);
 
     // Enable/disable face culling and depth test
 
@@ -83,11 +84,9 @@ function draw(){
     }
 
     if (is_depth_test_on) {
-        console.log("on");
         gl.enable(gl.DEPTH_TEST);
     }
     else {
-        console.log("-----------------------");
         gl.disable(gl.DEPTH_TEST);
     }
 
