@@ -4,7 +4,8 @@
  * For Software Atelier 3: The Web project we modified it a little bit to make it more tangible
  */
 
- var triangle_vertices = [
+
+var triangle_vertices = [
     0.0,  0.5,  0.0,
    -0.5, -0.5,  0.0,
     0.5, -0.5,  0.0,
