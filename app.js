@@ -21,9 +21,7 @@ const {WebSocketHandler} = require('./ws/websocket_handler');
 
 const { Server } = require("socket.io");
 
-var websocket_handler = new WebSocketHandler(
-    new State(0) // Initial slide will be set to 1.
-);
+var websocket_handler = new WebSocketHandler();
 
 //init framework
 const app = express();
