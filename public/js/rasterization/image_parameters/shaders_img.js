@@ -103,13 +103,18 @@ var ip_fragmentShaderCode =
     uniform vec3 pointLightIntensity;       // Intensity / color of the point light source. It is in grey scale.
     uniform vec4 pointLightPosition;        // Position of the point light source. It is in viewing coordinates.
 
+    // Questions
+    uniform float gamma;                    // Gamma correction factor
+    uniform float alpha;                    // Tone mapping alpha
+    uniform float beta;                     // Tone mapping beta
+
     // Constants for the Phong shading model
     const vec3 lightColor = vec3(1.0, 1.0, 1.0);                // Color of the directional light source (white)
     const vec3 ambientIntensity = vec3(0.1, 0.1, 0.1);          // Ambient intensity (global)
     const float ambientCoeff = 0.5;       
     const float specularCoeff = 0.8;
     const float shininessCoeff = 50.0;
-    const float gamma = 2.2;
+    //const float gamma = 2.2;                        // Original gamma correction factor
 
     void main(){
 
@@ -147,8 +152,9 @@ var ip_fragmentShaderCode =
         // The final color is the sum of the ambient, diffuse and specular components for both directional and point light sources
         vec3 rgb = vec3(ambient + diffuse + diffuse_point + specular + specular_point);
 
-        // Finally, apply gamma correction to the RGB components by raising to the power of 1/gamma. An alpha component of 1.0 is added afterwards.
-        out_color = vec4(pow(rgb, vec3(1.0/gamma)), 1.0);
+        // Finally, apply tone mapping and gamma correction.
+        rgb = alpha * rgb;
+        out_color = vec4(pow(rgb, vec3(beta/gamma)), 1.0);
     }`;
 
 

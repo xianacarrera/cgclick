@@ -24,6 +24,11 @@ function displaySlideTriangleCube(){
 
 function displaySlideImageParameters(){
     document.getElementById("slide").innerHTML = ejs.views_slide_image_parameters({});
-    ip_start({azimuthal: -70, polar: 60});
+    ip_start(
+        {azimuthal: -70, polar: 60},                           // Directional light
+        {x: -200, y: 150, z: -40, intensity: 30},              // Point light
+        {azimuthal: -45, polar: 60, distance: 150, fov: 45},   // Camera
+        {gamma: true, tone_mapping: true}
+    );
     changeActiveClass(2);
 }

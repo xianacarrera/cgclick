@@ -1,31 +1,23 @@
 <canvas id="question-webgl-canvas" width="384" height="384"></canvas>
 <canvas id="answer-webgl-canvas" width="384" height="384"></canvas>
 <div  style="float: right">
-    <h4>Camera:</h4>
-    <div class="slidecontainer">
-        Azimuthal angle:</br><input type="range" min="-270" max="90" value="-45" id="camera_azimuthal_angle">
-    </div>
-    <div class="slidecontainer">
-        Polar angle:</br><input type="range" min="1" max="179" value="60" id="camera_polar_angle">
-    </div>
-    <div class="slidecontainer">
-        Distance:</br><input type="range" min="20" max="200" value="50" id="camera_distance">
-    </div>
-    <div class="slidecontainer">
-        Field of view:</br><input type="range" min="10" max="150" value="45" id="camera_fov">
+    <h3>Gamma correction:</h3>
+    <label class="form-label bd-highlight" for="gamma_input">Gamma coefficient:</label>
+    <div class="range d-flex flex-row">
+        <span class="me-3" id="rangeval_gamma">1</span>    <!-- Default value of 1 -->
+        <input type="range" class="form-range" min="1" max="5" value="1" step="0.5" id="gamma_input" onChange="document.getElementById('rangeval_gamma').innerText = document.getElementById('gamma_input').value">
     </div>
 
-    <h4>Point light source:</h4>
-    <div>     <!-- Intensity will later be divided by 100 and transformed to a vec3 with the same value in each component -->
-        Intensity:</br><input type="range" min="0" max="100" value="0" id="point_light_intensity">
+    <h3>Tone mapping:</h3>
+    <label class="form-label bd-highlight" for="alpha_input">Alpha:</label>
+    <div class="range d-flex flex-row">
+        <span class="me-3" id="rangeval_tm_alpha">1</span>    <!-- Default value of 1 -->
+        <input type="range" class="form-range" min="9" max="15" value="9" step="3" id="alpha_input" onChange="document.getElementById('rangeval_tm_alpha').innerText = document.getElementById('alfa_input').value">
     </div>
-    <div class="slidecontainer">        <!-- x cartesian coordinate (will range from -5 to 5) -->
-        x:</br><input type="range" min="-500" max="500" value="0" id="point_light_x">
-    </div>
-    <div>                               <!-- y cartesian coordinate (will range from 0.7 to 2.7) -->
-        y:</br><input type="range" min="0" max="200" value="100" id="point_light_y">
-    </div>
-    <div>                               <!-- z cartesian coordinate (will range from -5 to 5) -->
-        z:</br><input type="range" min="-500" max="500" value="0" id="point_light_z">
+
+    <label class="form-label bd-highlight" for="beta_input">Beta:</label>
+    <div class="range d-flex flex-row">
+        <span class="me-3" id="rangeval_tm_beta">1</span>    <!-- Default value of 1 -->
+        <input type="range" class="form-range" min="1" max="3" value="1" step="1" id="beta_input" onChange="document.getElementById('rangeval_tm_beta').innerText = document.getElementById('beta_input').value">
     </div>
 </div>
