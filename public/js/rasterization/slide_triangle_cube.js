@@ -20,13 +20,17 @@ function start_slide_triangle_cube(culling, depth_test) {
 	is_culling_on = false;
 	is_depth_test_on = true;
 
-	let shape_selector = document.getElementById("shape-selector");
-	shape_selector.addEventListener("change", (e) => {
-		if (shape_selector.checked) {
-			is_triangle_shown = false;
-		}
-		else {
+	let shape_triangle = document.getElementById("shape_triangle");
+	shape_triangle.addEventListener("change", (e) => {
+		if (shape_triangle.checked) {
 			is_triangle_shown = true;
+		}
+	});
+
+	let shape_cube = document.getElementById("shape_cube");
+	shape_cube.addEventListener("change", (e) => {
+		if (shape_cube.checked) {
+			is_triangle_shown = false;
 		}
 	});
 
