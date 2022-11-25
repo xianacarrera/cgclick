@@ -20,7 +20,7 @@
  * The z component had to be inverted with respect to assignment 8 to account for the right hand coordinate system.
 */
 
-const cube_vertices = [
+const ip_cube_vertices = [
     // Front face (z = 0.5)
     -0.5, -0.5, 0.5,     // Triangle 1
     0.5,  -0.5, 0.5,
@@ -73,7 +73,7 @@ const cube_vertices = [
 
 // Colors for each vertex of a cube. Each triplet corresponds to a vertex, so the same color will be used for the vertices in each face.
 // The colors for the rest of the points on the cube will be interpolated automaticaly between the vertex and fragment shaders.
-const cube_colors = [
+const ip_cube_colors = [
     // Front face (z = 0.5) -> red
     0.9,  0.24,  0.24,
     0.9,  0.24,  0.24,
@@ -124,7 +124,7 @@ const cube_colors = [
 ];
 
 
-var cube_normals = [];
+var ip_cube_normals = [];
 
 function compute_normals(vertices, normals){
     // Compute the normals for each face of the cube
@@ -150,14 +150,14 @@ function compute_normals(vertices, normals){
     }
 }
 
-compute_normals(cube_vertices,cube_normals);
+compute_normals(ip_cube_vertices, ip_cube_normals);
 
 
 /*******************************************************************
  * Plane
  *******************************************************************/
 
-var plane_vertices = [
+var ip_plane_vertices = [
     -0.5,  0.0,  -0.5,
     -0.5, 0.0,  0.5,
      0.5, 0.0,  0.5,
@@ -165,7 +165,7 @@ var plane_vertices = [
      0.5, 0.0,  0.5,
      0.5,  0.0,  -0.5,
 ];
-var plane_normals = [
+var ip_plane_normals = [
     0.0, 1.0, 0.0,
     0.0, 1.0, 0.0,
     0.0, 1.0, 0.0,
@@ -174,7 +174,7 @@ var plane_normals = [
     0.0, 1.0, 0.0,
 ];
 
-var plane_colors = [
+var ip_plane_colors = [
     0.56, 0.45, 0.4,
     0.56, 0.45, 0.4,
     0.56, 0.45, 0.4,
@@ -190,13 +190,13 @@ var plane_colors = [
  * Sphere
  *******************************************************************/
 
-var sphere_vertices = [];
-var sphere_normals = [];
-var sphere_colors = [];
+var ip_sphere_vertices = [];
+var ip_sphere_normals = [];
+var ip_sphere_colors = [];
 
 // Define the sphere vertices, normals and colors
 // It will result in the sphere x^2 + y^2 + z^2 = 0.5^2
-function create_sphere(){
+function ip_create_sphere(){
     let step = 0.01;
     for(let u = 0; u < 1; u = u + step){
         for(let v = 0; v < 1; v = v + step){
@@ -222,22 +222,22 @@ function create_sphere(){
             let y3 = Math.cos(Math.PI*(v+step));
 
             // The normal of each vertex is the same as the vertex itself, so we add the same data to sphere_vertices and sphere_normals
-            sphere_vertices.push(x1,y1,z1,x3,y3,z3,x2,y2,z2);
-            sphere_normals.push(x1,y1,z1,x3,y3,z3,x2,y2,z2);
-            sphere_vertices.push(x1,y1,z1,x4,y4,z4,x3,y3,z3);
-            sphere_normals.push(x1,y1,z1,x4,y4,z4,x3,y3,z3);
+            ip_sphere_vertices.push(x1,y1,z1,x3,y3,z3,x2,y2,z2);
+            ip_sphere_normals.push(x1,y1,z1,x3,y3,z3,x2,y2,z2);
+            ip_sphere_vertices.push(x1,y1,z1,x4,y4,z4,x3,y3,z3);
+            ip_sphere_normals.push(x1,y1,z1,x4,y4,z4,x3,y3,z3);
 
             for(let k = 0; k < 6; k++){
-                sphere_colors.push(1,1,1);          // White
+                ip_sphere_colors.push(1,1,1);          // White
             }
 
         }
     }
 
     // Making the sphere have radius 0.5
-    for(let i = 0; i < sphere_vertices.length; i++){
-        sphere_vertices[i] = sphere_vertices[i]/2;
+    for(let i = 0; i < ip_sphere_vertices.length; i++){
+        ip_sphere_vertices[i] = ip_sphere_vertices[i]/2;
     }
 }
 
-create_sphere();
+ip_create_sphere();

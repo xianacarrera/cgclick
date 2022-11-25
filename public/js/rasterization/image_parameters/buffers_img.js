@@ -1,25 +1,25 @@
 
 
 
-var cube_vao;     // The vertex array object for the cube
-var sphere_vao;   // The vertex array object for the sphere
-var plane_vao;    // The vertex array object for the plane
+var ip_cube_vao;     // The vertex array object for the cube
+var ip_sphere_vao;   // The vertex array object for the sphere
+var ip_plane_vao;    // The vertex array object for the plane
 
 /**
  * Define all the necessary buffers and set them up in vertex array objects (VAOs).
  */
-function initBuffers(){
+function ip_initBuffers(){
     // Create a VAO for the cube, setting up the vertices, normals and colors
-    cube_vao = gl.createVertexArray();
-    createVAO(cube_vao, shaderProgram, cube_vertices, cube_normals, cube_colors);
+    ip_cube_vao = gl.createVertexArray();
+    ip_createVAO(ip_cube_vao, ip_shaderProgram, ip_cube_vertices, ip_cube_normals, ip_cube_colors);
 
     // Create a VAO for the sphere, setting up the vertices, normals and colors
-    sphere_vao = gl.createVertexArray();
-    createVAO(sphere_vao, shaderProgram, sphere_vertices, sphere_normals, sphere_colors);
+    ip_sphere_vao = gl.createVertexArray();
+    ip_createVAO(ip_sphere_vao, ip_shaderProgram, ip_sphere_vertices, ip_sphere_normals, ip_sphere_colors);
 
     // Create a VAO for the plane, setting up the vertices, normals and colors
-    plane_vao = gl.createVertexArray();
-    createVAO(plane_vao, shaderProgram, plane_vertices, plane_normals, plane_colors);
+    ip_plane_vao = gl.createVertexArray();
+    ip_createVAO(ip_plane_vao, ip_shaderProgram, ip_plane_vertices, ip_plane_normals, ip_plane_colors);
 }
 
 
@@ -31,11 +31,11 @@ function initBuffers(){
  * @param {Array} normals - The normals data (3 components, floats).
  * @param {Array} colors - The colors data (3 components, floats).
  */
-function createVAO(vao, shader, vertices, normals, colors){
+function ip_createVAO(vao, shader, vertices, normals, colors){
     // Create a VBO for each attribute
-    var vertexBuffer = create_buffer(vertices);
-    var normalBuffer = create_buffer(normals);
-    var colorBuffer = create_buffer(colors);
+    var vertexBuffer = ip_create_buffer(vertices);
+    var normalBuffer = ip_create_buffer(normals);
+    var colorBuffer = ip_create_buffer(colors);
 
     /* At this point, the data is already on the GPU, but the shaders don't know how to access it. 
      * We need to specify the data flow through the graphics pipeline.
@@ -48,9 +48,9 @@ function createVAO(vao, shader, vertices, normals, colors){
 
     gl.bindVertexArray(vao);        // Bind the VAO
     // Connect each buffer with the respective attribute. All are vec3, so we have 3 components per vertex, all of them floats.
-    setupArrayBuffer(vertexBuffer, shader, "a_position", 3, gl.FLOAT);
-    setupArrayBuffer(normalBuffer, shader, "a_normal", 3, gl.FLOAT);
-    setupArrayBuffer(colorBuffer, shader, "a_color", 3, gl.FLOAT);
+    ip_setupArrayBuffer(vertexBuffer, shader, "a_position", 3, gl.FLOAT);
+    ip_setupArrayBuffer(normalBuffer, shader, "a_normal", 3, gl.FLOAT);
+    ip_setupArrayBuffer(colorBuffer, shader, "a_color", 3, gl.FLOAT);
 }
 
 
@@ -58,7 +58,7 @@ function createVAO(vao, shader, vertices, normals, colors){
  * Create a buffer in the GPU and send there the related data.
  * @param {Array} data - The data to fill the buffer with (positions, colors, etc.).
  */
-function create_buffer(data){
+function ip_create_buffer(data){
     // Create a WebGLBuffer
     var buffer = gl.createBuffer();             
     // Mark the buffer as active
@@ -78,7 +78,7 @@ function create_buffer(data){
  * @param {Number} numElemsPerVertex - The number of components per attribute.
  * @param {Number} type - The data type of the attribute.
  */
-function setupArrayBuffer(buffer, shader, attributeLocation, numElemsPerVertex, type){
+function ip_setupArrayBuffer(buffer, shader, attributeLocation, numElemsPerVertex, type){
     // Bind the buffer with vertices
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
     // Get position of the attribute in the vertex shader using its name

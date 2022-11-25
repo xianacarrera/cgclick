@@ -1,12 +1,12 @@
 
 
-function start(){
+function ip_start(directional_light){
     // Initialize WebGL
-    initWebGL();                // webgl-context.js
+    ip_initWebGL();                // webgl-context.js
     // Create GLSL programs
-    createGLSLPrograms();       // shaders.js
+    ip_createGLSLPrograms();       // shaders.js
     // Initialize all the buffers and set up the vertex array objects (VAO)
-    initBuffers();              // buffers.js & geometry.js
+    ip_initBuffers();              // buffers.js & geometry.js
     // Draw
-    draw();                     // drawing.js
+    ip_draw(directional_light);                     // drawing.js
 }

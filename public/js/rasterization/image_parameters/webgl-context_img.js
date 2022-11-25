@@ -4,7 +4,7 @@ var gl; // WebGL context (object for controlling WebGL through its functions)
 /**
  * Initialize the WebGL canvas
  */
-function initWebGL(){
+function ip_initWebGL(){
     var canvas = document.getElementById("webgl-canvas");
     gl = canvas.getContext("webgl2");
 

@@ -21,7 +21,7 @@
  * The normalization process is done in the fragment shader, since interpolating could lead to non-normalized vectors anyways.
  */
 
-var vertexShaderCode =
+var ip_vertexShaderCode =
     `#version 300 es
     in vec3 a_position;
     in vec3 a_color;
@@ -84,7 +84,7 @@ var vertexShaderCode =
  * After the calculations for the Phong model, a gamma correction by a 2.2 factor is applied.
  */
 
-var fragmentShaderCode =
+var ip_fragmentShaderCode =
     `#version 300 es
     precision mediump float;
 
@@ -152,25 +152,25 @@ var fragmentShaderCode =
     }`;
 
 
-var shaderProgram; // the GLSL program we will use for rendering
+var ip_shaderProgram; // the GLSL program we will use for rendering
 
 /**
  * Create a shader program with a vertex and a fragment shader.
  */
-function createGLSLPrograms(){
+function ip_createGLSLPrograms(){
     // Creating vertex shader
-    var vertexShader = gl.createShader(gl.VERTEX_SHADER);
-    compileShader(vertexShader, vertexShaderCode, gl.VERTEX_SHADER, "Vertex shader");
+    var ip_vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    ip_compileShader(ip_vertexShader, ip_vertexShaderCode, gl.VERTEX_SHADER, "Vertex shader");
 
     // Creating fragment shader
-    var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-    compileShader(fragmentShader, fragmentShaderCode, gl.VERTEX_SHADER, "Fragment shader");
+    var ip_fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    ip_compileShader(ip_fragmentShader, ip_fragmentShaderCode, gl.VERTEX_SHADER, "Fragment shader");
     
     // Creating and linking the program
-    shaderProgram = gl.createProgram();
-    linkProgram(shaderProgram, vertexShader, fragmentShader);
+    ip_shaderProgram = gl.createProgram();
+    ip_linkProgram(ip_shaderProgram, ip_vertexShader, ip_fragmentShader);
 
-    shaderProgram.rotationMatrix= gl.getUniformLocation(shaderProgram, "rotationMatrix"); // extra code for interactive rotation
+    ip_shaderProgram.rotationMatrix= gl.getUniformLocation(ip_shaderProgram, "rotationMatrix"); // extra code for interactive rotation
 }
 
 /**
@@ -180,14 +180,14 @@ function createGLSLPrograms(){
  * @param shaderType The type of the shader (vertex or fragment)
  * @param {string} shaderName The name of the shader (error-checking)
  */
- function compileShader(shader, source, type, name = ""){
+ function ip_compileShader(shader, source, type, name = ""){
     // Link the source of the shader to the shader object
     gl.shaderSource(shader,source);
     // Compile the shader
     gl.compileShader(shader);
     // Check for success and errors
-    let success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-    if(success){
+    let ip_success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+    if(ip_success){
         console.log(name + " shader compiled succesfully.");
     }else{
         console.log(name + " vertex shader error.")
@@ -201,7 +201,7 @@ function createGLSLPrograms(){
  * @param {WebGLShader} vertShader The vertex shader that will be attached to the program
  * @param {WebGLShader} fragShader The fragment shader that will be attached to the program
  */
-function linkProgram(program,vertShader,fragShader){
+function ip_linkProgram(program,vertShader,fragShader){
     // Attach vertex shader to the program
     gl.attachShader(program,vertShader);
     // Attach fragment shader to the program
