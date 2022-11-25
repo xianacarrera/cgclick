@@ -178,7 +178,7 @@ function compute_normals(vertices, normals) {
         normals[i+2] = normals[i+5] = normals[i+8] = normal[2];
     }
 }
-compute_normals(cube_vertices, cube_normals);
+compute_normals(cube_vertices_PM, cube_normals);
 
 var sphere_vertices = [];
 var sphere_colors = [];

@@ -1,6 +1,7 @@
 const slideFunctions = [
     displaySlideOpenQuestion,
-    displaySlideTriangleCube
+    displaySlideTriangleCube,
+    displaySlidePhongModel,
 ]
 
 let currentSlide;
