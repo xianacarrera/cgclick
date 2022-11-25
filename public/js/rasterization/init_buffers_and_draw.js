@@ -103,5 +103,7 @@ function draw(){
         gl.drawArrays(gl.TRIANGLES, 0, 12*3);
     }
 
-    window.requestAnimationFrame(draw);
+    let requestID = window.requestAnimationFrame(draw);
+    // console.log("Requested animation frame with requestID = " + requestID);
+    currentSlideInfo.requestID = requestID;
 }

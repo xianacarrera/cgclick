@@ -21,3 +21,8 @@ function displaySlideTriangleCube(){
         document.querySelector('a[href="0"]').classList.remove("active");
     }
 }
+
+function leaveSlideTriangleCube(){
+    // console.log("Canceling animation frame with requestID = " + currentSlideInfo.requestID);
+    window.cancelAnimationFrame(currentSlideInfo.requestID);
+}
