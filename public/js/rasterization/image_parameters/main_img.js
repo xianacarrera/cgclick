@@ -1,6 +1,10 @@
 
 
-function ip_start(directional_light){
+var directional_light = {};
+
+function ip_start(dl){
+    directional_light = dl;
+
     // Initialize WebGL
     ip_initWebGL();                // webgl-context.js
     // Create GLSL programs
@@ -8,5 +12,5 @@ function ip_start(directional_light){
     // Initialize all the buffers and set up the vertex array objects (VAO)
     ip_initBuffers();              // buffers.js & geometry.js
     // Draw
-    ip_draw(directional_light);                     // drawing.js
+    ip_draw();                     // drawing.js
 }

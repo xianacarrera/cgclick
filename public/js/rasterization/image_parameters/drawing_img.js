@@ -6,7 +6,7 @@ var ip_projectionMatrix;       // Projection transformation (from viewing to nor
 /**
  * Draw the scene
  */
-function ip_draw(directional_light){
+function ip_draw(){
     
     /******************** Get input from the user and define view and projection matrices   *******************/
 
@@ -16,10 +16,16 @@ function ip_draw(directional_light){
     // Compute the view and projection matrices based on the camera position and field of view.
     ip_defineViewProjectionMatrices(camera_position, camera_fov);
 
-    // Get the input from the sliders relative to the directional and point light.
-    // Also transform the light direction and plight_position_vec4 to view coordinates using the view matrix.
-    // plight_position is not transformed since it will be used to translate the sphere that represents the point light source. It's also kept as a vec3.
-    let [light_direction, plight_position, plight_position_vec4, plight_intensity] = ip_get_light_input();
+    let light_direction, plight_position, plight_position_vec4, plight_intensity;
+    if (directional_light){
+        light_direction = compute_light_direction(directional_light.azimuthal / 360 * 2 * Math.PI, directional_light.polar / 360 * 2 * Math.PI);
+        [plight_position, plight_position_vec4, plight_intensity] = ip_get_light_input(false);
+    } else {
+        // Get the input from the sliders relative to the directional and point light.
+        // Also transform the light direction and plight_position_vec4 to view coordinates using the view matrix.
+        // plight_position is not transformed since it will be used to translate the sphere that represents the point light source. It's also kept as a vec3.
+        [light_direction, plight_position, plight_position_vec4, plight_intensity] = ip_get_light_input(true);
+    }
 
 
     /**************************************** Settings ********************************************************/
@@ -71,19 +77,7 @@ function ip_get_camera_input(){
 /**
  * Get the user input for the directional and point lights and return the light direction, point light position and point light intensity.
  */
-function ip_get_light_input(){
-
-    // The directional light angles are transformed to radians
-    let light_azimuthal_angle = document.getElementById("light_azimuthal_angle").value / 360 * 2 * Math.PI;
-    let light_polar_angle = document.getElementById("light_polar_angle").value / 360 * 2 * Math.PI;
-
-    // Since the directional light is also given in spherical coordinates, we transform them to cartesian coordinates
-    // Here, the light distance can be considered to be 1, since the light direction won't change
-    let light_x = Math.sin(light_polar_angle) * Math.sin(light_azimuthal_angle);
-    let light_y = Math.cos(light_polar_angle);
-    let light_z = Math.sin(light_polar_angle) * Math.cos(light_azimuthal_angle);
-    let light_direction = vec4.fromValues(light_x, light_y, light_z, 0.0);   // Add a 4th component to be multiplied by the view matrix
-    vec4.transformMat4(light_direction, light_direction, ip_viewMatrix);        // Transform the light direction from wold to view coordinates
+function ip_get_light_input(get_directional){
 
     // Get the cartesian coordinates of the point light source
     let plight_x = document.getElementById("point_light_x").value / 100;
@@ -98,8 +92,36 @@ function ip_get_light_input(){
     // The point light color will be in gray scale, since it has the same value in all components
     let plight_intensity = vec3.fromValues(int, int, int);         
 
-    return [light_direction, plight_position, plight_position_vec4, plight_intensity];
+    if (get_directional){
+        // The directional light angles are transformed to radians
+        let light_azimuthal_angle = document.getElementById("light_azimuthal_angle").value / 360 * 2 * Math.PI;
+        let light_polar_angle = document.getElementById("light_polar_angle").value / 360 * 2 * Math.PI;
+
+        let light_direction = compute_light_direction(light_azimuthal_angle, light_polar_angle);
+
+        return [light_direction, plight_position, plight_position_vec4, plight_intensity];
+    }
+
+    return [plight_position, plight_position_vec4, plight_intensity];
 }
+
+/**
+ * Get the light direction as a vec4 from its azimuthal and polar angles
+ * @param {Number} azimuthal
+ * @param {Number} polar
+ */
+function compute_light_direction(azimuthal, polar){
+    // Since the directional light is also given in spherical coordinates, we transform them to cartesian coordinates
+    // Here, the light distance can be considered to be 1, since the light direction won't change
+    let light_x = Math.sin(polar) * Math.sin(azimuthal);
+    let light_y = Math.cos(polar);
+    let light_z = Math.sin(polar) * Math.cos(azimuthal);
+    let light_direction = vec4.fromValues(light_x, light_y, light_z, 0.0);   // Add a 4th component to be multiplied by the view matrix
+    vec4.transformMat4(light_direction, light_direction, ip_viewMatrix);        // Transform the light direction from wold to view coordinates
+
+    return light_direction;
+}
+
 
 /**
  * Compute the view and projection matrices based on the camera position and field of view.

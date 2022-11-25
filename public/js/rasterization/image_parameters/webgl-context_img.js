@@ -5,7 +5,7 @@ var gl; // WebGL context (object for controlling WebGL through its functions)
  * Initialize the WebGL canvas
  */
 function ip_initWebGL(){
-    var canvas = document.getElementById("webgl-canvas");
+    var canvas = document.getElementById("question-webgl-canvas");
     gl = canvas.getContext("webgl2");
 
     // Keep the size of the canvas for leter rendering

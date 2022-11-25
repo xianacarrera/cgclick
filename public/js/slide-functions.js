@@ -24,6 +24,6 @@ function displaySlideTriangleCube(){
 
 function displaySlideImageParameters(){
     document.getElementById("slide").innerHTML = ejs.views_slide_image_parameters({});
-    ip_start();
+    ip_start({azimuthal: -70, polar: 60});
     changeActiveClass(2);
 }
