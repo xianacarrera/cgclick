@@ -24,8 +24,8 @@ threeAPI = function(){
     let renderer;
     let controls;
 
-    let presetGeometries = {
-        torus: function (u, v, target) {
+    let presetGeometries = [
+        function (u, v, target) {
             u *= 2 * Math.PI;
             v *= 2 * Math.PI;
     
@@ -37,18 +37,20 @@ threeAPI = function(){
     
             target.set(x, y, z);
         },
-        klein: THREE.ParametricGeometries.klein,
-        staircase: function (u, v, target) {
+        THREE.ParametricGeometries.klein,
+        THREE.ParametricGeometries.SphereGeometry,
+        function (u, v, target) {
             u *= 2 * Math.PI;
             v *= 2 * Math.PI;
-    
+            
             let x = u * Math.cos(v);
             let y = u * Math.sin(v);
             let z = v;
-    
+            
             target.set(x, y, z);
-        }
-    }
+        },
+        THREE.ParametricGeometries.mobius3d,
+    ]
 
     /**
      * Private function. Sets up the scene and camera.
@@ -118,7 +120,7 @@ threeAPI = function(){
     function createParametricGeometry(func){
     
         const geometry = new THREE.ParametricGeometry(func, 120, 120, false);
-        var material = new THREE.MeshBasicMaterial( { color: 0xFF0000} );
+        var material = new THREE.MeshBasicMaterial( { color: 0xFF0000, side: THREE.DoubleSide} );
         const mesh = new THREE.Mesh( geometry, material );
         mesh.position.set(0, 0, 0);
         scene.add(mesh);
@@ -146,11 +148,19 @@ threeAPI = function(){
         renderer.render(scene, camera);
     }
 
+    /**
+     * Public function. Clears the canvas.
+     */
+    function clear(){
+        renderer.clear();
+    }
+
     return {
         initScene,
         presetGeometries,
         createParametricGeometry,
-        animate
+        animate,
+        clear
     }
 }();
 

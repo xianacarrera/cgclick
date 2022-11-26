@@ -1,25 +1,42 @@
 <div class="container">
-    <canvas id="threejs-canvas" width="520" height="520"></canvas>
-    <h2>Check the right parametrization for a sphere</h2>
+    <div class="col-lg-8 mb-4 mx-auto">    <!-- Automatically set margin left and right to center -->
+        <canvas id="threejs-canvas" width="520" height="520"></canvas>
+    </div>
+    <h2 class="mb-4">Check the right parametrization for a torus</h2>
     <div class="btn-group-lg btn-group" data-toggle="buttons">
-        <row>
-            <div class="col-lg-6 my-2">     <!-- my-2 specifies both margin top and bottom -->
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked/>
-
-                </label>
-            </div>
-            <div class="col-lg-6">
-                <label class="btn btn-primary">
-                    <input type="radio" name="options" id="option2" autocomplete="off" checked/>Label
-                </label>
-            </div>
-        </row>
+        <div class="mx-2">
+            <!-- mx-2 specifies both margin left and right -->
+            <label class="btn btn-primary">
+                <input type="radio" name="param_options" value="0" id="option1" autocomplete="off" checked />
+                <p>
+                    \(x = (R_1 + R_2 \cos(v)) cos(u)\)<br />
+                    \(y = (R_1 + R_2 \cos(v)) sin(u)\)<br />
+                    \(z = R_2 \sin(v)\)<br />
+                    \(u \in [0, 2\pi),\; v \in [0, 2\pi)\)
+                </p>
+            </label>
+        </div>
+        <div class="mx-2">
+            <label class="btn btn-primary">
+                <input type="radio" name="param_options" value="1" id="option2" autocomplete="off" />
+                <p>
+                    \(x = r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \cos(v) \)<br />
+                    \(y = (r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \sin(v) \)<br />
+                    \(z = \sin(v / 2) * \sin(u) + \cos(v / 2) * \sin(2 * u) \)<br />
+                    \(u \in [0, 2\pi),\; v \in [-\pi, \pi)\)
+                </p>
+            </label>
+        </div>
+        <div class="mx-2">
+            <label class="btn btn-primary">
+                <input type="radio" name="param_options" value="2" id="option3" autocomplete="off" />
+                <p>
+                    \(x = \rho \cos(\theta) \sin(\phi) \)<br />
+                    \(y = \rho \sin(\theta) \sin(\phi) \)<br />
+                    \(z = \rho \cos(\phi) \)<br />
+                    \(\rho \gt 0, \theta \in [0, 2\pi),\; \phi \in [0, \pi)\)
+                </p>
+            </label>
+        </div>
     </div>
 </div>
-
-<p>
-    When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
-    \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]</br>
-</p>
-

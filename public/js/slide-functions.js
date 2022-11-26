@@ -24,9 +24,20 @@ function displaySlideTriangleCube(){
 
 function displaySlideParametrization(){
     document.getElementById("slide").innerHTML = ejs.views_slide_parametrization({});
-    threeAPI.initScene();
-    threeAPI.createParametricGeometry(threeAPI.presetGeometries.torus);
-    threeAPI.animate();
+    document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
     MathJax.typeset();
+    showShape();
     changeActiveClass(2);
+}
+
+function showShape(){
+    threeAPI.initScene();
+    let checkedOption = document.querySelector("input[name='param_options']:checked");
+    if (checkedOption){
+        let shapeIndex = checkedOption.value;
+        threeAPI.createParametricGeometry(threeAPI.presetGeometries[shapeIndex]);
+        threeAPI.animate();
+    } else {
+        threeAPI.clear();
+    }
 }
