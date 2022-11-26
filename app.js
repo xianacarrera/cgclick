@@ -22,7 +22,7 @@ const {WebSocketHandler} = require('./ws/websocket_handler');
 const { Server } = require("socket.io");
 
 var websocket_handler = new WebSocketHandler(
-    new State(1) // Initial slide will be set to 1.
+    new State(0) // Initial slide will be set to 1.
 );
 
 //init framework
@@ -85,7 +85,7 @@ var server = require('http').createServer(app);
 
 const io = new Server(server);
 
-io.on('connection', (socket) => websocket_handler.on_connect(socket).bind(websocket_handler));
+io.on('connection', (socket) => websocket_handler.on_connect(socket));
 
 server.on('listening', function() {
   console.log('Express server listening on port ' + server.address().port);
