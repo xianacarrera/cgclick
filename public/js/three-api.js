@@ -68,13 +68,12 @@ threeAPI = function(){
      */
     function _setupRenderer(){
         // Create a renderer instance
-        renderer = new THREE.WebGLRenderer();
+        let canvas = document.getElementById("threejs-canvas");
+
+        renderer = new THREE.WebGLRenderer({canvas});
         // Set the size of the renderer to the size of the window (can be changed)
         // (To render at a lower resolution, set a third parameter to false)
-        renderer.setSize( window.innerWidth, window.innerHeight );
-
-        // Add the canvas element of the renderer to the document
-        document.body.appendChild( renderer.domElement );
+        renderer.setSize( canvas.width, canvas.height );
     }
 
     /**
