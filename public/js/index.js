@@ -10,6 +10,10 @@ function init(){
 }
 
 function changeSlide(slideNumber){
+    if (slideNumber == currentSlideNumber) {
+        return;
+    }
+    
     console.log("Leaving current slide: " + currentSlideNumber);
     slides[currentSlideNumber].leaveFunction();
 
