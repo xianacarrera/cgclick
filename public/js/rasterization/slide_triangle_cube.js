@@ -5,11 +5,10 @@
  */
 
 function start_slide_triangle_cube(culling, depth_test) {
-	// initialze WebGL
+	currentSlideInfo.rasterizationType = "triangle_cube";
+	
 	initWebGL();
-	// create GLSL programs
 	createGLSLPrograms();
-	// init both VAOs
 	initBuffers();
 
 	// default (first) shape is a triangle

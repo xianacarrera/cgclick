@@ -53,30 +53,42 @@ function createVAO(vao, shader, vertices, normals, colors){
     } 
 }
 
-function initBuffers(){
-    cube_vao = gl.createVertexArray();
-    createVAO(cube_vao, shaderProgram, cube_vertices, undefined, cube_colors);
-
-    triangle_vao = gl.createVertexArray();
-    createVAO(triangle_vao, shaderProgram, triangle_vertices, undefined, triangle_colors);
+function initBuffers() {
+    switch (currentSlideInfo.rasterizationType) {
+        case "triangle_cube":
+            cube_vao = gl.createVertexArray();
+            createVAO(cube_vao, shaderProgram, cube_vertices, undefined, cube_colors);
+        
+            triangle_vao = gl.createVertexArray();
+            createVAO(triangle_vao, shaderProgram, triangle_vertices, undefined, triangle_colors);
+            break;
+        case "phong_model":    
+            cube_vao = gl.createVertexArray();
+            createVAO(cube_vao, shaderProgram, cube_vertices_PM, cube_normals, cube_colors);
+        
+            sphere_vao = gl.createVertexArray();
+            createVAO(sphere_vao, shaderProgram, sphere_vertices, sphere_normals, sphere_colors);
+        
+            plane_vao = gl.createVertexArray();
+            createVAO(plane_vao, shaderProgram, plane_vertices, plane_normals, plane_colors);
+            break;
+        default:
+            console.error("For this slide initBuffers is not supported.");
+    }
 }
 
-function initBuffers_PM() {
-    cube_vao = gl.createVertexArray();
-    createVAO(cube_vao, shaderProgram, cube_vertices_PM, cube_normals, cube_colors);
-
-    sphere_vao = gl.createVertexArray();
-    createVAO(sphere_vao, shaderProgram, sphere_vertices, sphere_normals, sphere_colors);
-
-    plane_vao = gl.createVertexArray();
-    createVAO(plane_vao, shaderProgram, plane_vertices, plane_normals, plane_colors);
+function draw() {
+    switch (currentSlideInfo.rasterizationType) {
+        case "triangle_cube":
+            draw_TC();
+            break;
+        case "phong_model":
+            draw_PM();
+    }
 }
 
-
-/**
- * @param
- */
-function draw(){
+function draw_TC(){
+    shaderProgram.rotationMatrix= gl.getUniformLocation(shaderProgram, "rotationMatrix");
     var rotation = document.getElementById("rotation");
     var rotationMatrix = mat4.create();
     mat4.fromRotation(rotationMatrix, -(rotation.value-100)/100*Math.PI, vec3.fromValues(-0.2,1,0));
@@ -119,7 +131,9 @@ function draw(){
         gl.drawArrays(gl.TRIANGLES, 0, 12*3);
     }
 
-    window.requestAnimationFrame(draw);
+    let requestID = window.requestAnimationFrame(draw_TC);
+    // console.log("Requested animation frame with requestID = " + requestID);
+    currentSlideInfo.requestID = requestID;
 }
 
 function draw_PM(){
@@ -212,5 +226,6 @@ function draw_PM(){
 
     gl.drawArrays(gl.TRIANGLES, 0, plane_vertices.length/3);
 
-    window.requestAnimationFrame(function() {draw_PM();});
+    let requestID = window.requestAnimationFrame(draw_PM);
+    currentSlideInfo.requestID = requestID;
 }

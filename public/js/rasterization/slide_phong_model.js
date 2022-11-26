@@ -5,8 +5,10 @@
  */
 
 function start_slide_phong_model() {
+    currentSlideInfo.rasterizationType = "phong_model";
+
     initWebGL();
-    createGLSLPrograms_PM();
-    initBuffers_PM();
-    draw_PM();
+    createGLSLPrograms();
+    initBuffers();
+    draw();
 }

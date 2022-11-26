@@ -1,33 +1,29 @@
-const slideFunctions = [
-    displaySlideOpenQuestion,
-    displaySlideTriangleCube,
-    displaySlidePhongModel,
-]
-
-let currentSlide;
+let currentSlideNumber;
 let isTeacher = true;
 
 function init(){
-    currentSlide = 0;
+    currentSlideNumber = 0;
     initSocket();
     document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({});
     addEventListeners();
-    changeSlide(currentSlide);
+    slides[currentSlideNumber].displayFunction();
 }
 
-function changeSlide(index){
-    slideFunctions[index]();
+function changeSlide(slideNumber){
+    console.log("Leaving current slide: " + currentSlideNumber);
+    slides[currentSlideNumber].leaveFunction();
+
+    currentSlideNumber = slideNumber;
+
+    console.log("Displaying new slide: " + currentSlideNumber);
+    slides[currentSlideNumber].displayFunction();
+    emitChangeSlide(currentSlideNumber);
 }
 
 function link_listener(e){
     e.preventDefault();
-    console.log("Current slide: " + currentSlide)
-    currentSlide = e.currentTarget.pathname[1];
-    console.log("Changing to slide: " + currentSlide)
-    changeSlide(currentSlide);
-    emitChangeSlide(currentSlide);
+    changeSlide(e.currentTarget.pathname[1]);
 }
-
 function addEventListeners(){
     document.querySelectorAll("a").forEach(link=>{
         link.removeEventListener("click", link_listener);

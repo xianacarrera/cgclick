@@ -41,3 +41,8 @@ function displaySlidePhongModel() {
         document.querySelector('a[href="1"]').classList.remove("active");
     }
 }
+
+function leaveAndCancelAnimationFrame(){
+    // console.log("Canceling animation frame with requestID = " + currentSlideInfo.requestID);
+    window.cancelAnimationFrame(currentSlideInfo.requestID);
+}

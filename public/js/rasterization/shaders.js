@@ -142,19 +142,18 @@ function linkProgram(program,vertShader,fragShader){
 function createGLSLPrograms(slide){
     var vertexShader = gl.createShader(gl.VERTEX_SHADER);
     var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-    compileShader(vertexShader, vertexShaderCode, gl.VERTEX_SHADER, "Vertex shader");
-    compileShader(fragmentShader, fragmentShaderCode, gl.VERTEX_SHADER, "Fragment shader");
-    shaderProgram = gl.createProgram();
-    linkProgram(shaderProgram, vertexShader, fragmentShader);
-   
-    shaderProgram.rotationMatrix= gl.getUniformLocation(shaderProgram, "rotationMatrix"); // extra code for interactive rotation, it does need to be modified
-}
-
-function createGLSLPrograms_PM() {
-    var vertexShader = gl.createShader(gl.VERTEX_SHADER);
-    var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-    compileShader(vertexShader, vertexShaderCode_PM, gl.VERTEX_SHADER, "Vertex shader");
-    compileShader(fragmentShader, fragmentShaderCode_PM, gl.VERTEX_SHADER, "Fragment shader");
+    switch (currentSlideInfo.rasterizationType) {
+        case "triangle_cube":
+            compileShader(vertexShader, vertexShaderCode, gl.VERTEX_SHADER, "Vertex shader");
+            compileShader(fragmentShader, fragmentShaderCode, gl.VERTEX_SHADER, "Fragment shader");
+            break;
+        case "phong_model":
+            compileShader(vertexShader, vertexShaderCode_PM, gl.VERTEX_SHADER, "Vertex shader");
+            compileShader(fragmentShader, fragmentShaderCode_PM, gl.VERTEX_SHADER, "Fragment shader");
+            break;
+        default:
+            console.error("For this slide createGLSLPrograms is not supported");
+    }
     shaderProgram = gl.createProgram();
     linkProgram(shaderProgram, vertexShader, fragmentShader);
 }
