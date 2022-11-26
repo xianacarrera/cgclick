@@ -14,7 +14,7 @@ function displaySlideOpenQuestion(){
     changeActiveClass(0);
 }
 
-function displaySlideTriangleCube(){
+function displaySlideTriangleCube() {
     let culling = true;
     let depth_test = true;
     document.getElementById("slide").innerHTML = ejs.views_slide_triangle_cube({culling, depth_test});
@@ -40,4 +40,17 @@ function showShape(){
     } else {
         threeAPI.clear();
     }
+}
+
+function displaySlidePhongModel() {
+    document.getElementById("slide").innerHTML = ejs.views_slide_phong_model({});
+    document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
+    MathJax.typeset();
+    showShape();
+    changeActiveClass(3);
+}
+
+function leaveAndCancelAnimationFrame(){
+    // console.log("Canceling animation frame with requestID = " + currentSlideInfo.requestID);
+    window.cancelAnimationFrame(currentSlideInfo.requestID);
 }
