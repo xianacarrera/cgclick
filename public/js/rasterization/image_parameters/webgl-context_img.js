@@ -10,7 +10,7 @@ function ip_initWebGL(canvas_id){
     gl = canvas.getContext("webgl2");
 
     // Keep the size of the canvas for leter rendering
-    gl.viewportWidth = canvas.width;
+    gl.viewportWidth = canvas.width / 2;
     gl.viewportHeight = canvas.height;
 
     // Check for errors

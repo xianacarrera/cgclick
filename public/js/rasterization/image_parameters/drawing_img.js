@@ -6,8 +6,7 @@ var ip_projectionMatrix;       // Projection transformation (from viewing to nor
 /**
  * Draw the scene
  */
-function ip_draw(use_answers){
-    
+function ip_draw(drawX = 0){
     /******************** Get input from the user and define view and projection matrices   *******************/
 
     let [camera_position, camera_fov] = ip_get_camera_input();
@@ -17,28 +16,41 @@ function ip_draw(use_answers){
 
     let [light_direction, plight_position, plight_position_vec4, plight_intensity] = ip_get_light_input();
 
-    ip_get_student_answers();
+    for (let i = 0; i < 2; i += 1){
+        let gamma, tone_mapping_alpha, tone_mapping_beta;
+        if (i == 0){                // Use answers
+            gamma = answers.gamma;
+            tone_mapping_alpha = answers.tone_mapping_alpha;
+            tone_mapping_beta = answers.tone_mapping_beta;
+        } else {
+           [gamma, tone_mapping_alpha, tone_mapping_beta] = ip_get_student_answers();
+        }
 
-    /**************************************** Settings ********************************************************/
-
-    // Set the size of our rendering area and the background color
-    // Activate depth test and face culling for drawing the spheres and cubes
-    ip_set_general_settings();     
+        /**************************************** Settings ********************************************************/
 
 
-    /*********************************** Initiate the rendering ***********************************************/
+        // Set the size of our rendering area and the background color
+        // Activate depth test and face culling for drawing the spheres and cubes
+        ip_set_general_settings(drawX);     
+        drawX = (drawX + gl.viewportWidth) % (gl.viewportWidth * 2);
 
-    // Enable the GLSL program for the rendering
-    gl.useProgram(ip_shaderProgram);
 
-    // Set most of the shader uniforms: view and projection matrices, light direction, point light position and point light intensity
-    ip_set_general_uniforms(light_direction, plight_position_vec4, plight_intensity);
+        /*********************************** Initiate the rendering ***********************************************/
 
-    // Draw all the objects. Also set the model matrix for each object as a shader uniform.
-    // The plane is drawn without face culling.
-    ip_draw_shapes(plight_position);
+        // Enable the GLSL program for the rendering
+        gl.useProgram(ip_shaderProgram);
 
-    window.requestAnimationFrame(function() {ip_draw();});
+        console.log(`${i}: gamma: ${gamma}, alpha: ${tone_mapping_alpha}, beta: ${tone_mapping_beta}`);
+
+        // Set most of the shader uniforms: view and projection matrices, light direction, point light position and point light intensity
+        ip_set_general_uniforms(light_direction, plight_position_vec4, plight_intensity, gamma, tone_mapping_alpha, tone_mapping_beta);
+
+        // Draw all the objects. Also set the model matrix for each object as a shader uniform.
+        // The plane is drawn without face culling.
+        ip_draw_shapes(plight_position);
+    }
+
+    window.requestAnimationFrame(function() {ip_draw(drawX);});
 }
 
 
@@ -46,23 +58,10 @@ function ip_draw(use_answers){
  * Get the input from the student for the questions asked.
  */
 function ip_get_student_answers(){
-    // The camera angles are transformed to radians
-    let camera_azimuthal_angle = document.getElementById("camera_azimuthal_angle").value / 360 * 2 * Math.PI;
-    let camera_polar_angle = document.getElementById("camera_polar_angle").value / 360 * 2 * Math.PI;
-    let camera_distance = document.getElementById("camera_distance").value / 10;
-    let camera_fov = document.getElementById("camera_fov").value / 360 * 2 * Math.PI;
-
-    
-    // We transform the spherical coordinates of the camera to cartesian coordinates
-    // camera_distance is the distance to the center of the coordinate system
-    // camera_polar_angle is the angle between the x axis and the line from the origin to the camera
-    // camera_azimuthal_angle is the angle between the y axis and the projection of the line from the origin to the camera on the yz plane
-    let camera_x = camera_distance * Math.sin(camera_polar_angle) * Math.sin(camera_azimuthal_angle);
-    let camera_y = camera_distance * Math.cos(camera_polar_angle);
-    let camera_z = camera_distance * Math.sin(camera_polar_angle) * Math.cos(camera_azimuthal_angle);
-    let camera_position = vec3.fromValues(camera_x, camera_y, camera_z);
-
-    return [camera_position, camera_fov];
+    let gamma = document.getElementById("gamma_input").value;
+    let tone_mapping_alpha = document.getElementById("alpha_input").value;
+    let tone_mapping_beta = document.getElementById("beta_input").value;
+    return [gamma, tone_mapping_alpha, tone_mapping_beta];
 }
 
 
@@ -84,7 +83,7 @@ function ip_get_camera_input(){
 /**
  * Get the user input for the directional and point lights and return the light direction, point light position and point light intensity.
  */
-function ip_get_light_input(get_directional){
+function ip_get_light_input(){
     let [light_x, light_y, light_z] = polar_to_cartesian(
         precomputed_directional_light.azimuthal / 360 * 2 * Math.PI, 
         precomputed_directional_light.polar / 360 * 2 * Math.PI
@@ -147,9 +146,12 @@ function ip_defineViewProjectionMatrices(camera_position, camera_fov){
  * Set the redering area size, the background color and enable depth test and face culling.
  * Face culling will be deactivated in the draw_shapes function for the plane.
  */
-function ip_set_general_settings(){
+function ip_set_general_settings(drawX){
     // Set the size of our rendering area
-    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+    gl.enable(gl.SCISSOR_TEST);
+
+    gl.viewport(drawX, 0, gl.viewportWidth, gl.viewportHeight);
+    gl.scissor(drawX, 0, gl.viewportWidth, gl.viewportHeight);
 
     // Setting the background color
     gl.clearColor(0.2, 0.2, 0.2, 1.0);
@@ -172,7 +174,7 @@ function ip_set_general_settings(){
  * @param {vec4} plight_position_vec4   Point light position in view coordinates
  * @param {vec3} plight_intensity   Point light intensity
  */
-function ip_set_general_uniforms(light_direction, plight_position_vec4, plight_intensity){
+function ip_set_general_uniforms(light_direction, plight_position_vec4, plight_intensity, gamma, tone_mapping_alpha, tone_mapping_beta){
     // Get the location of the light direction uniform in the shader program (used only in the fragment shader)
     let lightDirectionLocation = gl.getUniformLocation(ip_shaderProgram, "lightDirection");
     // Set the uniform value. 4fv indicates that the uniform is a 4 component vector of floats
@@ -197,6 +199,13 @@ function ip_set_general_uniforms(light_direction, plight_position_vec4, plight_i
     gl.uniformMatrix4fv(viewMatrixLocation, false, ip_viewMatrix);
     gl.uniformMatrix4fv(projectionMatrixLocation, false, ip_projectionMatrix);
 
+    // Get the location of the parameters set by the student
+    let gammaLocation = gl.getUniformLocation(ip_shaderProgram, "gamma");
+    gl.uniform1f(gammaLocation, gamma);
+    let toneMappingAlphaLocation = gl.getUniformLocation(ip_shaderProgram, "alpha");
+    gl.uniform1f(toneMappingAlphaLocation, tone_mapping_alpha);
+    let toneMappingBetaLocation = gl.getUniformLocation(ip_shaderProgram, "beta");
+    gl.uniform1f(toneMappingBetaLocation, tone_mapping_beta);
 }
 
 /**

@@ -28,7 +28,10 @@ function displaySlideImageParameters(){
         {azimuthal: -70, polar: 60},                           // Directional light
         {x: -200, y: 150, z: -40, intensity: 30},              // Point light
         {azimuthal: -45, polar: 60, distance: 150, fov: 45},   // Camera
-        {gamma: true, tone_mapping: true}
+        {gamma: 2, tone_mapping_alpha: 1, tone_mapping_beta: 1}
     );
+
+    // The student provides a right answer if alpha is 1 and beta / gamma is 1/2
+
     changeActiveClass(2);
 }

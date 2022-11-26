@@ -154,7 +154,7 @@ var ip_fragmentShaderCode =
 
         // Finally, apply tone mapping and gamma correction.
         rgb = alpha * rgb;
-        out_color = vec4(pow(rgb, vec3(beta/gamma)), 1.0);
+        out_color = clamp(vec4(pow(rgb, vec3(beta/gamma)), 1.0), 0.0, 1.0);
     }`;
 
 

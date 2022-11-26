@@ -12,12 +12,11 @@ function ip_start(dl, pl, camera, ans){
     answers = ans;
 
     // Initialize WebGL
-    ip_initWebGL("question-webgl-canvas");                // webgl-context.js
+    ip_initWebGL("webgl-canvas");                // webgl-context.js
     // Create GLSL programs
     ip_createGLSLPrograms();       // shaders.js
     // Initialize all the buffers and set up the vertex array objects (VAO)
     ip_initBuffers();              // buffers.js & geometry.js
     // Draw
-    ip_draw(true);                 // drawing.js using answers
-
+    ip_draw();                 // drawing.js using answers
 }
