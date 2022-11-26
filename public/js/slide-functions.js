@@ -26,5 +26,5 @@ function displaySlideMidpoint(){
     document.getElementById("slide").innerHTML = ejs.views_slide_midpoint({});
     changeActiveClass(2);
     selectStartTile();
-    addTileListeners();
+    addMidpointListeners();
 }
