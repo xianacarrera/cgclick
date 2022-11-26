@@ -1,5 +1,5 @@
 function changeActiveClass(newSlide){
-    for (let i = 0; i < 3; i++){
+    for (let i = 0; i < 4; i++){
         if (i == newSlide) {
             document.querySelector(`a[href="${newSlide}"]`).classList.add("active");
         } else {
@@ -30,6 +30,12 @@ function displaySlideParametrization(){
     changeActiveClass(2);
 }
 
+function displaySlidePhongModel() {
+    document.getElementById("slide").innerHTML = ejs.views_slide_phong_model({});
+    start_slide_phong_model();
+    changeActiveClass(3);
+}
+
 function showShape(){
     threeAPI.initScene();
     let checkedOption = document.querySelector("input[name='param_options']:checked");
@@ -42,13 +48,6 @@ function showShape(){
     }
 }
 
-function displaySlidePhongModel() {
-    document.getElementById("slide").innerHTML = ejs.views_slide_phong_model({});
-    document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
-    MathJax.typeset();
-    showShape();
-    changeActiveClass(3);
-}
 
 function leaveAndCancelAnimationFrame(){
     // console.log("Canceling animation frame with requestID = " + currentSlideInfo.requestID);

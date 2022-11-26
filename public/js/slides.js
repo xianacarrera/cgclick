@@ -8,6 +8,10 @@ const slides = [
         leaveFunction: leaveAndCancelAnimationFrame
     },
     {
+        displayFunction: displaySlideParametrization,
+        leaveFunction: leaveAndCancelAnimationFrame
+    },
+    {
         displayFunction: displaySlidePhongModel,
         leaveFunction: leaveAndCancelAnimationFrame
     },
