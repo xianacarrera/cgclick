@@ -1,9 +1,13 @@
 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
   
-  <a class="nav-link active" href="0" role="tab">Open question</a>
-  <a class="nav-link" href="1" role="tab">Face Culling and Depth Test</a>
-  <a class="nav-link" href="2" role="tab">Parametrizations</a>
-  <a class="nav-link" href="3" role="tab">Phong Model</a>
-  <a class="nav-link" href="4" role="tab">Midpoint Algorithm</a>
+  <% slides.forEach((slide, index) => { %>
+
+    <% if (index == currentSlideNumber) { %>
+      <a class="nav-link active" href="<%= index %>" role="tab"><%= slide.title %></a>
+    <% } else { %>
+      <a class="nav-link" href="<%= index %>" role="tab"><%= slide.title %></a>
+    <% } %>
+
+  <% }); %>
 
 </div>
