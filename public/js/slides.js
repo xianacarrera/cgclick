@@ -20,7 +20,8 @@ const slides = [
         leaveFunction: leaveAndCancelAnimationFrame,
     },
     {
+        title: "Midpoint",
         displayFunction: displaySlideMidpoint,
-        leaveFunction: () => {}
-    }
+        leaveFunction: () => {},
+    },
 ]
