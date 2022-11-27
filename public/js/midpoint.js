@@ -12,7 +12,7 @@ function tileListener(event) {
         tile.style.backgroundColor = "white";
         tile.classList.remove("tile-selected");
     } else {
-        tile.style.backgroundColor = "red";
+        tile.style.backgroundColor = "violet";
         tile.classList.add("tile-selected");
     }
 }
@@ -23,6 +23,10 @@ function selectStartTile() {
     let tile = tiles[randomIndex];
     tile.classList.add("bg-primary");        // Primary background color
     tile.classList.remove("tile");           // Remove tile class so that it stops being clickable
+
+    computeMidpointSolution(randomIndex);
+
+    console.log(midpoint_solution);
 }
 
 let midpoint_solution;
@@ -44,7 +48,7 @@ function computeMidpointSolution(startTile) {
      * 
      * The final tile is always (4, 4).
      */
-    let midpoint_solution = new Set();
+    midpoint_solution = new Set();
     if (startTile >= 4) startTile++;        // The final tile is always (4, 4), so we need to skip it
 
     let startX = startTile % 5;
@@ -53,11 +57,12 @@ function computeMidpointSolution(startTile) {
     let endY = 4;
 
     let m = (endY - startY) / (endX - startX);
-    // Swap the start and end tiles if the slope is greater than 1 (angle > 45º)
-    if (m > 1) {
-        let [tempX, tempY] = [startX, startY];
-        [startX, startY] = [endX, endY];
-        [endX, endY] = [tempX, tempY];
+    let swaped = false;
+    if (m >= 1) {
+        // Swap the start and end tiles if the slope is greater than 1 (angle > 45º)
+        // Also invert the x and y coordinates
+        [startX, startY, endX, endY] = [0, 0, 4 - startY, 4 - startX];
+        swaped = true;
     }
 
     let dx = endX - startX;
@@ -71,7 +76,12 @@ function computeMidpointSolution(startTile) {
         F += 2 * dx;
     }
     while (x < endX) {
-        midpoint_solution.add((4 - y) * 5 + x);        // Store the tile index (invert the Y axis)
+        if (!swaped) midpoint_solution.add((4 - y) * 5 + x);        // Store the tile index (invert the Y axis)
+        else midpoint_solution.add(x * 5 + 4 - y);
+        // If the indexes were swaped, the grid is being traversed from top to bottom and from right to left (i.e., rotated 90º clockwise and flipped)
+        // Not swaped: (x, y) ---> (4 - y) * 5 + x
+        // Swaped: (x, y) ---> (4 - y, 4 - x) ---> (4 - (4 - x)) * 5 + (4 - y) = x * 5 + (4 - y) 
+
         x++;
         if (F < 0) {
             y++;
@@ -79,14 +89,14 @@ function computeMidpointSolution(startTile) {
         }
         F -= 2 * dy;
     }
-    midpoint_solution.delete(startTile);      // Remove the first element, which is the start tile
+    if (!swaped) midpoint_solution.delete(startTile);      // Remove the first element, which is the start tile
+    else midpoint_solution.delete(4);                      // Remove the first element in the swaped case: the original final tile
 }
 
 
 function validateAnswer() {
     let tiles = document.querySelectorAll(".midpoint");
     let isValid = true;
-    console.log(midpoint_solution);
     tiles.forEach((tile, index) => {
         if (tile.classList.contains("tile-selected")) {
             if (!midpoint_solution.has(index)) {
