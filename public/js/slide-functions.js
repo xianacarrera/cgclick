@@ -1,5 +1,5 @@
 function changeActiveClass(newSlide){
-    for (let i = 0; i < 4; i++){
+    for (let i = 0; i < 7; i++){
         if (i == newSlide) {
             document.querySelector(`a[href="${newSlide}"]`).classList.add("active");
         } else {
@@ -46,6 +46,11 @@ function showShape(){
     } else {
         threeAPI.clear();
     }
+}
+
+function displayAboutSlide(subslide){
+    document.getElementById("slide").innerHTML = ejs.views_slide_about({subslide});
+    changeActiveClass(4);
 }
 
 

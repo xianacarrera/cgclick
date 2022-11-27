@@ -1,5 +1,12 @@
-<img src="./images/computer_graphics.png" alt="Computer graphics needs"/>
-<img src="./images/user_case_1.png" alt="user_case_1" />
-<img src="./images/user_case_2.png" alt="user_case_2" />
-<img src="./images/user_case_3.png" alt="user_case_3" />
-<img src="./images/slides.png" alt="Slides ideas" />
+<div>
+    <% if ( subslide == "idea") {%>
+        <img src="./images/computer_graphics.png" alt="Computer graphics needs"/>
+        <img src="./images/slides.png" alt="Slides ideas" />
+    <%} else if (subslide == "story") {%>
+        <img src="./images/user_case_1.png" alt="user_case_1" /><br/>
+        <img src="./images/user_case_2.png" alt="user_case_2" /><br/>    
+        <img src="./images/user_case_3.png" alt="user_case_3" />    
+    <% } else if (subslide == "technology") {%>
+        <img src="./images/libraries.png" alt="Libraries" />
+    <% } %>
+</div>

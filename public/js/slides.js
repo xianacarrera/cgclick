@@ -15,4 +15,16 @@ const slides = [
         displayFunction: displaySlidePhongModel,
         leaveFunction: leaveAndCancelAnimationFrame
     },
+    {
+        displayFunction: displayAboutSlide.bind(null, "idea"),
+        leaveFunction: () => {}
+    },
+    {
+        displayFunction: displayAboutSlide.bind(null, "story"),
+        leaveFunction: () => {}
+    },
+    {
+        displayFunction: displayAboutSlide.bind(null, "technology"),
+        leaveFunction: () => {}
+    }
 ]
