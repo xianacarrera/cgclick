@@ -41,7 +41,6 @@ function leaveAndCancelAnimationFrame(){
 
 function displaySlideMidpoint(){
     document.getElementById("slide").innerHTML = ejs.views_slide_midpoint({});
-    changeActiveClass(4);
     selectStartTile();
     addMidpointListeners();
 }
