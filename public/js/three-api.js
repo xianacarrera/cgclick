@@ -8,16 +8,6 @@
 
 
 
-/* Test example for threeAPI:
-
-threeAPI.initScene();
-// Torus example
-threeAPI.createParametricGeometry(threeAPI.presetGeometries.torus);
-threeAPI.animate();
-
-*/
-
-
 threeAPI = function(){
     let scene;
     let camera;
