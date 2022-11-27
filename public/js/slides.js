@@ -1,10 +1,5 @@
 const slides = [
     {
-        title: "How are you today?",
-        displayFunction: displaySlideOpenQuestion,
-        leaveFunction: () => {},
-    },
-    {
         title: "Face Culling and Depth Test",
         displayFunction: displaySlideTriangleCube,
         leaveFunction: leaveAndCancelAnimationFrame,
