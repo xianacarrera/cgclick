@@ -6,6 +6,7 @@
   "author": "cg-click group",
   "license": "MIT",
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
     "ejs": "^3.1.8",
     "ejsc": "^0.1.0",
     "ejsc-views": "^1.0.7",

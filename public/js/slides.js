@@ -24,4 +24,19 @@ const slides = [
         displayFunction: displaySlideImageParameters,
         leaveFunction: leaveAndCancelAnimationFrame,
     },
+    {
+        title: "About: Idea",
+        displayFunction: displayAboutSlide.bind(null, "idea"),
+        leaveFunction: () => {}
+    },
+    {
+        title: "About: Story",
+        displayFunction: displayAboutSlide.bind(null, "story"),
+        leaveFunction: () => {}
+    },
+    {
+        title: "About: Technology",
+        displayFunction: displayAboutSlide.bind(null, "technology"),
+        leaveFunction: () => {}
+    }
 ]

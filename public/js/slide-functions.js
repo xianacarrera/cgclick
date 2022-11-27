@@ -34,6 +34,11 @@ function showShape(){
     }
 }
 
+function displayAboutSlide(subslide){
+    document.getElementById("slide").innerHTML = ejs.views_slide_about({subslide});
+}
+
+
 function leaveAndCancelAnimationFrame(){
     // console.log("Canceling animation frame with requestID = " + currentSlideInfo.requestID);
     window.cancelAnimationFrame(currentSlideInfo.requestID);
