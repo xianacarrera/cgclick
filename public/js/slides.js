@@ -19,4 +19,8 @@ const slides = [
         displayFunction: displaySlidePhongModel,
         leaveFunction: leaveAndCancelAnimationFrame,
     },
+    {
+        displayFunction: displaySlideMidpoint,
+        leaveFunction: () => {}
+    }
 ]
