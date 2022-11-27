@@ -24,4 +24,9 @@ const slides = [
         displayFunction: displaySlideMidpoint,
         leaveFunction: () => {},
     },
+    {
+        title: "Image parameters",
+        displayFunction: displaySlideImageParameters,
+        leaveFunction: leaveAndCancelAnimationFrame,
+    },
 ]
