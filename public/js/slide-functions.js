@@ -38,3 +38,9 @@ function leaveAndCancelAnimationFrame(){
     // console.log("Canceling animation frame with requestID = " + currentSlideInfo.requestID);
     window.cancelAnimationFrame(currentSlideInfo.requestID);
 }
+
+function displaySlideMidpoint(){
+    document.getElementById("slide").innerHTML = ejs.views_slide_midpoint({});
+    selectStartTile();
+    addMidpointListeners();
+}
