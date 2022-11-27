@@ -1,0 +1,22 @@
+<canvas id="webgl-canvas" width="1024" height="512"></canvas>
+<div  style="float: right">
+    <h3>Gamma correction:</h3>
+    <label class="form-label bd-highlight" for="gamma_input">Gamma coefficient:</label>
+    <div class="range d-flex flex-row">
+        <span class="me-3" id="rangeval_gamma">1</span>    <!-- Default value of 1 -->
+        <input type="range" class="form-range" min="1" max="5" value="1" step="0.5" id="gamma_input" onChange="document.getElementById('rangeval_gamma').innerText = document.getElementById('gamma_input').value">
+    </div>
+
+    <h3>Tone mapping:</h3>
+    <label class="form-label bd-highlight" for="alpha_input">Alpha:</label>
+    <div class="range d-flex flex-row">
+        <span class="me-3" id="rangeval_tm_alpha">3</span>    <!-- Default value of 9 -->
+        <input type="range" class="form-range" min="0.5" max="3" value="3" step="0.5" id="alpha_input" onChange="document.getElementById('rangeval_tm_alpha').innerText = document.getElementById('alpha_input').value">
+    </div>
+
+    <label class="form-label bd-highlight" for="beta_input">Beta:</label>
+    <div class="range d-flex flex-row">
+        <span class="me-3" id="rangeval_tm_beta">0.5</span>    <!-- Default value of 1 -->
+        <input type="range" class="form-range" min="0.5" max="3" value="0.5" step="0.5" id="beta_input" onChange="document.getElementById('rangeval_tm_beta').innerText = document.getElementById('beta_input').value">
+    </div>
+</div>
