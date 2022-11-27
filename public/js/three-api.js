@@ -28,7 +28,17 @@ threeAPI = function(){
             target.set(x, y, z);
         },
         THREE.ParametricGeometries.klein,
-        THREE.ParametricGeometries.SphereGeometry,
+        function ( theta, phi, target ) {
+            let dist = 20;
+		    theta *= 2 * Math.PI;
+            phi *= Math.PI;
+
+            let x = dist * Math.cos( theta ) * Math.sin( phi ); 
+            let y = dist * Math.sin( theta ) * Math.sin( phi );
+            let z = dist * Math.cos( phi );
+
+			target.set( x, y, z );
+		},
         function (u, v, target) {
             u *= 2 * Math.PI;
             v *= 2 * Math.PI;
