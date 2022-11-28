@@ -3,7 +3,40 @@ function addMidpointListeners() {
         tile.addEventListener("click", tileListener);
     });
 
-    document.getElementById("btn_done_midpoint").addEventListener("click", validateAnswer);
+    document.getElementById("btn_midpoint").addEventListener("click", doneListener);
+}
+
+function doneListener(event) {
+    validateAnswer();
+
+    let btn = event.currentTarget;
+    btn.innerHTML = "Reset";
+    btn.classList.remove("btn-primary");
+    btn.classList.add("btn-secondary");
+    btn.removeEventListener("click", doneListener);
+    btn.addEventListener("click", resetListener);
+}
+
+function resetListener(event) {
+    //let finalTile = document.querySelectorAll(".midpoint").at(-1);      // Get the last element of the array
+    //finalTile.classList = "midpoint col border border-dark bg-primary";
+    let tiles = document.querySelectorAll(".midpoint");
+    tiles.forEach(tile => {
+        tile.classList.remove(bg_color_solution);
+        tile.classList.add("tile");        // No effect if the class was already present
+    });
+    tiles[4].classList.remove("tile");          // The final tile is not clickable
+    tiles[4].classList.add("bg-primary");       // And it is always coloured
+
+    let btn = event.currentTarget;
+    btn.innerHTML = "Done";
+    btn.classList.remove("btn-secondary");
+    btn.classList.add("btn-primary");
+    btn.removeEventListener("click", resetListener);
+    btn.addEventListener("click", doneListener);
+
+    selectStartTile();
+    addMidpointListeners();
 }
 
 function tileListener(event) {
@@ -30,6 +63,7 @@ function selectStartTile() {
 }
 
 let midpoint_solution;
+let bg_color_solution;
 
 function computeMidpointSolution(startTile) {
     /* For the algorith, we can just assign integers to the tiles
@@ -109,9 +143,13 @@ function validateAnswer() {
         }
     });
 
-    let bgColor = isValid ? "bg-success" : "bg-danger";
+    bg_color_solution = isValid ? "bg-success" : "bg-danger";
     tiles.forEach(tile => {
-        tile.classList.add(bgColor);
         tile.classList.remove("tile-selected");
+        tile.style.backgroundColor = "white";
+        tile.classList.add(bg_color_solution);
+        tile.classList.remove("bg-primary");        // Remove the primary background color from the start and end tiles
+        tile.classList.remove("tile");              // Remove the tile class so that it stops being clickable
+        tile.removeEventListener("click", tileListener);
     });
 }
