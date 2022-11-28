@@ -3,7 +3,7 @@ function addMidpointListeners() {
         tile.addEventListener("click", tileListener);
     });
 
-    document.getElementById("btn_done_midpoint").addEventListener("click", doneListener);
+    document.getElementById("btn_midpoint").addEventListener("click", doneListener);
 }
 
 function doneListener(event) {
