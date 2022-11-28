@@ -11,7 +11,7 @@ Goals of the meeting:
 ### Roles for the first week
 * Maja - customer, project manager, frontend (second to Giorgio)
 * Giorgio - frontend (Bootstrap)
-* Xiana - client-side backend developer (socket.io)
+* Xiana - client-side backend developer (socket.io), frontend
 * Giulio - server-side backend developer (socket.io)
 * Dimitris - tester (and pull request reviewer)
 
