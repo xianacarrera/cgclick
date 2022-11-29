@@ -72,30 +72,3 @@ function displaySlideImageParameters() {
 
     // The student provides a right answer if alpha is 1 and beta / gamma is 1/2
 }
-
-slideFunctions = {
-    slide_triangle_cube: {
-        displayFunction: displaySlideTriangleCube,
-        leaveFunction: leaveAndCancelAnimationFrame,
-    },
-    slide_parametrization: {
-        displayFunction: displaySlideParametrization,
-        leaveFunction: leaveAndCancelAnimationFrame,
-    },
-    slide_phong_model: {
-        displayFunction: displaySlidePhongModel,
-        leaveFunction: leaveAndCancelAnimationFrame,
-    },
-    slide_midpoint: {
-        displayFunction: displaySlideMidpoint,
-        leaveFunction: () => {},
-    },
-    slide_image_parameters: {
-        displayFunction: displaySlideImageParameters,
-        leaveFunction: leaveAndCancelAnimationFrame,
-    },
-    slide_about: {
-        displayFunction: displayAboutSlide,
-        leaveFunction: () => {},
-    },
-}
