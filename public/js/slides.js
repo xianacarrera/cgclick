@@ -16,8 +16,6 @@ const slides = [
         descriptionBefore: "Now try both face culling AND depth test!",
         type: "slide_triangle_cube",
         params: {
-            slider_face_culling: true,
-            slider_depth_test: true,
         },
     },
     {
