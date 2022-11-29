@@ -26,7 +26,7 @@ function leaveSlide() {
     console.log("Leaving current slide: " + currentSlideNumber);
 
     // Execute code necessary before leaving the current slide
-    slideDefinitions[slides[currentSlideNumber].slideType].leaveFunction(slides[currentSlideNumber].parameters);
+    slideDefinitions[slides[currentSlideNumber].type].leaveFunction(slides[currentSlideNumber].params);
 
     // Update HTML classes in navbar
     document.querySelector(`a[href="${currentSlideNumber}"]`).classList.remove("active");
@@ -45,7 +45,7 @@ function displaySlide() {
     document.getElementById("description-after").innerHTML = slides[currentSlideNumber].descriptionAfter || "";
 
     // Display the new slide and execute necessary init code
-    slideDefinitions[slides[currentSlideNumber].slideType].displayFunction(slides[currentSlideNumber].parameters);
+    slideDefinitions[slides[currentSlideNumber].type].displayFunction(slides[currentSlideNumber].params);
 }
 
 function link_listener(e){

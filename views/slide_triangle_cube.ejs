@@ -16,7 +16,7 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
         Rotation:</br><input type="range" min="0" max="200" value="100" id="rotation">
     </div>
 
-    <% if (culling) { %>
+    <% if (slider_face_culling) { %>
         <fieldset>
             <input type="radio" id="culling_on" name="culling" value="culling_on">
             <label for="culling_on">Face Culling on</label>
@@ -25,7 +25,7 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <label for="culling_off">Face Culling off</label>
         </fieldset>
     <% } %>
-    <% if (depth_test) { %>
+    <% if (slider_depth_test) { %>
         <fieldset>
             <input type="radio" id="depth_test_on" name="depth_test" value="depth_test_on" checked>
             <label for="depth_test_on">Depth Test on</label>
