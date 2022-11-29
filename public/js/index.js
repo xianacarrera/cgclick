@@ -1,10 +1,9 @@
 let currentSlideNumber;
-let isTeacher = true;
 
 function init(){
     currentSlideNumber = 0;
     initSocket();
-    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber});
+    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id});
     addEventListeners();
     slides[currentSlideNumber].displayFunction();
 }
@@ -17,8 +16,8 @@ function changeSlide(newSlideNumber){
     }
 
     // Update HTML classes in navbar
-    document.querySelector(`a[href="${currentSlideNumber}"]`).classList.remove("active");
-    document.querySelector(`a[href="${newSlideNumber}"]`).classList.add("active");
+    document.querySelector(`a[href="/${currentSlideNumber}"]`).classList.remove("active");
+    document.querySelector(`a[href="/${newSlideNumber}"]`).classList.add("active");
     
     // Execute code necessary before leaving the current slide
     console.log("Leaving current slide: " + currentSlideNumber);

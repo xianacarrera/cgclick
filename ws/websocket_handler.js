@@ -40,8 +40,10 @@ class WebSocketHandler {
     * @param {String} id the id of the room we want to join.
     */
     on_login(socket, id) {
+        console.log(id)
         // Create new room if it does not exist.
         if (!this.states.hasOwnProperty(id)) {
+            console.log("a" + id)
             this.states[id] = new State(0); // Start from first slide
         }
         this.states[id].addSocket(socket)

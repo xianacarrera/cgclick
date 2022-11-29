@@ -41,6 +41,10 @@ app.use(express.static('public'))
 
 app.set('view engine', 'ejs');
 
+app.get("/pin/:id", (request, response) => {
+  let id = request.params.id
+  response.render("main", {id})
+})
 
 //default fallback handlers
 // catch 404 and forward to error handler
@@ -73,7 +77,6 @@ app.use(function(req, res, next) {
   //     error: {}
   //   });
   // });
-
 
 
 //start server
