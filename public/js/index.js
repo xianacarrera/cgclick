@@ -49,8 +49,8 @@ function displaySlide() {
 
 function mergeParams() {
     let customParams = slides[currentSlideNumber].params;
-    let result = JSON.parse(JSON.stringify(slideDefinitions[slides[currentSlideNumber].type].defaultParams));
-    Object.keys(customParams).forEach((key) => {
+    let result = JSON.parse(JSON.stringify(slideDefinitions[slides[currentSlideNumber].type].defaultParams) || "{}");
+    Object.keys(customParams || {}).forEach((key) => {
         result[key] = customParams[key];
     });
     return result;
