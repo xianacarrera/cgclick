@@ -1,10 +1,9 @@
 let currentSlideNumber;
-let isTeacher = true;
 
 function init(){
     currentSlideNumber = 0;
     initSocket();
-    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber});
+    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id});
     addEventListeners();
     displaySlide();
 }

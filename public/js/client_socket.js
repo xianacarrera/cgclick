@@ -2,6 +2,9 @@ let socket;
 
 function initSocket(){
     socket = io();
+    socket.emit("generic_login", {
+        id, // Placeholder
+    })
     addConnectionListeners();
 }
 
@@ -28,6 +31,7 @@ function addConnectionListeners(){
 
 function emitChangeSlide(index){
     socket.emit('teacher_changeSlide', {
-        slide: index 
+        slide: index ,
+        id
     });
 }
