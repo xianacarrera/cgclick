@@ -44,10 +44,22 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <label for="depth_test_off">Depth Test off</label>
         </fieldset>
     <% } %>
+
+    <!--
     <div class="shapecontainer">
         <input type="checkbox" id="shape-selector"></button> 
         <label for="shape-selector"></label>
         <div id="shape-div"></div>                           
     </div>
+    -->
+
+    <fieldset>
+        <input type="radio" id="shape_triangle" name="shape" value="triangle" checked>
+        <label for="depth_test_on">Triangle</label>
+
+        <input type="radio" id="shape_cube" name="shape" value="cube">
+        <label for="depth_test_off">Cube</label>
+    </fieldset>
+
 </div>
 

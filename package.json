@@ -6,6 +6,7 @@
   "author": "cg-click group",
   "license": "MIT",
   "dependencies": {
+    "@popperjs/core": "^2.11.6",
     "ejs": "^3.1.8",
     "ejsc": "^0.1.0",
     "ejsc-views": "^1.0.7",
@@ -13,7 +14,8 @@
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "socket.io": "^4.5.3"
+    "socket.io": "^4.5.3",
+    "three": "^0.146.0"
   },
   "scripts": {
     "start": "yarn ejsc && nodemon app.js",

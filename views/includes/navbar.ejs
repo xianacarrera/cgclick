@@ -1,14 +1,13 @@
 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
   
-  <!--
-  <p class="mt-2"><b>Ray tracing</b></p>
-  <a id="superlink" class="nav-link" href="#" role="tab">Intro to ray-tracing</a>
-  
-  <br/>
-  -->
+  <% slides.forEach((slide, index) => { %>
 
-  <p class="mt-2"><b>Rasterization</b></p>
-  <a class="nav-link active" href="0" role="tab">Open question</a>
-  <a class="nav-link" href="1" role="tab">Face Culling and Depth Test</a>
+    <% if (index == currentSlideNumber) { %>
+      <a class="nav-link active" href="<%= index %>" role="tab"><%= slide.title %></a>
+    <% } else { %>
+      <a class="nav-link" href="<%= index %>" role="tab"><%= slide.title %></a>
+    <% } %>
+
+  <% }); %>
 
 </div>
