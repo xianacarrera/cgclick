@@ -2,6 +2,10 @@ slideDefinitions = {
     slide_triangle_cube: {
         displayFunction: displaySlideTriangleCube,
         leaveFunction: leaveAndCancelAnimationFrame,
+        defaultParams: {
+            slider_face_culling: false,
+            slider_depth_test: false,
+        },
     },
     slide_parametrization: {
         displayFunction: displaySlideParametrization,
@@ -22,5 +26,8 @@ slideDefinitions = {
     slide_about: {
         displayFunction: displayAboutSlide,
         leaveFunction: () => {},
+        defaultParams: {
+            subslide: "idea",
+        },
     },
 }

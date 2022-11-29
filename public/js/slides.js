@@ -8,7 +8,7 @@ const slides = [
         params: {
             slider_face_culling: true,
             slider_depth_test: false,
-        }
+        },
     },
     {
         name: "Depth",
@@ -18,7 +18,7 @@ const slides = [
         params: {
             slider_face_culling: true,
             slider_depth_test: true,
-        }
+        },
     },
     {
         name: "Parametrization",
@@ -45,20 +45,20 @@ const slides = [
         type: "slide_about",
         params: {
             subslide: "idea",
-        }
+        },
     },
     {
         name: "About: Story",
         type: "slide_about",
         params: {
             subslide: "story",
-        }
+        },
     },
     {
         name: "About: Technology",
         type: "slide_about",
         params: {
             subslide: "technology",
-        }
-    }
+        },
+    },
 ]

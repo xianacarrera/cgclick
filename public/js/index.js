@@ -25,7 +25,7 @@ function leaveSlide() {
     console.log("Leaving current slide: " + currentSlideNumber);
 
     // Execute code necessary before leaving the current slide
-    slideDefinitions[slides[currentSlideNumber].type].leaveFunction(slides[currentSlideNumber].params);
+    slideDefinitions[slides[currentSlideNumber].type].leaveFunction(mergeParams());
 
     // Update HTML classes in navbar
     document.querySelector(`a[href="${currentSlideNumber}"]`).classList.remove("active");
@@ -44,7 +44,16 @@ function displaySlide() {
     document.getElementById("description-after").innerHTML = slides[currentSlideNumber].descriptionAfter || "";
 
     // Display the new slide and execute necessary init code
-    slideDefinitions[slides[currentSlideNumber].type].displayFunction(slides[currentSlideNumber].params);
+    slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());
+}
+
+function mergeParams() {
+    let customParams = slides[currentSlideNumber].params;
+    let result = slideDefinitions[slides[currentSlideNumber].type].defaultParams;
+    Object.keys(customParams).forEach((key) => {
+        result[key] = customParams[key];
+    });
+    return result;
 }
 
 function link_listener(e){

@@ -6,8 +6,6 @@ function displaySlideOpenQuestion() {
 */
 
 function displaySlideTriangleCube(params) {
-    let culling = true;
-    let depth_test = true;
     document.getElementById("slide").innerHTML = ejs.views_slide_triangle_cube(params);
     start_slide_triangle_cube(params);
 }
