@@ -26,7 +26,7 @@ function resetListener(event) {
     let tiles = document.querySelectorAll(".midpoint");
     tiles.forEach(tile => {
         tile.classList.remove(bg_color_solution);
-        tile.classList.remove("bg-warning");        // Remove the warning color if it was set (no effect if it wasn't)
+        tile.classList.remove("bg-danger");        // Remove the warning color if it was set (no effect if it wasn't)
         tile.classList.add("tile");        // No effect if the class was already present
     });
     tiles[4].classList.remove("tile");          // The final tile is not clickable
@@ -144,7 +144,7 @@ function validateAnswer() {
         if (tile.classList.contains("tile-selected")) {
             if (!midpoint_solution.has(index)) {
                 isValid = false;
-                tile.classList.add("bg-warning");
+                tile.classList.add("bg-danger");
             }
         } else {
             if (midpoint_solution.has(index)) {
@@ -153,7 +153,7 @@ function validateAnswer() {
         }
     });
 
-    bg_color_solution = isValid ? "bg-success" : "bg-danger";
+    bg_color_solution = isValid ? "bg-success" : "bg-warning";
     tiles.forEach(tile => {
         tile.style.backgroundColor = "white";       // Reset the background color
         tile.classList.remove("tile-selected");
@@ -164,10 +164,4 @@ function validateAnswer() {
     midpoint_solution.forEach(index => {
         tiles[index].classList.add(bg_color_solution);
     });
-
-    // Substitute the background color of the start and end tiles with the solution color
-    tiles[4].classList.remove("bg-primary");
-    tiles[4].classList.add(bg_color_solution);        
-    start_tile.classList.remove("bg-primary");
-    start_tile.classList.add(bg_color_solution);
 }
