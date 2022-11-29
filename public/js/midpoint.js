@@ -1,3 +1,8 @@
+let midpoint_solution;
+let bg_color_solution;
+let user_selected_tiles;
+let start_tile;
+
 function addMidpointListeners() {
     document.querySelectorAll(".tile").forEach(tile => {
         tile.addEventListener("click", tileListener);
@@ -18,15 +23,17 @@ function doneListener(event) {
 }
 
 function resetListener(event) {
-    //let finalTile = document.querySelectorAll(".midpoint").at(-1);      // Get the last element of the array
-    //finalTile.classList = "midpoint col border border-dark bg-primary";
     let tiles = document.querySelectorAll(".midpoint");
     tiles.forEach(tile => {
         tile.classList.remove(bg_color_solution);
+        tile.classList.remove("bg-warning");        // Remove the warning color if it was set (no effect if it wasn't)
         tile.classList.add("tile");        // No effect if the class was already present
     });
     tiles[4].classList.remove("tile");          // The final tile is not clickable
-    tiles[4].classList.add("bg-primary");       // And it is always coloured
+    tiles[4].classList.add("bg-primary");       // Restore the primary background color
+
+    // Remove the primary background color from the previous start tile
+    start_tile.classList.remove("bg-primary");
 
     let btn = event.currentTarget;
     btn.innerHTML = "Done";
@@ -35,7 +42,7 @@ function resetListener(event) {
     btn.removeEventListener("click", resetListener);
     btn.addEventListener("click", doneListener);
 
-    selectStartTile();
+    startMidpoint();
     addMidpointListeners();
 }
 
@@ -44,26 +51,28 @@ function tileListener(event) {
     if (tile.classList.contains("tile-selected")) {
         tile.style.backgroundColor = "white";
         tile.classList.remove("tile-selected");
+        user_selected_tiles.delete(tile.id);
     } else {
         tile.style.backgroundColor = "violet";
         tile.classList.add("tile-selected");
+        user_selected_tiles.add(tile.id);
     }
 }
 
-function selectStartTile() {
+function startMidpoint() {
+    // Select a random start tile that is not the final tile, compute the solution and initialize the user selected tiles set 
+
     let tiles = document.querySelectorAll(".tile");
     let randomIndex = Math.floor(Math.random() * tiles.length);
-    let tile = tiles[randomIndex];
-    tile.classList.add("bg-primary");        // Primary background color
-    tile.classList.remove("tile");           // Remove tile class so that it stops being clickable
+    start_tile = tiles[randomIndex];
+    start_tile.classList.add("bg-primary");        // Primary background color
+    start_tile.classList.remove("tile");           // Remove tile class so that it stops being clickabl
 
-    computeMidpointSolution(randomIndex);
+    computeMidpointSolution(randomIndex);       
+    user_selected_tiles = new Set();          // The tiles clicked by the user will be kept in this set for later validation
 
     console.log(midpoint_solution);
 }
-
-let midpoint_solution;
-let bg_color_solution;
 
 function computeMidpointSolution(startTile) {
     /* For the algorith, we can just assign integers to the tiles
@@ -135,6 +144,7 @@ function validateAnswer() {
         if (tile.classList.contains("tile-selected")) {
             if (!midpoint_solution.has(index)) {
                 isValid = false;
+                tile.classList.add("bg-warning");
             }
         } else {
             if (midpoint_solution.has(index)) {
@@ -145,11 +155,19 @@ function validateAnswer() {
 
     bg_color_solution = isValid ? "bg-success" : "bg-danger";
     tiles.forEach(tile => {
+        tile.style.backgroundColor = "white";       // Reset the background color
         tile.classList.remove("tile-selected");
-        tile.style.backgroundColor = "white";
-        tile.classList.add(bg_color_solution);
-        tile.classList.remove("bg-primary");        // Remove the primary background color from the start and end tiles
         tile.classList.remove("tile");              // Remove the tile class so that it stops being clickable
         tile.removeEventListener("click", tileListener);
     });
+
+    midpoint_solution.forEach(index => {
+        tiles[index].classList.add(bg_color_solution);
+    });
+
+    // Substitute the background color of the start and end tiles with the solution color
+    tiles[4].classList.remove("bg-primary");
+    tiles[4].classList.add(bg_color_solution);        
+    start_tile.classList.remove("bg-primary");
+    start_tile.classList.add(bg_color_solution);
 }
