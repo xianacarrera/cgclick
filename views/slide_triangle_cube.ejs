@@ -9,16 +9,6 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
     start_slide_triangle_cube(culling: true/false, depth_test: true/false);
 -->
 
-<% if (culling && depth_test) { %>
-    <h1>Face Culling and Depth Test</h1>
-<% } else if (culling) { %>
-    <h1>Face Culling</h1>
-<% } else if (depth_test) { %>
-    <h1>Depth Test</h1>
-<% } else { %>
-    <h1>Triangle and cube</h1>
-<% } %>
-
 <canvas id="webgl-canvas" width="768" height="768"></canvas>
 <div  style="float: right">
 

@@ -6,7 +6,7 @@ function init(){
     initSocket();
     document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber});
     addEventListeners();
-    slides[currentSlideNumber].displayFunction();
+    displaySlide();
 }
 
 function changeSlide(newSlideNumber){
@@ -16,19 +16,36 @@ function changeSlide(newSlideNumber){
         return;
     }
 
-    // Update HTML classes in navbar
-    document.querySelector(`a[href="${currentSlideNumber}"]`).classList.remove("active");
-    document.querySelector(`a[href="${newSlideNumber}"]`).classList.add("active");
-    
-    // Execute code necessary before leaving the current slide
+    leaveSlide();
+    currentSlideNumber = newSlideNumber;
+    displaySlide(currentSlideNumber);
+    emitChangeSlide(currentSlideNumber);
+}
+
+function leaveSlide() {
     console.log("Leaving current slide: " + currentSlideNumber);
+
+    // Execute code necessary before leaving the current slide
     slides[currentSlideNumber].leaveFunction();
 
-    // Display the new slide and execute necessary init code
-    currentSlideNumber = newSlideNumber;
+    // Update HTML classes in navbar
+    document.querySelector(`a[href="${currentSlideNumber}"]`).classList.remove("active");
+}
+
+function displaySlide() {
+    
     console.log("Displaying new slide: " + currentSlideNumber);
+
+    // Update HTML classes in navbar
+    document.querySelector(`a[href="${currentSlideNumber}"]`).classList.add("active");
+
+    // Update heading and descriptions
+    document.getElementById("title").innerHTML = slides[currentSlideNumber].title || slides[currentSlideNumber].name || "";
+    document.getElementById("description-before").innerHTML = slides[currentSlideNumber].descriptionBefore || "";
+    document.getElementById("description-after").innerHTML = slides[currentSlideNumber].descriptionAfter || "";
+
+    // Display the new slide and execute necessary init code
     slides[currentSlideNumber].displayFunction();
-    emitChangeSlide(currentSlideNumber);
 }
 
 function link_listener(e){
