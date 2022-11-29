@@ -1,13 +1,13 @@
+/*
 function displaySlideOpenQuestion() {
     let question = "How are you?";
     document.getElementById("slide").innerHTML = ejs.views_slide_open_question({ question });
 }
+*/
 
-function displaySlideTriangleCube() {
-    let culling = true;
-    let depth_test = true;
-    document.getElementById("slide").innerHTML = ejs.views_slide_triangle_cube({ culling, depth_test });
-    start_slide_triangle_cube(culling, depth_test);
+function displaySlideTriangleCube(params) {
+    document.getElementById("slide").innerHTML = ejs.views_slide_triangle_cube(params);
+    start_slide_triangle_cube(params);
 }
 
 function displaySlideParametrization() {
@@ -34,8 +34,8 @@ function showShape() {
     }
 }
 
-function displayAboutSlide(subslide) {
-    document.getElementById("slide").innerHTML = ejs.views_slide_about({ subslide });
+function displayAboutSlide(params) {
+    document.getElementById("slide").innerHTML = ejs.views_slide_about(params);
     document.querySelectorAll("img").forEach(img => img.addEventListener("click", (event) => {
         document.querySelectorAll("img").forEach(img => {
             if (img !== event.target) {

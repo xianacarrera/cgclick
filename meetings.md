@@ -1,21 +1,20 @@
-# Week 1
+# Initial brainstorming meeting (21. 11. 2022)
 
-## Day 2 (22/11/2022)
-Goals of the meeting:
+## Goals of the meeting
 * Define the main features of the projects
 * Define the scope of the project
 * Get feedback on the viability
 * Get an idea of the libraries and extra techonologies we could use
 * Define the roles
 
-### Roles for the first week
+## Roles for the first week
 * Maja - customer, project manager, frontend (second to Giorgio)
 * Giorgio - frontend (Bootstrap)
 * Xiana - client-side backend developer (socket.io), frontend
 * Giulio - server-side backend developer (socket.io)
 * Dimitris - tester (and pull request reviewer)
 
-### Goals for Week 1
+## Goals for Week 1
 1. Question types
 	* Think of various types of CG-related questions/tasks/interactive elements, e.g.:
 		* open question (later displayed as a word cloud?)
@@ -39,13 +38,13 @@ Goals of the meeting:
     * Possible for both teacher and students
     * Follow feature for returning to the "follow teacher" mode
 
-### Future goals
+## Future goals
 1. Rooms (for future iterations)
     * Connect to a specific room via a pin (e.g. kahoot screen)
 2. Geometry visualisations (SVG?)
 3. Computer graphics interactive features (WebGL?)
 
-### Possible Stretch goals
+## Possible Stretch goals
 * Bootstrap (CSS templates)
 * SVG (geometry visualisations?)
 * WebGL (interactive examples of WebGL rasterization)
@@ -54,6 +53,4 @@ Goals of the meeting:
     * Teachers would have to be authorized users and create an account with a password
 * Crypto.js (crypting the passwords)
 
-
-
-
+> Outputs from all further meetings are tracked as tasks in our Jira.
