@@ -4,7 +4,7 @@ const slides = [
         title: "Face Culling",
         descriptionBefore: "Watch what happens when you turn off face culling and look at the triangle from behind.",
         descriptionAfter: "Cool, right?",
-        type: "slide_triangle_cube",
+        type: "playground_triangle_cube",
         params: {
             slider_face_culling: true,
         },
@@ -13,7 +13,7 @@ const slides = [
         name: "Depth",
         title: "Depth Test",
         descriptionBefore: "Now try both face culling AND depth test!",
-        type: "slide_triangle_cube",
+        type: "playground_triangle_cube",
         params: {
             slider_face_culling: true,
             slider_depth_test: true,
@@ -22,22 +22,22 @@ const slides = [
     {
         name: "Parametrization",
         title: "Shape Parametrization",
-        type: "slide_parametrization",
+        type: "question_parametrization",
     },
     {
         name: "Phong",
         title: "Phong Model Parameters",
-        type: "slide_phong_model",
+        type: "playground_phong_model",
     },
     {
         name: "Midpoint",
         title: "Midpoint Algorithm Game",
-        type: "slide_midpoint",
+        type: "question_midpoint",
     },
     {
         name: "Gamma",
         title: "Gamma Correction and Tone Mapping",
-        type: "slide_image_parameters",
+        type: "question_image_parameters",
     },
     {
         name: "About: Idea",
