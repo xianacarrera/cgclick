@@ -28,6 +28,10 @@ const slides = [
         name: "Phong",
         title: "Phong Model Parameters",
         type: "slide_phong_model",
+        params: {
+            slider_face_culling: true,
+            slider_depth_test: true,
+        },
     },
     {
         name: "Midpoint",

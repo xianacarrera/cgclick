@@ -32,4 +32,23 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
     <div class="slidecontainer">
         Polar angle:</br><input type="range" min="1" max="90" value="60" id="light_polar_angle">
     </div>
+
+    <% if (slider_face_culling) { %>
+        <fieldset>
+            <input type="radio" id="culling_on" name="culling" value="culling_on">
+            <label for="culling_on">Face Culling on</label>
+
+            <input type="radio" id="culling_off" name="culling" value="culling_off" checked>
+            <label for="culling_off">Face Culling off</label>
+        </fieldset>
+    <% } %>
+    <% if (slider_depth_test) { %>
+        <fieldset>
+            <input type="radio" id="depth_test_on" name="depth_test" value="depth_test_on" checked>
+            <label for="depth_test_on">Depth Test on</label>
+
+            <input type="radio" id="depth_test_off" name="depth_test" value="depth_test_off">
+            <label for="depth_test_off">Depth Test off</label>
+        </fieldset>
+    <% } %>
 </div>

@@ -103,7 +103,6 @@ function draw_TC(){
     gl.clear(gl.DEPTH_BUFFER_BIT);
 
     // Enable/disable face culling and depth test
-
     if (is_culling_on) {
         gl.enable(gl.CULL_FACE);
     }
@@ -174,8 +173,20 @@ function draw_PM(){
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clearColor(0.2, 0.2, 0.2, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.enable(gl.CULL_FACE);
-    gl.enable(gl.DEPTH_TEST);
+    // Enable/disable face culling and depth test
+    if (is_culling_on) {
+        gl.enable(gl.CULL_FACE);
+    }
+    else {
+        gl.disable(gl.CULL_FACE);
+    }
+
+    if (is_depth_test_on) {
+        gl.enable(gl.DEPTH_TEST);
+    }
+    else {
+        gl.disable(gl.DEPTH_TEST);
+    }
 
     // enable the GLSL program for the rendering
     gl.useProgram(shaderProgram);

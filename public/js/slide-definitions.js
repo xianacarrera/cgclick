@@ -14,6 +14,10 @@ slideDefinitions = {
     slide_phong_model: {
         displayFunction: displaySlidePhongModel,
         leaveFunction: leaveAndCancelAnimationFrame,
+        defaultParams: {
+            slider_face_culling: false,
+            slider_depth_test: false,
+        },
     },
     slide_midpoint: {
         displayFunction: displaySlideMidpoint,
