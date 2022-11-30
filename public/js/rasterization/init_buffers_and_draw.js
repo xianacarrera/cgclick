@@ -201,13 +201,25 @@ function draw_PM(params){
     gl.uniformMatrix4fv(projection_matrix_location, false, projection_matrix);
     gl.uniform3fv(light_direction_location, light_direction);
 
+    // gamma
     let gammaLocation = gl.getUniformLocation(shaderProgram, "gamma");
     let gamma = 2.2;
     if (params.slider_gamma) {
         gamma = document.getElementById("gamma_correction").value;
-        // console.log("gamma: " + gamma);
     }
     gl.uniform1f(gammaLocation, gamma);
+
+    // tone mapping
+    let alphaLocation = gl.getUniformLocation(shaderProgram, "alpha");
+    let betaLocation = gl.getUniformLocation(shaderProgram, "beta");
+    let alpha = 1;
+    let beta = 1;
+    if (params.slider_tone_mapping) {
+        alpha = document.getElementById("alpha").value;
+        beta = document.getElementById("beta").value;
+    }
+    gl.uniform1f(alphaLocation, alpha);
+    gl.uniform1f(betaLocation, beta);
     
     // CUBE 1
 

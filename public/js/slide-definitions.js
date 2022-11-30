@@ -18,6 +18,7 @@ slideDefinitions = {
             slider_face_culling: false,
             slider_depth_test: false,
             slider_gamma: false,
+            slider_tone_mapping: false,
         },
     },
     slide_midpoint: {

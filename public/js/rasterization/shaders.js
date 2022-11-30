@@ -68,6 +68,8 @@ var fragmentShaderCode_PM =
     in vec3 v_view_direction;
 
     uniform float gamma;
+    uniform float alpha;
+    uniform float beta;
     
     // you can also add here constants for Phong shading model,
     // e.g., light color, ambient, diffuse, and specular coefficients, gamma value, as well as shininess
@@ -106,8 +108,9 @@ var fragmentShaderCode_PM =
 
         vec3 color = ambient + diffuse + specular;
         
-        // Performing gamma correction at the end
-        color = pow_but_for_vec3(color, 1.0f/gamma);
+        // Performing gamma correction and tone mapping at the end
+        color = alpha * color;
+        color = pow_but_for_vec3(color, beta/gamma);
 
         out_color = vec4(color, 1.0);
     }`;
