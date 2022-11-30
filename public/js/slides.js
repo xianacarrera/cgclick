@@ -31,6 +31,7 @@ const slides = [
         params: {
             slider_face_culling: true,
             slider_depth_test: true,
+            slider_gamma: true,
         },
     },
     {

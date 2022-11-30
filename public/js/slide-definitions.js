@@ -17,6 +17,7 @@ slideDefinitions = {
         defaultParams: {
             slider_face_culling: false,
             slider_depth_test: false,
+            slider_gamma: false,
         },
     },
     slide_midpoint: {

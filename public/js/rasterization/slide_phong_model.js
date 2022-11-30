@@ -46,5 +46,5 @@ function start_slide_phong_model(params) {
 		});
 	}
 
-    draw();
+    draw(params);
 }

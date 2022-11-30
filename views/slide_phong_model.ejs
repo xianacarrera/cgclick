@@ -51,4 +51,10 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <label for="depth_test_off">Depth Test off</label>
         </fieldset>
     <% } %>
+    <% if (slider_gamma) { %>
+        <div class="slidecontainer">
+            Gamma correction:</br><input type="range" min="1" max="5" step="0.5" value="2" id="gamma_correction" oninput="this.nextElementSibling.value = this.value">
+            <output>2</output>
+        </div>
+    <% } %>
 </div>

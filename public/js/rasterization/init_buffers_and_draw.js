@@ -77,13 +77,13 @@ function initBuffers() {
     }
 }
 
-function draw() {
+function draw(params) {
     switch (currentSlideInfo.rasterizationType) {
         case "triangle_cube":
             draw_TC();
             break;
         case "phong_model":
-            draw_PM();
+            draw_PM(params);
     }
 }
 
@@ -135,7 +135,7 @@ function draw_TC(){
     currentSlideInfo.requestID = requestID;
 }
 
-function draw_PM(){
+function draw_PM(params){
     // input variables for controling camera and light parameters
     let camera_azimuthal_angle = document.getElementById("camera_azimuthal_angle").value / 360 * 2 * Math.PI;
     let camera_polar_angle = document.getElementById("camera_polar_angle").value / 360 * 2 * Math.PI;
@@ -200,6 +200,14 @@ function draw_PM(){
     gl.uniformMatrix4fv(view_matrix_location, false, view_matrix);
     gl.uniformMatrix4fv(projection_matrix_location, false, projection_matrix);
     gl.uniform3fv(light_direction_location, light_direction);
+
+    let gammaLocation = gl.getUniformLocation(shaderProgram, "gamma");
+    let gamma = 2.2;
+    if (params.slider_gamma) {
+        gamma = document.getElementById("gamma_correction").value;
+        // console.log("gamma: " + gamma);
+    }
+    gl.uniform1f(gammaLocation, gamma);
     
     // CUBE 1
 
@@ -237,6 +245,6 @@ function draw_PM(){
 
     gl.drawArrays(gl.TRIANGLES, 0, plane_vertices.length/3);
 
-    let requestID = window.requestAnimationFrame(draw_PM);
+    let requestID = window.requestAnimationFrame(function() {draw_PM(params)});
     currentSlideInfo.requestID = requestID;
 }
