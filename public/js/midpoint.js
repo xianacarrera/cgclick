@@ -1,5 +1,4 @@
 let midpoint_solution;
-let bg_color_solution;
 let user_selected_tiles;
 let start_tile;
 
@@ -25,12 +24,13 @@ function doneListener(event) {
 function resetListener(event) {
     let tiles = document.querySelectorAll(".midpoint");
     tiles.forEach(tile => {
-        tile.classList.remove(bg_color_solution);
-        tile.classList.remove("bg-danger");        // Remove the warning color if it was set (no effect if it wasn't)
+        // Remove the color classes that were added when cheking the solution. If they were not present, the remove method does nothing
+        tile.classList.remove("bg-warning");
+        tile.classList.remove("bg-success");
+        tile.classList.remove("bg-danger");       
         tile.classList.add("tile");        // No effect if the class was already present
     });
     tiles[4].classList.remove("tile");          // The final tile is not clickable
-    tiles[4].classList.add("bg-primary");       // Restore the primary background color
 
     // Remove the primary background color from the previous start tile
     start_tile.classList.remove("bg-primary");
@@ -139,29 +139,24 @@ function computeMidpointSolution(startTile) {
 
 function validateAnswer() {
     let tiles = document.querySelectorAll(".midpoint");
-    let isValid = true;
     tiles.forEach((tile, index) => {
         if (tile.classList.contains("tile-selected")) {
             if (!midpoint_solution.has(index)) {
-                isValid = false;
-                tile.classList.add("bg-danger");
+                tile.classList.add("bg-danger");       // Red (the tile was selected but it shouldn't have been)
+            } else {
+                tile.classList.add("bg-success");      // Green (the tile was selected and it is part of the solution)
             }
-        } else {
-            if (midpoint_solution.has(index)) {
-                isValid = false;
-            }
+        } else if (midpoint_solution.has(index)) {
+            tile.classList.add("bg-warning");          // Yellow (the tile was not selected but it should have been)
         }
+        // The start and end tiles remain blue
     });
 
-    bg_color_solution = isValid ? "bg-success" : "bg-warning";
+
     tiles.forEach(tile => {
         tile.style.backgroundColor = "white";       // Reset the background color
-        tile.classList.remove("tile-selected");
+        tile.classList.remove("tile-selected");     // Reset the tile-selected class
         tile.classList.remove("tile");              // Remove the tile class so that it stops being clickable
-        tile.removeEventListener("click", tileListener);
-    });
-
-    midpoint_solution.forEach(index => {
-        tiles[index].classList.add(bg_color_solution);
+        tile.removeEventListener("click", tileListener);    // Remove the tile listener
     });
 }
