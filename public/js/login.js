@@ -17,6 +17,12 @@ const createNewRoom = () => {
 }
 
 const joinRoom = () => {
-    let id = document.getElementById('id').value;
+    let id = document.getElementById('id').value.trim();
     window.location.href = `/pin/${id}`;
 }
+
+document.getElementById('id').addEventListener('input', function (evt) {
+    let id = document.getElementById('id').value.trim();
+    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        document.getElementById("joinBtn").disabled = id.length == 0 || specialChars.test(id);    
+});
