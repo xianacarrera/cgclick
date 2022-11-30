@@ -33,6 +33,7 @@ const slides = [
             slider_depth_test: true,
             slider_gamma: true,
             slider_tone_mapping: true,
+            slider_lights: true,
         },
     },
     {

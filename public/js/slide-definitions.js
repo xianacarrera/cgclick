@@ -19,6 +19,7 @@ slideDefinitions = {
             slider_depth_test: false,
             slider_gamma: false,
             slider_tone_mapping: false,
+            slider_lights: false,
         },
     },
     slide_midpoint: {
