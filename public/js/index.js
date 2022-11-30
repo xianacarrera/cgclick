@@ -5,7 +5,7 @@ function init(){
     initSocket();
     document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id});
     addEventListeners();
-    displaySlide();
+    displaySlide().then();
 }
 
 function changeSlide(newSlideNumber){
@@ -17,8 +17,7 @@ function changeSlide(newSlideNumber){
 
     leaveSlide();
     currentSlideNumber = newSlideNumber;
-    displaySlide(currentSlideNumber);
-    emitChangeSlide(currentSlideNumber);
+    displaySlide(currentSlideNumber).then(emitChangeSlide(currentSlideNumber));
 }
 
 function leaveSlide() {
@@ -44,7 +43,10 @@ function displaySlide() {
     document.getElementById("description-after").innerHTML = slides[currentSlideNumber].descriptionAfter || "";
 
     // Display the new slide and execute necessary init code
-    slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());
+    slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());            
+    
+    // Return a promise
+    return new Promise(resolve => setTimeout(resolve, 100));
 }
 
 function mergeParams() {
