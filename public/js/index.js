@@ -28,7 +28,7 @@ function leaveSlide() {
     slideDefinitions[slides[currentSlideNumber].type].leaveFunction(mergeParams());
 
     // Update HTML classes in navbar
-    document.querySelector(`a[href="${currentSlideNumber}"]`).classList.remove("active");
+    document.querySelector(`a[href="/${currentSlideNumber}"]`).classList.remove("active");
 }
 
 function displaySlide() {
@@ -36,7 +36,7 @@ function displaySlide() {
     console.log("Displaying new slide: " + currentSlideNumber);
 
     // Update HTML classes in navbar
-    document.querySelector(`a[href="${currentSlideNumber}"]`).classList.add("active");
+    document.querySelector(`a[href="/${currentSlideNumber}"]`).classList.add("active");
 
     // Update heading and descriptions
     document.getElementById("title").innerHTML = slides[currentSlideNumber].title || slides[currentSlideNumber].name || "";
