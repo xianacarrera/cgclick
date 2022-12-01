@@ -1,5 +1,4 @@
 let currentSlideNumber;
-let slide_mutex = false;
 
 function init(){
     currentSlideNumber = 0;
@@ -10,10 +9,6 @@ function init(){
 }
 
 function changeSlide(newSlideNumber){
-    while (slide_mutex) {
-        console.log("Waiting for slide_mutex to be released...");
-        // yield
-    }
 
     // Don't do anything if we're staying on the same slide
     if (newSlideNumber == currentSlideNumber) {
@@ -22,17 +17,11 @@ function changeSlide(newSlideNumber){
 
     leaveSlide();
     currentSlideNumber = newSlideNumber;
-    slide_mutex = true;
-    displaySlide(currentSlideNumber)
+    displaySlide(currentSlideNumber);
     emitChangeSlide(currentSlideNumber);
 }
 
 function leaveSlide() {
-    while (slide_mutex) {
-        console.log("Waiting for slide_mutex to be released...");
-        // yield
-    }
-
     console.log("Leaving current slide: " + currentSlideNumber);
 
     // Execute code necessary before leaving the current slide
@@ -55,7 +44,7 @@ function displaySlide() {
     document.getElementById("description-after").innerHTML = slides[currentSlideNumber].descriptionAfter || "";
 
     // Display the new slide and execute necessary init code
-    slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());            
+    slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());
 }
 
 function mergeParams() {
