@@ -1,9 +1,10 @@
-<div class="d-flex flex-row flex-nowrap">
-    <div class="p-2">
-        One of three columns
+<div class="container">
+    <div class="col-lg-8 mb-4 mx-auto">    <!-- Automatically set margin left and right to center -->
+        <canvas id="threejs-canvas" width="520" height="520"></canvas>
     </div>
-    <div class="btn-group-lg btn-group d-flex flex-column p-2" data-toggle="buttons">
-        <div class="my-2">
+    <h2 class="mb-4">Check the right parametrization for a torus</h2>
+    <div class="btn-group-lg btn-group" data-toggle="buttons">
+        <div class="mx-2">
             <!-- mx-2 specifies both margin left and right -->
             <label class="btn btn-primary">
                 <input type="radio" name="param_options" value="0" id="option1" autocomplete="off" checked />
@@ -15,7 +16,7 @@
                 </p>
             </label>
         </div>
-        <div class="my-2">
+        <div class="mx-2">
             <label class="btn btn-primary">
                 <input type="radio" name="param_options" value="1" id="option2" autocomplete="off" />
                 <p>
@@ -26,7 +27,7 @@
                 </p>
             </label>
         </div>
-        <div class="my-2">
+        <div class="mx-2">
             <label class="btn btn-primary">
                 <input type="radio" name="param_options" value="2" id="option3" autocomplete="off" />
                 <p>
@@ -37,9 +38,5 @@
                 </p>
             </label>
         </div>
-    </div>
-    <div class="d-flex justify-content-center p-2">
-        <!-- Automatically set margin left and right to center -->
-        <canvas id="threejs-canvas" width="300" height="300"></canvas>
     </div>
 </div>

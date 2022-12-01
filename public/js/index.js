@@ -60,6 +60,7 @@ function link_listener(e){
     e.preventDefault();
     changeSlide(e.currentTarget.pathname[1]);
 }
+
 function addEventListeners(){
     document.querySelectorAll("a").forEach(link=>{
         link.removeEventListener("click", link_listener);
