@@ -21,17 +21,17 @@ class WebSocketHandler {
         // Participants must login with the ID, disregarding whether it is a teacher or not.
         socket.on("generic_login", (login_id) => this.on_login(socket, login_id.id));
         // changeSlide topic should be called whenever slide are sent
-        socket.on('teacher_changeSlide', (new_slide) => this.on_change_slide(new_slide, socket))
+        socket.on('teacher_changeSlide', (new_slide) => this.on_change_slide(new_slide))
     }
 
     /**
     * Handles the on change of slide event and routes the sockets.
-    * @param {JSON} new_slide the object contains the field slide and will be set.
     * @param {Socket} socket client socket.
+    * @param {JSON} new_slide the object contains the field slide and will be set.
     */
-    on_change_slide(slide, socket) {
+    on_change_slide(slide) {
         this.states[slide.id].slide = slide.slide;
-        this.on_update(slide.id, this.states[slide.id].stateObject(), socket);
+        this.on_update(slide.id, this.states[slide.id].stateObject());
     }
 
     /**
@@ -55,12 +55,10 @@ class WebSocketHandler {
     * @param {Socket} socket client socket.
     * @param {String} id room id.
     * @param {JSON} state_obj the new state object.
-    * @param {Socket} socket client socket.
     */
-    on_update(id, state_obj, socket) {
+    on_update(id, state_obj) {
         // update topic should be received by the client and update current slide and whatever accordingly.
         this.states[id].broadcast('generic_update', state_obj)
-        socket.emit("generic_releaseMutex");
     }
 }
 
