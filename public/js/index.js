@@ -6,13 +6,13 @@ function init(){
     initSocket();
     document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id});
     addEventListeners();
-    displaySlide().then();
+    displaySlide();
 }
 
 function changeSlide(newSlideNumber){
     while (slide_mutex) {
         console.log("Waiting for slide_mutex to be released...");
-        yield;
+        // yield
     }
 
     // Don't do anything if we're staying on the same slide
@@ -30,7 +30,7 @@ function changeSlide(newSlideNumber){
 function leaveSlide() {
     while (slide_mutex) {
         console.log("Waiting for slide_mutex to be released...");
-        yield;
+        // yield
     }
 
     console.log("Leaving current slide: " + currentSlideNumber);
@@ -42,7 +42,7 @@ function leaveSlide() {
     document.querySelector(`a[href="/${currentSlideNumber}"]`).classList.remove("active");
 }
 
-async function displaySlide() {
+function displaySlide() {
     
     console.log("Displaying new slide: " + currentSlideNumber);
 
@@ -55,8 +55,7 @@ async function displaySlide() {
     document.getElementById("description-after").innerHTML = slides[currentSlideNumber].descriptionAfter || "";
 
     // Display the new slide and execute necessary init code
-    await slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());            
-    // Wait for the slide to change
+    slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());            
 }
 
 function mergeParams() {
