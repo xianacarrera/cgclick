@@ -136,18 +136,29 @@ function draw_TC(){
 }
 
 function draw_PM(params){
+    let degrees_to_radians = 1 / 360 * 2 * Math.PI;
     // input variables for controling camera
-    let camera_azimuthal_angle = document.getElementById("camera_azimuthal_angle").value / 360 * 2 * Math.PI;
-    let camera_polar_angle = document.getElementById("camera_polar_angle").value / 360 * 2 * Math.PI;
-    let camera_distance = document.getElementById("camera_distance").value / 10;
-    let camera_fov = document.getElementById("camera_fov").value / 360 * 2 * Math.PI;
+    let camera_azimuthal_angle = -45 * degrees_to_radians;
+    let camera_polar_angle = 60 * degrees_to_radians;
+    if (params.slider_camera_angles) {
+        camera_azimuthal_angle = document.getElementById("camera_azimuthal_angle").value * degrees_to_radians;
+        camera_polar_angle = document.getElementById("camera_polar_angle").value * degrees_to_radians;
+    }
+    let camera_distance = 100 / 10;
+    if (params.slider_camera_distance) {
+        camera_distance = document.getElementById("camera_distance").value / 10;
+    }
+    let camera_fov = 45 * degrees_to_radians;
+    if (params.slider_camera_fov) {
+        camera_fov = document.getElementById("camera_fov").value * degrees_to_radians;
+    }
     
     // lights
-    let light_azimuthal_angle = -70 / 360 * 2 * Math.PI;
-    let light_polar_angle = 60 / 360 * 2 * Math.PI;
+    let light_azimuthal_angle = -70 * degrees_to_radians;
+    let light_polar_angle = 60 * degrees_to_radians;
     if (params.slider_lights) {
-        light_azimuthal_angle = document.getElementById("light_azimuthal_angle").value / 360 * 2 * Math.PI;
-        light_polar_angle = document.getElementById("light_polar_angle").value / 360 * 2 * Math.PI;
+        light_azimuthal_angle = document.getElementById("light_azimuthal_angle").value * degrees_to_radians;
+        light_polar_angle = document.getElementById("light_polar_angle").value * degrees_to_radians;
     }
     const light_distance = 10;
 

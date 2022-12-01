@@ -11,20 +11,27 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
 
 <canvas id="webgl-canvas" width="768" height="768"></canvas>
 <div  style="float: right">
-    <h4>Camera:</h4>
-    <div class="slidecontainer">
-        Azimuthal angle:</br><input type="range" min="-270" max="90" value="-45" id="camera_azimuthal_angle">
-    </div>
-    <div class="slidecontainer">
-        Polar angle:</br><input type="range" min="1" max="179" value="60" id="camera_polar_angle">
-    </div>
-    <div class="slidecontainer">
-        Distance:</br><input type="range" min="20" max="200" value="100" id="camera_distance">
-    </div>
-    <div class="slidecontainer">
-        Field of view:</br><input type="range" min="10" max="150" value="45" id="camera_fov">
-    </div>
-
+    <% if (slider_camera_angles || slider_camera_distance || slider_camera_fov) { %>
+        <h4>Camera:</h4>
+    <% } %>
+    <% if (slider_camera_angles) { %>
+        <div class="slidecontainer">
+            Azimuthal angle:</br><input type="range" min="-270" max="90" value="-45" id="camera_azimuthal_angle">
+        </div>
+        <div class="slidecontainer">
+            Polar angle:</br><input type="range" min="1" max="179" value="60" id="camera_polar_angle">
+        </div>
+    <% } %>
+    <% if (slider_camera_distance) { %>
+        <div class="slidecontainer">
+            Distance:</br><input type="range" min="20" max="200" value="100" id="camera_distance">
+        </div>
+    <% } %>
+    <% if (slider_camera_fov) { %>
+        <div class="slidecontainer">
+            Field of view:</br><input type="range" min="10" max="150" value="45" id="camera_fov">
+        </div>
+    <% } %>
     <% if (slider_lights) { %>
         <h4>Light:</h4>
         <div class="slidecontainer">
@@ -59,7 +66,7 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
         </div>
     <% } %>
     <% if (slider_tone_mapping) { %>
-        <h4>Tone mapping</h4>
+        <h4>Tone mapping:</h4>
         <div class="slidecontainer">
             Alpha:</br><input type="range" min="0.5" max="3" step="0.5" value="1" id="alpha" oninput="this.nextElementSibling.value = this.value">
             <output>1</output>

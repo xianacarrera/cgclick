@@ -29,11 +29,14 @@ const slides = [
         title: "Phong Model Parameters",
         type: "playground_phong_model",
         params: {
+            slider_camera_angles: true,
+            // slider_camera_distance: true,
+            // slider_camera_fov: true,
+            slider_lights: true,
             slider_face_culling: true,
             slider_depth_test: true,
             slider_gamma: true,
             slider_tone_mapping: true,
-            slider_lights: true,
         },
     },
     {
