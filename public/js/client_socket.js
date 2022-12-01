@@ -27,6 +27,8 @@ function addConnectionListeners(){
         changeSlide(state.slide);
     })
 
+    socket.on('generic_releaseMutex', () => slide_mutex = false);
+
 }
 
 function emitChangeSlide(index){

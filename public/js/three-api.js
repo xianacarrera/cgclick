@@ -140,7 +140,8 @@ threeAPI = function(){
      * Public function. Starts the animation loop.
      */
     function animate(){
-        requestAnimationFrame( animate );
+        let cancelAnimationFrame = requestAnimationFrame(animate);
+        currentSlideInfo.requestID = cancelAnimationFrame;
 
         // This updates the camera position and rotation based on the controls
         controls.update();
