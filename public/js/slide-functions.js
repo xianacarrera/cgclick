@@ -1,11 +1,12 @@
 /*
 function displaySlideOpenQuestion() {
     let question = "How are you?";
-    document.getElementById("slide").innerHTML = ejs.views_slide_open_question({ question });
+    document.getElementById("content").className = cardClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_open_question({ question });
 }
 */
 
-let cardClasses = "d-flex flex-wrap justify-content-between p-1 border border-2 border-primary rounded-3 bg-light";
+let cardClasses = "d-inline-flex flex-wrap justify-content-start p-1 border border-2 border-primary rounded-3 bg-light";
 let noClasses = "";
 
 function displaySlideTriangleCube(params) {
@@ -40,26 +41,6 @@ function showShape() {
     }
 }
 
-function displayAboutSlide(params) {
-    document.getElementById("content").className = noClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_about(params);
-    document.querySelectorAll("img").forEach(img => img.addEventListener("click", (event) => {
-        document.querySelectorAll("img").forEach(img => {
-            if (img !== event.target) {
-                img.classList.remove("clicked_image");
-            } else {
-                img.classList.toggle("clicked_image");
-            }
-        });
-    }));
-}
-
-
-function leaveAndCancelAnimationFrame() {
-    // console.log("Canceling animation frame with requestID = " + currentSlideInfo.requestID);
-    window.cancelAnimationFrame(currentSlideInfo.requestID);
-}
-
 function displaySlideMidpoint() {
     document.getElementById("content").className = cardClasses;
     document.getElementById("content").innerHTML = ejs.views_slide_midpoint({});
@@ -78,4 +59,24 @@ function displaySlideImageParameters() {
     );
 
     // The student provides a right answer if alpha is 1 and beta / gamma is 1/2
+}
+
+function displayAboutSlide(params) {
+    document.getElementById("content").className = noClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_about(params);
+    document.querySelectorAll("img").forEach(img => img.addEventListener("click", (event) => {
+        document.querySelectorAll("img").forEach(img => {
+            if (img !== event.target) {
+                img.classList.remove("clicked_image");
+            } else {
+                img.classList.toggle("clicked_image");
+            }
+        });
+    }));
+}
+
+
+function leaveAndCancelAnimationFrame() {
+    // console.log("Canceling animation frame with requestID = " + currentSlideInfo.requestID);
+    window.cancelAnimationFrame(currentSlideInfo.requestID);
 }
