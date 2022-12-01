@@ -19,7 +19,9 @@ function changeSlide(newSlideNumber){
     leaveSlide();
     currentSlideNumber = newSlideNumber;
     displaySlide(currentSlideNumber);
-    emitChangeSlide(currentSlideNumber);
+    if (isTeacher) {
+        emitChangeSlide(currentSlideNumber);
+    }
 }
 
 function leaveSlide() {
@@ -63,13 +65,8 @@ function link_listener(e){
 }
 function addEventListeners(){
     document.querySelectorAll("a").forEach(link=>{
-        if (isTeacher) {
-            link.removeEventListener("click", link_listener);
-            link.addEventListener("click", link_listener);
-        } else {
-            link.removeEventListener("click", (ev) => ev.preventDefault());
-            link.addEventListener("click", (ev) => ev.preventDefault()); 
-        }
+        link.removeEventListener("click", link_listener);
+        link.addEventListener("click", link_listener);
     });
 }
 
