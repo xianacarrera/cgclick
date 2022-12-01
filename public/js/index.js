@@ -3,7 +3,8 @@ let currentSlideNumber;
 function init(){
     currentSlideNumber = 0;
     initSocket();
-    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id});
+    let pathname = new URL(window.location.href).pathname;
+    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id, pathname});
     addEventListeners();
     displaySlide();
 }
@@ -27,16 +28,19 @@ function leaveSlide() {
     // Execute code necessary before leaving the current slide
     slideDefinitions[slides[currentSlideNumber].type].leaveFunction(mergeParams());
 
+    let currentURL = new URL(window.location.href);
+
     // Update HTML classes in navbar
-    document.querySelector(`a[href="/${currentSlideNumber}"]`).classList.remove("active");
+    document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.remove("active");
 }
 
 function displaySlide() {
     
     console.log("Displaying new slide: " + currentSlideNumber);
 
+    let currentURL = new URL(window.location.href);
     // Update HTML classes in navbar
-    document.querySelector(`a[href="/${currentSlideNumber}"]`).classList.add("active");
+    document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.add("active");
 
     // Update heading and descriptions
     document.getElementById("title").innerHTML = slides[currentSlideNumber].title || slides[currentSlideNumber].name || "";
@@ -58,7 +62,8 @@ function mergeParams() {
 
 function link_listener(e){
     e.preventDefault();
-    changeSlide(e.currentTarget.pathname[1]);
+    let pathname = e.currentTarget.pathname;
+    changeSlide(pathname.at(-1));       // The last character in the pathname is the slide number
 }
 function addEventListeners(){
     document.querySelectorAll("a").forEach(link=>{
