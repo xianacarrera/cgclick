@@ -4,7 +4,7 @@
  * For Software Atelier 3: The Web project we modified it to make it more customizable and tangible 
  */
 
-function start_slide_triangle_cube(culling, depth_test) {
+function start_slide_triangle_cube(params) {
 	currentSlideInfo.rasterizationType = "triangle_cube";
 	
 	initWebGL();
@@ -30,7 +30,7 @@ function start_slide_triangle_cube(culling, depth_test) {
 		}
 	});
 
-	if (culling) {
+	if (params.slider_face_culling) {
 		let culling_button_on = document.getElementById("culling_on");
 		culling_button_on.addEventListener("change", (e) => {
 			if (culling_button_on.checked) {
@@ -46,7 +46,7 @@ function start_slide_triangle_cube(culling, depth_test) {
 		});
 	}
 
-	if (depth_test) {
+	if (params.slider_depth_test) {
 		let depth_test_button_on = document.getElementById("depth_test_on");
 		depth_test_button_on.addEventListener("change", (e) => {
 			if (depth_test_button_on.checked) {

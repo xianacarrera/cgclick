@@ -1,0 +1,33 @@
+slideDefinitions = {
+    playground_triangle_cube: {
+        displayFunction: displaySlideTriangleCube,
+        leaveFunction: leaveAndCancelAnimationFrame,
+        defaultParams: {
+            slider_face_culling: false,
+            slider_depth_test: false,
+        },
+    },
+    question_parametrization: {
+        displayFunction: displaySlideParametrization,
+        leaveFunction: leaveAndCancelAnimationFrame,
+    },
+    playground_phong_model: {
+        displayFunction: displaySlidePhongModel,
+        leaveFunction: leaveAndCancelAnimationFrame,
+    },
+    question_midpoint: {
+        displayFunction: displaySlideMidpoint,
+        leaveFunction: () => {},
+    },
+    question_image_parameters: {
+        displayFunction: displaySlideImageParameters,
+        leaveFunction: leaveAndCancelAnimationFrame,
+    },
+    slide_about: {
+        displayFunction: displayAboutSlide,
+        leaveFunction: () => {},
+        defaultParams: {
+            subslide: "idea",
+        },
+    },
+}

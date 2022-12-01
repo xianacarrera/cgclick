@@ -1,12 +1,11 @@
 let currentSlideNumber;
-let isTeacher = true;
 
 function init(){
     currentSlideNumber = 0;
     initSocket();
-    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber});
+    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id});
     addEventListeners();
-    slides[currentSlideNumber].displayFunction();
+    displaySlide();
 }
 
 function changeSlide(newSlideNumber){
@@ -16,19 +15,45 @@ function changeSlide(newSlideNumber){
         return;
     }
 
-    // Update HTML classes in navbar
-    document.querySelector(`a[href="${currentSlideNumber}"]`).classList.remove("active");
-    document.querySelector(`a[href="${newSlideNumber}"]`).classList.add("active");
-    
-    // Execute code necessary before leaving the current slide
+    leaveSlide();
+    currentSlideNumber = newSlideNumber;
+    displaySlide(currentSlideNumber);
+    emitChangeSlide(currentSlideNumber);
+}
+
+function leaveSlide() {
     console.log("Leaving current slide: " + currentSlideNumber);
-    slides[currentSlideNumber].leaveFunction();
+
+    // Execute code necessary before leaving the current slide
+    slideDefinitions[slides[currentSlideNumber].type].leaveFunction(mergeParams());
+
+    // Update HTML classes in navbar
+    document.querySelector(`a[href="/${currentSlideNumber}"]`).classList.remove("active");
+}
+
+function displaySlide() {
+    
+    console.log("Displaying new slide: " + currentSlideNumber);
+
+    // Update HTML classes in navbar
+    document.querySelector(`a[href="/${currentSlideNumber}"]`).classList.add("active");
+
+    // Update heading and descriptions
+    document.getElementById("title").innerHTML = slides[currentSlideNumber].title || slides[currentSlideNumber].name || "";
+    document.getElementById("description-before").innerHTML = slides[currentSlideNumber].descriptionBefore || "";
+    document.getElementById("description-after").innerHTML = slides[currentSlideNumber].descriptionAfter || "";
 
     // Display the new slide and execute necessary init code
-    currentSlideNumber = newSlideNumber;
-    console.log("Displaying new slide: " + currentSlideNumber);
-    slides[currentSlideNumber].displayFunction();
-    emitChangeSlide(currentSlideNumber);
+    slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());
+}
+
+function mergeParams() {
+    let customParams = slides[currentSlideNumber].params;
+    let result = JSON.parse(JSON.stringify(slideDefinitions[slides[currentSlideNumber].type].defaultParams) || "{}");
+    Object.keys(customParams || {}).forEach((key) => {
+        result[key] = customParams[key];
+    });
+    return result;
 }
 
 function link_listener(e){

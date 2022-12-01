@@ -23,7 +23,7 @@
 * teacher and student roles
 * in progress: rooms
 
-## Slide types (Xianna)
+## Slide types (Xiana)
 
 * simple slides: open question (demo)
 * midpoint algorithm (demo)
