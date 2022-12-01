@@ -16,7 +16,6 @@ const logger = require('morgan');
 const methodOverride = require('method-override');
 const multer  = require('multer');
 
-const {State} = require('./model/state');
 const {WebSocketHandler} = require('./ws/websocket_handler');
 
 const { Server } = require("socket.io");
@@ -43,7 +42,13 @@ app.set('view engine', 'ejs');
 
 app.get("/pin/:id", (request, response) => {
   let id = request.params.id
-  response.render("main", {id})
+  let states = websocket_handler.getStates()
+  if (!states.hasOwnProperty(id)) {
+    response.writeHead(302, {'Location': '/'})
+    response.end()
+    return
+  }
+  response.render("main", {id, isTeacher: states[id].sockets.length === 0})
 })
 
 //default fallback handlers

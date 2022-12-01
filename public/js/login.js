@@ -1,5 +1,7 @@
 const idLength = 9
 
+var socket = io();
+
 // generateId creates a new session id.
 const generateId = () => {
     let result           = '';
@@ -13,12 +15,22 @@ const generateId = () => {
 
 const createNewRoom = () => {
     let id = generateId();
-    window.location.href = `/pin/${id}`;
+    socket.on('generic_create_done', () => window.location.href = `/pin/${id}`)
+    socket.emit('teacher_createRoom', {id});
 }
 
 const joinRoom = () => {
     let id = document.getElementById('id').value.trim();
-    window.location.href = `/pin/${id}`;
+
+    socket.on('generic_check_done', (obj_status) => {
+        if (obj_status.status) {
+            window.location.href = `/pin/${id}`
+        } else {
+            document.getElementById('id').value = "";
+            document.getElementById('not-found-msg').style.display = 'block';
+        }
+    })
+    socket.emit('student_roomExist', {id});
 }
 
 document.getElementById('id').addEventListener('input', function (evt) {

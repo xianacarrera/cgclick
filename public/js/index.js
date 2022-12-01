@@ -1,3 +1,4 @@
+
 let currentSlideNumber;
 
 function init(){
@@ -62,8 +63,13 @@ function link_listener(e){
 }
 function addEventListeners(){
     document.querySelectorAll("a").forEach(link=>{
-        link.removeEventListener("click", link_listener);
-        link.addEventListener("click", link_listener);
+        if (isTeacher) {
+            link.removeEventListener("click", link_listener);
+            link.addEventListener("click", link_listener);
+        } else {
+            link.removeEventListener("click", (ev) => ev.preventDefault());
+            link.addEventListener("click", (ev) => ev.preventDefault()); 
+        }
     });
 }
 
