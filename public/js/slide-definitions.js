@@ -1,5 +1,5 @@
 slideDefinitions = {
-    slide_triangle_cube: {
+    playground_triangle_cube: {
         displayFunction: displaySlideTriangleCube,
         leaveFunction: leaveAndCancelAnimationFrame,
         defaultParams: {
@@ -7,11 +7,11 @@ slideDefinitions = {
             slider_depth_test: false,
         },
     },
-    slide_parametrization: {
+    question_parametrization: {
         displayFunction: displaySlideParametrization,
         leaveFunction: leaveAndCancelAnimationFrame,
     },
-    slide_phong_model: {
+    playground_phong_model: {
         displayFunction: displaySlidePhongModel,
         leaveFunction: leaveAndCancelAnimationFrame,
         defaultParams: {
@@ -22,11 +22,11 @@ slideDefinitions = {
             slider_lights: false,
         },
     },
-    slide_midpoint: {
+    question_midpoint: {
         displayFunction: displaySlideMidpoint,
         leaveFunction: () => {},
     },
-    slide_image_parameters: {
+    question_image_parameters: {
         displayFunction: displaySlideImageParameters,
         leaveFunction: leaveAndCancelAnimationFrame,
     },
