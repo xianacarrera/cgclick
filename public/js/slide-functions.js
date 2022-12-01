@@ -5,20 +5,26 @@ function displaySlideOpenQuestion() {
 }
 */
 
+let cardClasses = "d-flex flex-wrap justify-content-between p-1 border border-2 border-primary rounded-3 bg-light";
+let noClasses = "";
+
 function displaySlideTriangleCube(params) {
-    document.getElementById("slide").innerHTML = ejs.views_slide_triangle_cube(params);
+    document.getElementById("content").className = cardClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_triangle_cube(params);
     start_slide_triangle_cube(params);
 }
 
 function displaySlideParametrization() {
-    document.getElementById("slide").innerHTML = ejs.views_slide_parametrization({});
+    document.getElementById("content").className = cardClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_parametrization({});
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
     MathJax.typeset();
     showShape();
 }
 
 function displaySlidePhongModel() {
-    document.getElementById("slide").innerHTML = ejs.views_slide_phong_model({});
+    document.getElementById("content").className = cardClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_phong_model({});
     start_slide_phong_model();
 }
 
@@ -35,7 +41,8 @@ function showShape() {
 }
 
 function displayAboutSlide(params) {
-    document.getElementById("slide").innerHTML = ejs.views_slide_about(params);
+    document.getElementById("content").className = noClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_about(params);
     document.querySelectorAll("img").forEach(img => img.addEventListener("click", (event) => {
         document.querySelectorAll("img").forEach(img => {
             if (img !== event.target) {
@@ -54,13 +61,15 @@ function leaveAndCancelAnimationFrame() {
 }
 
 function displaySlideMidpoint() {
-    document.getElementById("slide").innerHTML = ejs.views_slide_midpoint({});
+    document.getElementById("content").className = cardClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_midpoint({});
     startMidpoint();
     addMidpointListeners();
 }
 
 function displaySlideImageParameters() {
-    document.getElementById("slide").innerHTML = ejs.views_slide_image_parameters({});
+    document.getElementById("content").className = cardClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_image_parameters({});
     ip_start(
         { azimuthal: -70, polar: 60 },                           // Directional light
         { x: -200, y: 150, z: -40, intensity: 30 },              // Point light
