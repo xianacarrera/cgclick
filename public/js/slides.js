@@ -25,13 +25,55 @@ const slides = [
         type: "question_parametrization",
     },
     {
+        name: "Gamma",
+        title: "Gamma Correction",
+        type: "playground_phong_model",
+        params: {
+            slider_gamma: true,
+        },
+    },
+    {
+        name: "Tone Mapping",
+        title: "Tone Mapping",
+        type: "playground_phong_model",
+        params: {
+            slider_tone_mapping: true,
+        },
+    },
+    {
+        name: "Field Of View",
+        title: "Field Of View",
+        descriptionAfter: "Do you see how the ratio of sides of the cube doesn't change?",
+        type: "playground_phong_model",
+        params: {
+            slider_camera_fov: true,
+        },
+    },
+    {
+        name: "Moving camera",
+        title: "Moving the camera around",
+        type: "playground_phong_model",
+        params: {
+            slider_camera_angles: true,
+            slider_camera_distance: true,
+        },
+    },
+    {
+        name: "Moving light",
+        title: "Moving the light around",
+        type: "playground_phong_model",
+        params: {
+            slider_lights: true,
+        },
+    },
+    {
         name: "Phong",
         title: "Phong Model Parameters",
         type: "playground_phong_model",
         params: {
             slider_camera_angles: true,
-            // slider_camera_distance: true,
-            // slider_camera_fov: true,
+            slider_camera_distance: true,
+            slider_camera_fov: true,
             slider_lights: true,
             slider_face_culling: true,
             slider_depth_test: true,
