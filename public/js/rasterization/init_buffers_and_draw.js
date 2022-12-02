@@ -12,6 +12,7 @@ var plane_vao;
 var is_triangle_shown;
 var is_culling_on;
 var is_depth_test_on;
+var degrees_to_radians = 1 / 360 * 2 * Math.PI;
 
 /* A function which takes the arrays containing values of the attributes,
              * and then, creates VBOa, VAOs, and sets up the attributes. 
@@ -135,8 +136,7 @@ function draw_TC(){
     currentSlideInfo.requestID = requestID;
 }
 
-function draw_PM(params){
-    let degrees_to_radians = 1 / 360 * 2 * Math.PI;
+function getCameraPosition(params) {
     // input variables for controling camera
     let camera_azimuthal_angle = -45 * degrees_to_radians;
     let camera_polar_angle = 60 * degrees_to_radians;
@@ -148,6 +148,18 @@ function draw_PM(params){
     if (params.slider_camera_distance) {
         camera_distance = document.getElementById("camera_distance").value / 10;
     }
+
+    // computation of camera position
+    let camera_x = camera_distance * Math.sin(camera_polar_angle) * Math.cos(camera_azimuthal_angle);
+    let camera_y = camera_distance * Math.cos(camera_polar_angle);
+    let camera_z = - camera_distance * Math.sin(camera_polar_angle) * Math.sin(camera_azimuthal_angle);
+    return camera_position = vec3.fromValues(camera_x, camera_y, camera_z);
+}
+
+function draw_PM(params){
+    let camera_position = getCameraPosition(params);
+
+    // camera fov
     let camera_fov = 45 * degrees_to_radians;
     if (params.slider_camera_fov) {
         camera_fov = document.getElementById("camera_fov").value * degrees_to_radians;
@@ -161,12 +173,6 @@ function draw_PM(params){
         light_polar_angle = document.getElementById("light_polar_angle").value * degrees_to_radians;
     }
     const light_distance = 10;
-
-    // computation of camera position
-    let camera_x = camera_distance * Math.sin(camera_polar_angle) * Math.cos(camera_azimuthal_angle);
-    let camera_y = camera_distance * Math.cos(camera_polar_angle);
-    let camera_z = - camera_distance * Math.sin(camera_polar_angle) * Math.sin(camera_azimuthal_angle);
-    let camera_position = vec3.fromValues(camera_x, camera_y, camera_z);
 
     // computation of light position
     let light_x = light_distance * Math.sin(light_polar_angle) * Math.cos(light_azimuthal_angle);
