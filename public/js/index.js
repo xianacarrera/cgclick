@@ -1,3 +1,4 @@
+
 let currentSlideNumber;
 
 function init(){
@@ -18,7 +19,9 @@ function changeSlide(newSlideNumber){
     leaveSlide();
     currentSlideNumber = newSlideNumber;
     displaySlide(currentSlideNumber);
-    emitChangeSlide(currentSlideNumber);
+    if (isTeacher) {
+        emitChangeSlide(currentSlideNumber);
+    }
 }
 
 function leaveSlide() {
