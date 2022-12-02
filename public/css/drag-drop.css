@@ -1,7 +1,3 @@
-.hide {
-    display: none;
-}
-
 .drop-box *{
     /* Avoid dropLeave to be fired when hovering over children */
     pointer-events: none;

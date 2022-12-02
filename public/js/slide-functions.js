@@ -17,20 +17,23 @@ function boxDragStart(e) {
     e.dataTransfer.setData("text/plain", e.target.id);
     e.target.classList.add("bg-dark")      // Add a background color
     e.target.classList.add("text-white")   // Add a text color
-    setTimeout(() => {
-        e.target.classList.add("hide");     // Hide the text while dragging
+    setTimeout(() => {      // So that the dragged element is not affected
+        e.target.classList.add("bg-white");
+        e.target.classList.add("text-white");   
     }, 0);
 }
 
 // The element is dragged over an area where it can be dropped 
 // e.target is the area 
 function boxDragEnter(e){
+    e.preventDefault();     // Make the drop target valid
     e.target.classList.add("bg-info");
 }
 
 // The element is being dragged over an area where it can be dropped (fires continuously)
 // e.target is the area 
 function boxDragOver(e) {
+    e.preventDefault();     // Make the drop target valid
     e.target.classList.add("bg-info");
 }
 
@@ -43,7 +46,21 @@ function boxDragLeave(e) {
 // The element is dropped on a target
 // e.target is the area 
 function boxDrop(e) {
+    // Get the id of the option
+    let optionId = e.dataTransfer.getData("text/plain");
+    let option = document.getElementById(optionId);
+    
+    // Swap the option with the target
+    [e.target.textContent, option.textContent] = [option.textContent, e.target.textContent];
+
+    e.preventDefault();    // Recommended in browsers
+    
+    // Remove the background color and make the element visible
     e.target.classList.remove("bg-info");
+    option.classList.remove("hide");
+    option.classList.remove("bg-dark")      // Remove the background
+    option.classList.remove("text-white")   // Remove the text color
+    option.classList.add("text-dark")       // Reset the text color
 }
 
 function displaySlideParametrization() {
