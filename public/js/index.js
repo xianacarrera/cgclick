@@ -1,4 +1,6 @@
 let currentSlideNumber;
+let slide_mutex = false;
+
 
 function init(){
     currentSlideNumber = 0;
@@ -10,6 +12,9 @@ function init(){
 }
 
 function changeSlide(newSlideNumber){
+    while (slide_mutex) {
+        console.log("Waiting for slide_mutex to be released...");
+    }
 
     // Don't do anything if we're staying on the same slide
     if (newSlideNumber == currentSlideNumber) {
@@ -23,6 +28,10 @@ function changeSlide(newSlideNumber){
 }
 
 function leaveSlide() {
+    while (slide_mutex) {
+        console.log("Waiting for slide_mutex to be released...");
+    }
+
     console.log("Leaving current slide: " + currentSlideNumber);
 
     // Execute code necessary before leaving the current slide
