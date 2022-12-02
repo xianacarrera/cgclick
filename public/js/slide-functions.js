@@ -17,16 +17,27 @@ function boxDragStart(e) {
     e.dataTransfer.setData("text/plain", e.target.id);
     e.target.classList.add("bg-dark")      // Add a background color
     e.target.classList.add("text-white")   // Add a text color
+
+    // Remove the background from previous drags
+    e.target.classList.remove("bg-white");
+    e.target.classList.remove("text-dark");
+
     setTimeout(() => {      // So that the dragged element is not affected
         e.target.classList.add("bg-white");
-        e.target.classList.add("text-white");   
+        e.target.classList.add("text-white");
+
+        // The original option doesn't react to drag events
+        e.target.removeEventListener("dragenter", boxDragEnter);
+        e.target.removeEventListener("dragover", boxDragOver);
+        e.target.removeEventListener("dragleave", boxDragLeave);
     }, 0);
 }
 
 // The element is dragged over an area where it can be dropped 
 // e.target is the area 
-function boxDragEnter(e){
+function boxDragEnter(e) {
     e.preventDefault();     // Make the drop target valid
+    e.target.classList.remove("bg-white");
     e.target.classList.add("bg-info");
 }
 
@@ -34,6 +45,7 @@ function boxDragEnter(e){
 // e.target is the area 
 function boxDragOver(e) {
     e.preventDefault();     // Make the drop target valid
+    e.target.classList.remove("bg-white");
     e.target.classList.add("bg-info");
 }
 
@@ -41,6 +53,7 @@ function boxDragOver(e) {
 // e.target is the area 
 function boxDragLeave(e) {
     e.target.classList.remove("bg-info");
+    e.target.classList.add("bg-white");
 }
 
 // The element is dropped on a target
@@ -49,12 +62,17 @@ function boxDrop(e) {
     // Get the id of the option
     let optionId = e.dataTransfer.getData("text/plain");
     let option = document.getElementById(optionId);
-    
+
     // Swap the option with the target
     [e.target.textContent, option.textContent] = [option.textContent, e.target.textContent];
 
-    e.preventDefault();    // Recommended in browsers
-    
+    e.preventDefault();  
+
+    // Restore drag events on the original option
+    option.addEventListener("dragenter", boxDragEnter);
+    option.addEventListener("dragover", boxDragOver);
+    option.addEventListener("dragleave", boxDragLeave);
+
     // Remove the background color and make the element visible
     e.target.classList.remove("bg-info");
     option.classList.remove("hide");
@@ -68,7 +86,7 @@ function displaySlideParametrization() {
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
     document.querySelectorAll(".drop-box.card").forEach(box => {
         box.addEventListener("dragstart", boxDragStart);
-        box.addEventListener("dragenter", boxDragEnter); 
+        box.addEventListener("dragenter", boxDragEnter);
         box.addEventListener("dragover", boxDragOver);
         box.addEventListener("dragleave", boxDragLeave);
         box.addEventListener("drop", boxDrop);
