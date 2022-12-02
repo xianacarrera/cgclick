@@ -13,12 +13,12 @@ function displaySlideTriangleCube(params) {
 function displaySlideParametrization() {
     document.getElementById("slide").innerHTML = ejs.views_slide_parametrization({});
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
-    document.querySelectorAll(".object-draggable-name").forEach(text => text.addEventListener("dragstart", (e) => {
+    document.querySelectorAll(".drop-box").forEach(box => box.addEventListener("dragstart", (e) => {
         // Data is transferred between dragstart and drop events using dataTransfer
         // In this case, it will have a plain text format. The information passed is the id of the option
-        e.dataTransfer.setData("text/plain", text.id);
+        e.dataTransfer.setData("text/plain", box.id);
         setTimeout(() => {
-            text.classList.add("hide");     // Hide the text while dragging
+            box.classList.add("hide");     // Hide the text while dragging
         }, 0);
     }));
 
