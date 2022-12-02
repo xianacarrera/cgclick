@@ -6,7 +6,7 @@ function displaySlideOpenQuestion() {
 }
 */
 
-let cardClasses = "d-inline-flex flex-wrap justify-content-start p-1 border border-2 border-primary rounded-3 bg-light";
+let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
 let noClasses = "";
 
 function displaySlideTriangleCube(params) {
@@ -23,10 +23,10 @@ function displaySlideParametrization() {
     showShape();
 }
 
-function displaySlidePhongModel() {
+function displaySlidePhongModel(params) {
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_phong_model({});
-    start_slide_phong_model();
+    document.getElementById("content").innerHTML = ejs.views_slide_phong_model(params);
+    start_slide_phong_model(params);
 }
 
 function showShape() {
