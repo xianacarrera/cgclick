@@ -10,17 +10,52 @@ function displaySlideTriangleCube(params) {
     start_slide_triangle_cube(params);
 }
 
+// The element starts to be dragged
+function boxDragStart(e) {
+    // Data is transferred between dragstart and drop events using dataTransfer
+    // In this case, it will have a plain text format. The information passed is the id of the option
+    e.dataTransfer.setData("text/plain", e.target.id);
+    e.target.classList.add("bg-dark")      // Add a background color
+    e.target.classList.add("text-white")   // Add a text color
+    setTimeout(() => {
+        e.target.classList.add("hide");     // Hide the text while dragging
+    }, 0);
+}
+
+// The element is dragged over an area where it can be dropped 
+// e.target is the area 
+function boxDragEnter(e){
+    e.target.classList.add("bg-info");
+}
+
+// The element is being dragged over an area where it can be dropped (fires continuously)
+// e.target is the area 
+function boxDragOver(e) {
+    e.target.classList.add("bg-info");
+}
+
+// The element is dragged out of an area where it could have been dropped
+// e.target is the area 
+function boxDragLeave(e) {
+    e.target.classList.remove("bg-info");
+}
+
+// The element is dropped on a target
+// e.target is the area 
+function boxDrop(e) {
+    e.target.classList.remove("bg-info");
+}
+
 function displaySlideParametrization() {
     document.getElementById("slide").innerHTML = ejs.views_slide_parametrization({});
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
-    document.querySelectorAll(".drop-box").forEach(box => box.addEventListener("dragstart", (e) => {
-        // Data is transferred between dragstart and drop events using dataTransfer
-        // In this case, it will have a plain text format. The information passed is the id of the option
-        e.dataTransfer.setData("text/plain", box.id);
-        setTimeout(() => {
-            box.classList.add("hide");     // Hide the text while dragging
-        }, 0);
-    }));
+    document.querySelectorAll(".drop-box.card").forEach(box => {
+        box.addEventListener("dragstart", boxDragStart);
+        box.addEventListener("dragenter", boxDragEnter); 
+        box.addEventListener("dragover", boxDragOver);
+        box.addEventListener("dragleave", boxDragLeave);
+        box.addEventListener("drop", boxDrop);
+    });
 
     MathJax.typeset();
     showShape();
