@@ -12,7 +12,19 @@ var plane_vao;
 var is_triangle_shown;
 var is_culling_on;
 var is_depth_test_on;
-var degrees_to_radians = 1 / 360 * 2 * Math.PI;
+const DEGREES_TO_RADIANS = 1 / 360 * 2 * Math.PI;
+
+// default values
+const CAMERA_AZIMUTHAL_ANGLE = -45 * DEGREES_TO_RADIANS;
+const CAMERA_POLAR_ANGLE = 60 * DEGREES_TO_RADIANS;
+const CAMERA_DISTANCE = 100 / 10;
+const CAMERA_FOV = 45 * DEGREES_TO_RADIANS;
+const LIGHT_AZIMUTHAL_ANGLE = -70 * DEGREES_TO_RADIANS;
+const LIGHT_POLAR_ANGLE = 60 * DEGREES_TO_RADIANS;
+const LIGHT_DISTANCE = 10;
+const GAMMA = 2;
+const ALPHA = 1;
+const BETA = 1;
 
 /* A function which takes the arrays containing values of the attributes,
              * and then, creates VBOa, VAOs, and sets up the attributes. 
@@ -104,19 +116,11 @@ function draw_TC(){
     gl.clear(gl.DEPTH_BUFFER_BIT);
 
     // Enable/disable face culling and depth test
-    if (is_culling_on) {
-        gl.enable(gl.CULL_FACE);
-    }
-    else {
-        gl.disable(gl.CULL_FACE);
-    }
+    if (is_culling_on) { gl.enable(gl.CULL_FACE); }
+    else { gl.disable(gl.CULL_FACE); }
 
-    if (is_depth_test_on) {
-        gl.enable(gl.DEPTH_TEST);
-    }
-    else {
-        gl.disable(gl.DEPTH_TEST);
-    }
+    if (is_depth_test_on) { gl.enable(gl.DEPTH_TEST); }
+    else { gl.disable(gl.DEPTH_TEST); }
 
     // enable the GLSL program for the rendering
     gl.useProgram(shaderProgram);
@@ -138,13 +142,13 @@ function draw_TC(){
 
 function getCameraPosition(params) {
     // input variables for controling camera
-    let camera_azimuthal_angle = -45 * degrees_to_radians;
-    let camera_polar_angle = 60 * degrees_to_radians;
+    let camera_azimuthal_angle = CAMERA_AZIMUTHAL_ANGLE;
+    let camera_polar_angle = CAMERA_POLAR_ANGLE;
     if (params.slider_camera_angles) {
-        camera_azimuthal_angle = document.getElementById("camera_azimuthal_angle").value * degrees_to_radians;
-        camera_polar_angle = document.getElementById("camera_polar_angle").value * degrees_to_radians;
+        camera_azimuthal_angle = document.getElementById("camera_azimuthal_angle").value * DEGREES_TO_RADIANS;
+        camera_polar_angle = document.getElementById("camera_polar_angle").value * DEGREES_TO_RADIANS;
     }
-    let camera_distance = 100 / 10;
+    let camera_distance = CAMERA_DISTANCE;
     if (params.slider_camera_distance) {
         camera_distance = document.getElementById("camera_distance").value / 10;
     }
@@ -158,18 +162,17 @@ function getCameraPosition(params) {
 
 function getLightDirection(params) {
     // input variables for controling light
-    let light_azimuthal_angle = -70 * degrees_to_radians;
-    let light_polar_angle = 60 * degrees_to_radians;
+    let light_azimuthal_angle = LIGHT_AZIMUTHAL_ANGLE;
+    let light_polar_angle = LIGHT_POLAR_ANGLE;
     if (params.slider_lights) {
-        light_azimuthal_angle = document.getElementById("light_azimuthal_angle").value * degrees_to_radians;
-        light_polar_angle = document.getElementById("light_polar_angle").value * degrees_to_radians;
+        light_azimuthal_angle = document.getElementById("light_azimuthal_angle").value * DEGREES_TO_RADIANS;
+        light_polar_angle = document.getElementById("light_polar_angle").value * DEGREES_TO_RADIANS;
     }
-    const light_distance = 10;
 
     // computation of light position
-    let light_x = light_distance * Math.sin(light_polar_angle) * Math.cos(light_azimuthal_angle);
-    let light_y = light_distance * Math.cos(light_polar_angle);
-    let light_z = - light_distance * Math.sin(light_polar_angle) * Math.sin(light_azimuthal_angle);
+    let light_x = LIGHT_DISTANCE * Math.sin(light_polar_angle) * Math.cos(light_azimuthal_angle);
+    let light_y = LIGHT_DISTANCE * Math.cos(light_polar_angle);
+    let light_z = - LIGHT_DISTANCE * Math.sin(light_polar_angle) * Math.sin(light_azimuthal_angle);
     return vec3.fromValues(light_x, light_y, light_z);    
 }
 
@@ -177,9 +180,9 @@ function draw_PM(params){
     let camera_position = getCameraPosition(params);
 
     // camera fov
-    let camera_fov = 45 * degrees_to_radians;
+    let camera_fov = CAMERA_FOV;
     if (params.slider_camera_fov) {
-        camera_fov = document.getElementById("camera_fov").value * degrees_to_radians;
+        camera_fov = document.getElementById("camera_fov").value * DEGREES_TO_RADIANS;
     }
 
     let light_direction = getLightDirection(params);
@@ -222,7 +225,7 @@ function draw_PM(params){
 
     // gamma
     let gammaLocation = gl.getUniformLocation(shaderProgram, "gamma");
-    let gamma = 2.2;
+    let gamma = GAMMA;
     if (params.slider_gamma) {
         gamma = document.getElementById("gamma_correction").value;
     }
@@ -231,8 +234,8 @@ function draw_PM(params){
     // tone mapping
     let alphaLocation = gl.getUniformLocation(shaderProgram, "alpha");
     let betaLocation = gl.getUniformLocation(shaderProgram, "beta");
-    let alpha = 1;
-    let beta = 1;
+    let alpha = ALPHA;
+    let beta = BETA;
     if (params.slider_tone_mapping) {
         alpha = document.getElementById("alpha").value;
         beta = document.getElementById("beta").value;
