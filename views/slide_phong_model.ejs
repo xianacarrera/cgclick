@@ -16,11 +16,11 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
     <% } %>
     <% if (slider_camera_angles) { %>
         <div class="slidecontainer">
-            Azimuthal angle:</br><input type="range" min="-270" max="90" value="-45" id="camera_azimuthal_angle" oninput="this.nextElementSibling.value = this.value + '°'">
-            <output>-45°</output>
+            Azimuthal angle:</br><input type="range" min="0" max="360" value="225" id="camera_azimuthal_angle" oninput="this.nextElementSibling.value = this.value + '°'">
+            <output>225°</output>
         </div>
         <div class="slidecontainer">
-            Polar angle:</br><input type="range" min="1" max="179" value="60" id="camera_polar_angle" oninput="this.nextElementSibling.value = this.value + '°'">
+            Polar angle:</br><input type="range" min="1" max="180" value="60" id="camera_polar_angle" oninput="this.nextElementSibling.value = this.value + '°'">
             <output>60°</output>
         </div>
     <% } %>
@@ -39,11 +39,11 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
     <% if (slider_lights) { %>
         <h4>Light:</h4>
         <div class="slidecontainer">
-            Azimuthal angle:</br><input type="range" min="-270" max="90" value="-70" id="light_azimuthal_angle" oninput="this.nextElementSibling.value = this.value + '°'">
-            <output>-70°</output>
+            Azimuthal angle:</br><input type="range" min="0" max="360" value="200" id="light_azimuthal_angle" oninput="this.nextElementSibling.value = this.value + '°'">
+            <output>200°</output>
         </div>
         <div class="slidecontainer">
-            Polar angle:</br><input type="range" min="1" max="90" value="60" id="light_polar_angle" oninput="this.nextElementSibling.value = this.value + '°'">
+            Polar angle:</br><input type="range" min="1" max="180" value="60" id="light_polar_angle" oninput="this.nextElementSibling.value = this.value + '°'">
             <output>60°</output>
         </div>
     <% } %>
