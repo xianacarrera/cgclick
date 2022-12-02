@@ -17,7 +17,10 @@ function changeSlide(newSlideNumber){
         return;
     }
 
-    if (slide_mutex) return;        // Ignore repeated clicks
+    if (slide_mutex){
+        console.log("Slide mutex is locked, not changing slide");
+        return;
+    }
     slide_mutex = true;
 
     leaveSlide();
@@ -26,10 +29,11 @@ function changeSlide(newSlideNumber){
     /*
     while (slide_mutex) {
         console.log("Waiting for slide_mutex to be released...");
-    }*/
+    }
     
     displaySlide(currentSlideNumber);
     slide_mutex = false;
+    */
 }
 
 function leaveSlide() {
