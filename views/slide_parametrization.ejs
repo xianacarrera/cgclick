@@ -1,27 +1,27 @@
 <div class="d-flex flex-row flex-nowrap">
-    <div class="p-2 drop-targets">
-        <div class="drop-box card p-3 m-3" draggable="true" id="drop-box1">
+    <div class="custom-spacing drop-targets d-flex flex-column justify-content-evenly">
+        <div class="drop-box card p-3" draggable="true" id="drop-box1">
             <div class="object-draggable-name card-title">
-                <p>Some text</p>
+                <p>Option 1</p>
             </div>
         </div>
-        <div class="drop-box card p-3 m-3" draggable="true" id="drop-box2">
+        <div class="drop-box card p-3" draggable="true" id="drop-box2">
             <div class="object-draggable-name card-title">
-                <p>Some more</p>
+                <p>Option 2</p>
             </div>
         </div>
-        <div class="drop-box card p-3 m-3"  draggable="true" id="drop-box3">
+        <div class="drop-box card p-3"  draggable="true" id="drop-box3">
             <div class="object-draggable-name card-title">
-                <p>Some more more</p>
+                <p>Option 3</p>
             </div>
         </div>
     </div>
-    <div class="btn-group-lg btn-group d-flex flex-column p-2" data-toggle="buttons">
-        <div class="my-2">
+    <div class="custom-spacing btn-group-lg btn-group d-flex flex-column justify-content-evenly" data-toggle="buttons">
+        <div class="my-2 form-group row align-items-center">
             <!-- mx-2 specifies both margin left and right -->
-            <label class="btn btn-primary">
-                <input type="radio" name="param_options" value="0" id="option1" autocomplete="off" checked />
-                <p>
+            <label class="btn btn-primary p-2">
+                <input type="radio" class="btn-check" name="param_options" value="0" id="option1" autocomplete="off" />
+                <p class="mt-2 mx-2">
                     \(x = (R_1 + R_2 \cos(v)) cos(u)\)<br />
                     \(y = (R_1 + R_2 \cos(v)) sin(u)\)<br />
                     \(z = R_2 \sin(v)\)<br />
@@ -29,10 +29,10 @@
                 </p>
             </label>
         </div>
-        <div class="my-2">
-            <label class="btn btn-primary">
-                <input type="radio" name="param_options" value="1" id="option2" autocomplete="off" />
-                <p>
+        <div class="my-2 form-group row align-items-center">
+            <label class="btn btn-primary p-2">
+                <input type="radio" class="btn-check" name="param_options" value="1" id="option2" autocomplete="off" />
+                <p class="mt-2 mx-2">
                     \(x = r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \cos(v) \)<br />
                     \(y = (r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \sin(v) \)<br />
                     \(z = \sin(v / 2) * \sin(u) + \cos(v / 2) * \sin(2 * u) \)<br />
@@ -40,10 +40,10 @@
                 </p>
             </label>
         </div>
-        <div class="my-2">
-            <label class="btn btn-primary">
-                <input type="radio" name="param_options" value="2" id="option3" autocomplete="off" />
-                <p>
+        <div class="my-2 form-group row align-items-center">
+            <label class="btn btn-primary p-2">
+                <input type="radio" class="btn-check" name="param_options" value="2" id="option3" autocomplete="off" />
+                <p class="mt-2 mx-2">
                     \(x = \rho \cos(\theta) \sin(\phi) \)<br />
                     \(y = \rho \sin(\theta) \sin(\phi) \)<br />
                     \(z = \rho \cos(\phi) \)<br />
@@ -52,8 +52,9 @@
             </label>
         </div>
     </div>
-    <div class="d-flex justify-content-center p-2">
+    <div class="d-flex flex-column justify-content-center">
         <!-- Automatically set margin left and right to center -->
         <canvas id="threejs-canvas" width="520" height="600"></canvas>
+        <button style="max-width: 70px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary">Done</button>
     </div>
 </div>

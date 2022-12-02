@@ -2,3 +2,15 @@
     /* Avoid dropLeave to be fired when hovering over children */
     pointer-events: none;
 }
+
+.drop-box {
+    height: 100px;
+    width: 100px;
+}
+
+.custom-spacing {
+    padding-top: 5%;
+    padding-bottom: 5%;
+    padding-left: 20px;
+    padding-right: 100px;
+}
