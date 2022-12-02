@@ -153,19 +153,11 @@ function getCameraPosition(params) {
     let camera_x = camera_distance * Math.sin(camera_polar_angle) * Math.cos(camera_azimuthal_angle);
     let camera_y = camera_distance * Math.cos(camera_polar_angle);
     let camera_z = - camera_distance * Math.sin(camera_polar_angle) * Math.sin(camera_azimuthal_angle);
-    return camera_position = vec3.fromValues(camera_x, camera_y, camera_z);
+    return vec3.fromValues(camera_x, camera_y, camera_z);
 }
 
-function draw_PM(params){
-    let camera_position = getCameraPosition(params);
-
-    // camera fov
-    let camera_fov = 45 * degrees_to_radians;
-    if (params.slider_camera_fov) {
-        camera_fov = document.getElementById("camera_fov").value * degrees_to_radians;
-    }
-    
-    // lights
+function getLightDirection(params) {
+    // input variables for controling light
     let light_azimuthal_angle = -70 * degrees_to_radians;
     let light_polar_angle = 60 * degrees_to_radians;
     if (params.slider_lights) {
@@ -178,7 +170,19 @@ function draw_PM(params){
     let light_x = light_distance * Math.sin(light_polar_angle) * Math.cos(light_azimuthal_angle);
     let light_y = light_distance * Math.cos(light_polar_angle);
     let light_z = - light_distance * Math.sin(light_polar_angle) * Math.sin(light_azimuthal_angle);
-    let light_direction = vec3.fromValues(light_x, light_y, light_z);
+    return vec3.fromValues(light_x, light_y, light_z);    
+}
+
+function draw_PM(params){
+    let camera_position = getCameraPosition(params);
+
+    // camera fov
+    let camera_fov = 45 * degrees_to_radians;
+    if (params.slider_camera_fov) {
+        camera_fov = document.getElementById("camera_fov").value * degrees_to_radians;
+    }
+
+    let light_direction = getLightDirection(params);
 
     // definition of matrices
     var translation_matrix = mat4.create();
@@ -197,19 +201,11 @@ function draw_PM(params){
     gl.clearColor(0.2, 0.2, 0.2, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     // Enable/disable face culling and depth test
-    if (is_culling_on) {
-        gl.enable(gl.CULL_FACE);
-    }
-    else {
-        gl.disable(gl.CULL_FACE);
-    }
+    if (is_culling_on) { gl.enable(gl.CULL_FACE); }
+    else { gl.disable(gl.CULL_FACE); }
 
-    if (is_depth_test_on) {
-        gl.enable(gl.DEPTH_TEST);
-    }
-    else {
-        gl.disable(gl.DEPTH_TEST);
-    }
+    if (is_depth_test_on) { gl.enable(gl.DEPTH_TEST); }
+    else { gl.disable(gl.DEPTH_TEST); }
 
     // enable the GLSL program for the rendering
     gl.useProgram(shaderProgram);
