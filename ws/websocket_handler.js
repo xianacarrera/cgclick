@@ -21,7 +21,11 @@ class WebSocketHandler {
         // Participants must login with the ID, disregarding whether it is a teacher or not.
         socket.on("generic_login", (login_id) => this.on_login(socket, login_id.id));
         // changeSlide topic should be called whenever slide are sent
-        socket.on('teacher_changeSlide', (new_slide) => this.on_change_slide(new_slide))
+        socket.on('teacher_changeSlide', (new_slide) => this.on_change_slide(new_slide));
+        // create will create a new session
+        socket.on('teacher_createRoom', (room) => this.on_create_room(socket, room.id));
+        // check if a student room exist
+        socket.on('student_roomExist', (room) => this.on_room_exist(socket, room.id));
     }
 
     /**
@@ -34,15 +38,32 @@ class WebSocketHandler {
     }
 
     /**
+    * Handles room creation.
+    * @param {Socket} socket client socket.
+    * @param {String} id the id of the room we want to join.
+    */
+    on_create_room(socket, id) {
+        this.states[id] = new State(0); // Start from first slide.
+        socket.emit("generic_create_done", {}); // Just send this when we are done.
+    }
+
+    /**
+    * Returns if a room exist.
+    * @param {Socket} socket client socket.
+    * @param {String} id the id of the room we want to join.
+    */
+    on_room_exist(socket, id) {
+        socket.emit("generic_check_done", {status: this.states.hasOwnProperty(id)}); // Just send this when we are done.
+    }
+
+    /**
     * Handles login of new partipants and send them the state, if the room do not exist create it.
     * @param {Socket} socket client socket.
     * @param {String} id the id of the room we want to join.
     */
     on_login(socket, id) {
-        console.log(id)
         // Create new room if it does not exist.
         if (!this.states.hasOwnProperty(id)) {
-            console.log("a" + id)
             this.states[id] = new State(0); // Start from first slide
         }
         this.states[id].addSocket(socket)
@@ -57,6 +78,14 @@ class WebSocketHandler {
     on_update(id, state_obj) {
         // update topic should be received by the client and update current slide and whatever accordingly.
         this.states[id].broadcast('generic_update', state_obj)
+    }
+
+    /**
+    * Return the states in the handler.
+    * @return {Object} states.
+    */
+    getStates() {
+        return this.states;
     }
 }
 

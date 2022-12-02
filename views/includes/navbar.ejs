@@ -1,5 +1,5 @@
 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-  Pin: <%= id %>
+  Pin: <%= id %>  <% if (isTeacher) { %> <span class="teacher">Teacher</span> <% } else { %> <span class="student">Student</span> <% } %>
   <% slides.forEach((slide, index) => { %>
 
     <% if (index == currentSlideNumber) { %>

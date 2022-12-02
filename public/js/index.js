@@ -1,3 +1,4 @@
+
 let currentSlideNumber;
 let slide_mutex = false;
 
@@ -34,6 +35,9 @@ function changeSlide(newSlideNumber){
     displaySlide(currentSlideNumber);
     slide_mutex = false;
     */
+    if (isTeacher) {
+        emitChangeSlide(currentSlideNumber);
+    }
 }
 
 function leaveSlide() {

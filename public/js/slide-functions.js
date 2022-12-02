@@ -17,9 +17,9 @@ function displaySlideParametrization() {
     showShape();
 }
 
-function displaySlidePhongModel() {
-    document.getElementById("slide").innerHTML = ejs.views_slide_phong_model({});
-    start_slide_phong_model();
+function displaySlidePhongModel(params) {
+    document.getElementById("slide").innerHTML = ejs.views_slide_phong_model(params);
+    start_slide_phong_model(params);
 }
 
 function showShape() {
