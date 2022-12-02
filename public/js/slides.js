@@ -20,8 +20,9 @@ const slides = [
         },
     },
     {
-        name: "Parametrization",
+        name: "Shape Parametrization",
         title: "Shape Parametrization",
+        descriptionBefore: "Check the right parametrization for a torus",
         type: "question_parametrization",
     },
     {
