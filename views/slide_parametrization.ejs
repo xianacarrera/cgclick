@@ -2,40 +2,34 @@
 
 <div id="controls" class="m-3 d-flex flex-column btn-group-lg btn-group" data-toggle="buttons">
 
-    <div class="mb-2 btn btn-light rounded-3 d-flex justify-content-start">
+    <label class="mb-2 btn btn-light rounded-3 d-flex justify-content-start">
         <input type="radio" name="param_options" value="0" id="option1" class="form-check-input" autocomplete="off" checked />
-        <label>
-            <p class="ps-3 text-start">
-                \(x = (R_1 + R_2 \cos(v)) cos(u)\)<br />
-                \(y = (R_1 + R_2 \cos(v)) sin(u)\)<br />
-                \(z = R_2 \sin(v)\)<br />
-                \(u \in [0, 2\pi),\; v \in [0, 2\pi)\)
-            </p>
-        </label>
-    </div>
+        <p class="ps-3 text-start">
+            \(x = (R_1 + R_2 \cos(v)) cos(u)\)<br />
+            \(y = (R_1 + R_2 \cos(v)) sin(u)\)<br />
+            \(z = R_2 \sin(v)\)<br />
+            \(u \in [0, 2\pi),\; v \in [0, 2\pi)\)
+        </p>
+    </label>
 
-    <div class="mb-2 btn btn-light rounded-3 d-flex justify-content-start">
+    <label class="mb-2 btn btn-light rounded-3 d-flex justify-content-start">
         <input type="radio" name="param_options" value="1" id="option2" class="form-check-input" autocomplete="off" />
-        <label>
-            <p class="ps-3 text-start">
-                \(x = r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \cos(v) \)<br />
-                \(y = (r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \sin(v) \)<br />
-                \(z = \sin(v / 2) * \sin(u) + \cos(v / 2) * \sin(2 * u) \)<br />
-                \(u \in [0, 2\pi),\; v \in [-\pi, \pi)\)
-            </p>
-        </label>
-    </div>
+        <p class="ps-3 text-start">
+            \(x = r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \cos(v) \)<br />
+            \(y = (r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \sin(v) \)<br />
+            \(z = \sin(v / 2) * \sin(u) + \cos(v / 2) * \sin(2 * u) \)<br />
+            \(u \in [0, 2\pi),\; v \in [-\pi, \pi)\)
+        </p>
+    </label>
 
-    <div class="btn btn-light rounded-3 d-flex justify-content-start">
+    <label class="btn btn-light rounded-3 d-flex justify-content-start">
         <input type="radio" name="param_options" value="2" id="option3" class="form-check-input" autocomplete="off" />
-        <label>
-            <p class="ps-3 text-start">
-                \(x = \rho \cos(\theta) \sin(\phi) \)<br />
-                \(y = \rho \sin(\theta) \sin(\phi) \)<br />
-                \(z = \rho \cos(\phi) \)<br />
-                \(\rho \gt 0, \theta \in [0, 2\pi),\; \phi \in [0, \pi)\)
-            </p>
-        </label>
-    </div>
+        <p class="ps-3 text-start">
+            \(x = \rho \cos(\theta) \sin(\phi) \)<br />
+            \(y = \rho \sin(\theta) \sin(\phi) \)<br />
+            \(z = \rho \cos(\phi) \)<br />
+            \(\rho \gt 0, \theta \in [0, 2\pi),\; \phi \in [0, \pi)\)
+        </p>
+    </label>
 
 </div>
