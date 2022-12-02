@@ -20,14 +20,13 @@ function addConnectionListeners(){
     socket.on('generic_update', (state) => {
         console.log("Update", state);
         changeSlide(state.slide);
+        console.log("heard");
     });
 
     socket.on('generic_init', (state) => {
         console.log("Received init from the server, slide number: ", state.slide);
         changeSlide(state.slide);
     })
-
-    socket.on('generic_releaseMutex', () => slide_mutex = false);
 }
 
 function emitChangeSlide(index){

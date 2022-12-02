@@ -12,25 +12,31 @@ function init(){
 }
 
 function changeSlide(newSlideNumber){
-    while (slide_mutex) {
-        console.log("Waiting for slide_mutex to be released...");
-    }
-
     // Don't do anything if we're staying on the same slide
     if (newSlideNumber == currentSlideNumber) {
         return;
     }
 
+    if (slide_mutex) return;        // Ignore repeated clicks
+    slide_mutex = true;
+
     leaveSlide();
     currentSlideNumber = newSlideNumber;
-    displaySlide(currentSlideNumber);
     emitChangeSlide(currentSlideNumber);
+    /*
+    while (slide_mutex) {
+        console.log("Waiting for slide_mutex to be released...");
+    }*/
+    
+    displaySlide(currentSlideNumber);
+    slide_mutex = false;
 }
 
 function leaveSlide() {
+    /*
     while (slide_mutex) {
-        console.log("Waiting for slide_mutex to be released...");
-    }
+        //console.log("Waiting for slide_mutex to be released...");
+    }*/
 
     console.log("Leaving current slide: " + currentSlideNumber);
 
@@ -74,6 +80,7 @@ function link_listener(e){
     let pathname = e.currentTarget.pathname;
     changeSlide(pathname.at(-1));       // The last character in the pathname is the slide number
 }
+
 function addEventListeners(){
     document.querySelectorAll("a").forEach(link=>{
         link.removeEventListener("click", link_listener);
