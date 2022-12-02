@@ -61,7 +61,8 @@ function mergeParams() {
 
 function link_listener(e){
     e.preventDefault();
-    changeSlide(e.currentTarget.pathname[1]);
+    console.log("e.currentTarget.pathname = ", e.currentTarget.pathname);
+    changeSlide(e.currentTarget.pathname.substring(1));
 }
 function addEventListeners(){
     document.querySelectorAll("a").forEach(link=>{
