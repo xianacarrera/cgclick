@@ -54,10 +54,6 @@ function boxDragOver(e) {
 function boxDragLeave(e) {
     e.target.classList.remove("bg-info");
     e.target.classList.add("bg-white");
-
-    e.target.addEventListener("dragenter", boxDragEnter);
-    e.target.addEventListener("dragover", boxDragOver);
-    e.target.addEventListener("dragleave", boxDragLeave);
 }
 
 // The element is dropped on a target
@@ -67,38 +63,23 @@ function boxDrop(e) {
     let optionId = e.dataTransfer.getData("text/plain");
     let option = document.getElementById(optionId);
     
-    // Swap the option with the target
-    
     e.preventDefault();  
     
-    // Restore drag events on the original option
-    option.addEventListener("dragenter", boxDragEnter);
-    option.addEventListener("dragover", boxDragOver);
-    option.addEventListener("dragleave", boxDragLeave);
-    
-    console.log(e.target.textContent);
-    console.log(option.textContent);
-    if (e.target.textContent == option.textContent){
-        e.target.classList.add("text-dark");    
-        e.target.classList.remove("text-white");
-        console.log(e.target.textContent);
-        console.log(option.textContent);
-        return;
-    };
-    
+    // Swap the option with the target    
     [e.target.textContent, option.textContent] = [option.textContent, e.target.textContent];
 
     // Remove the background color and make the element visible
     e.target.classList.remove("bg-info");
-    option.classList.remove("hide");
-    option.classList.remove("bg-dark")      // Remove the background
-    option.classList.remove("text-white")   // Remove the text color
-    option.classList.add("text-dark")       // Reset the text color
 }
 
-function boxDragEnd(e) {
+function boxDragEnd(e) {   // Note that this always fires after stopping the drag, while drop only fires when the element is dropped on a valid target
+    e.target.classList.remove("bg-dark")      // Remove the background
     e.target.classList.remove("text-white");
     e.target.classList.add("text-dark");
+
+    e.target.addEventListener("dragenter", boxDragEnter);
+    e.target.addEventListener("dragover", boxDragOver);
+    e.target.addEventListener("dragleave", boxDragLeave);
 }
 
 function displaySlideParametrization() {
