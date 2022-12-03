@@ -1,12 +1,21 @@
 <h2>Complete the following parametrization:</h2>
 <div class="d-flex flex-row">
     <form id="form-complete-param" class="card">
-        <p>
-            \(x = \) <input type="text" name="x"/> <br/>
-            \(y = \rho \sin(\theta) \sin(\phi) \)<br />
-            \(z = \rho \cos(\phi) \)<br />
+        <p id="parametrization-text">
+            <!-- Note that there can be several x-latex elements in the same p-latex element, to have more than one completion space.
+                 (The JS code uses querySelectorAll, which returns the elements that match in order) -->
+            <!-- There can only be one input element per line, though (the contrary would increase complexity quite a lot) -->
+            \(x = <span data-symbol="x"></span> <input type="text" name="x" /> <br />
+            \(y = <span data-symbol="y">\rho \sin(\theta) \sin(\phi)</span> \)<br />
+            \(z = <span data-symbol="z"> \cos(\phi) </span> \)<br />
             \(\rho \gt 0, \theta \in [0, 2\pi),\; \phi \in [0, \pi)\)
         </p>
+        <!-- Not displayed -->
+        <input class="d-none" name="const-value" value="10" /> 
+        <input class="d-none" name="u-min" value="0" />
+        <input class="d-none" name="u-max" value="2*pi" /> 
+        <input class="d-none" name="v-min" value="0" />
+        <input class="d-none" name="v-max" value="2*pi" />
         <input type="submit" value="Submit" />
     </form>
     <p id="error-msg-complete-param" class="opacity-0">Input not valid! Please, try again</p>
