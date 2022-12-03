@@ -65,6 +65,7 @@ function displaySlideCompleteParametrization(){
     document.getElementById("content").className = cardClasses;
     document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization({});
     MathJax.typeset();
+    addCompleteParametrizationListeners();
 }
 
 function displayAboutSlide(params) {
