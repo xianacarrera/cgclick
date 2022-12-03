@@ -64,8 +64,11 @@ function displaySlideImageParameters() {
 function displaySlideCompleteParametrization(){
     document.getElementById("content").className = cardClasses;
     document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization({});
-    MathJax.typeset();
+    threeAPI.initScene();
+    threeAPI.clear();
     addCompleteParametrizationListeners();
+    // MathJax will change the DOM text, so we need to preload the raw html in the listeners before applying the conversion to latex for the user
+    MathJax.typeset();
 }
 
 function displayAboutSlide(params) {
