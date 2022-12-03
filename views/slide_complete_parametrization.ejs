@@ -6,17 +6,20 @@
                  (The JS code uses querySelectorAll, which returns the elements that match in order) -->
             <!-- There can only be one input element per line, though (the contrary would increase complexity quite a lot) -->
             \(x = \) <span data-symbol="x"></span> <input type="text" name="x" /> <br />
-            \(y = \) <span data-symbol="y">\(\rho \cos u \sin v\)</span><br />
-            \(z = \) <span data-symbol="z"> \( \cos v\)</span><br />
+            \(y = \) <span data-symbol="y">\(\rho * \cos u * \sin v\)</span><br />
+            \(z = \) <span data-symbol="z"> \(\rho * \cos v\)</span><br />
             \(\rho \gt 0, u \in [0, 2\pi),\; v \in [0, \pi)\)
         </p>
         <!-- Not displayed -->
         <input class="d-none" name="const-symbol" value="\rho" />
         <input class="d-none" name="const-value" value="10" /> 
+
+        <!-- These inputs' values are written explictely so that the code doesn't have to evaluate the expressions (which could potentially be 
+            very dangerous) -->
         <input class="d-none" name="u-min" value="0" />
-        <input class="d-none" name="u-max" value="2*pi" /> 
         <input class="d-none" name="v-min" value="0" />
-        <input class="d-none" name="v-max" value="2*pi" />
+        <input class="d-none" name="u-max" value="6.283185" /> 
+        <input class="d-none" name="v-max" value="6.283185" />
         <input type="submit" value="Submit" />
     </form>
     <div>
