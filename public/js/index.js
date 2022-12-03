@@ -85,7 +85,7 @@ function mergeParams() {
 function link_listener(e){
     e.preventDefault();
     console.log("e.currentTarget.pathname = ", e.currentTarget.pathname);
-    changeSlide(e.currentTarget.pathname.substring(1));
+    changeSlide(e.currentTarget.pathname.split("/").pop());     // Get last element of path
 }
 
 function addEventListeners(){
