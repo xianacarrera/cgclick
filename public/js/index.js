@@ -26,7 +26,6 @@ function changeSlide(newSlideNumber){
 
     leaveSlide();
     currentSlideNumber = newSlideNumber;
-    emitChangeSlide(currentSlideNumber);
     /*
     while (slide_mutex) {
         console.log("Waiting for slide_mutex to be released...");
@@ -85,8 +84,8 @@ function mergeParams() {
 
 function link_listener(e){
     e.preventDefault();
-    let pathname = e.currentTarget.pathname;
-    changeSlide(pathname.at(-1));       // The last character in the pathname is the slide number
+    console.log("e.currentTarget.pathname = ", e.currentTarget.pathname);
+    changeSlide(e.currentTarget.pathname.substring(1));
 }
 
 function addEventListeners(){
