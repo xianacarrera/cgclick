@@ -19,17 +19,22 @@ function addConnectionListeners(){
 
     socket.on('generic_update', (state) => {
         console.log("Update", state);
-        changeSlide(state.slide);
+        leaveSlide();
+        currentSlideNumber = state.slide;
+        displaySlide();
+        slide_mutex = false;
+        console.log("heard");
     });
 
     socket.on('generic_init', (state) => {
         console.log("Received init from the server, slide number: ", state.slide);
         changeSlide(state.slide);
+        // TODO: displaySlide()?
     })
-
 }
 
 function emitChangeSlide(index){
+    console.log("Emitting change slid");
     socket.emit('teacher_changeSlide', {
         slide: index ,
         id
