@@ -8,18 +8,18 @@ function addCompleteParametrizationListeners(){
 
     document.getElementById("form-complete-param").addEventListener("submit", (e) => {
         e.preventDefault();
-
+        
+        threeAPI.clear();
         displayErrorMessage(false);
         const formData = new FormData(e.target);
-        //try {
+        try {
             buildCustomFunction(formData);
             threeAPI.createParametricGeometry(buildCustomFunction(formData));
             threeAPI.animate();
-            /*
         } catch (e) {
             displayErrorMessage(true);
             threeAPI.clear();
-        }*/
+        }
     });
 }
 
@@ -31,7 +31,7 @@ function buildLine(symbol, input, constant){
     if (constant) line = line.replaceAll(constant.constSymbol, constant.constVal);
     line = line.replace("\\(", "");
     line = line.replace("\\)", "");
-    return line;
+    return line.trim();
 }
 
 function buildCustomFunction(formData){
@@ -42,7 +42,7 @@ function buildCustomFunction(formData){
     const umax = parseFloat(formData.get("u-max"));
     const vmin = parseFloat(formData.get("v-min"));
     const vmax = parseFloat(formData.get("v-max"));
-    
+
     return function (u, v, target) {
         u *= (umax - umin) + umin;           // Translate and scale u to [u_min, u_max]
         v *= (vmax - vmin) + vmin;           // Translate and scale v to [v_min, v_max]
@@ -51,15 +51,9 @@ function buildCustomFunction(formData){
         let y = buildLine("y", formData.get("y"), constant);             // Build the y function
         let z = buildLine("z", formData.get("z"), constant);             // Build the z function    
 
-        x.replaceAll("\\", "\\\\");         // Escape the backslashes
-        y.replaceAll("\\", "\\\\");
-        z.replaceAll("\\", "\\\\");
-        
         x = evaluatex(x, {u, v}, {latex: true})();        // Compile a function for x and evaluate it
         y = evaluatex(y, {u, v}, {latex: true})();        // Compile a function for y and evaluate it
         z = evaluatex(z, {u, v}, {latex: true})();        // Compile a function for z and evaluate it
-
-        if (x === undefined || y === undefined || z === undefined) throw new Error("Invalid function");
 
         target.set(x, y, z);
     };
