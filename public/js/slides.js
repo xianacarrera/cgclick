@@ -93,6 +93,11 @@ const slides = [
         type: "question_image_parameters",
     },
     {
+        name: "Complete Parametrization",
+        title: "Complete Parametrization",
+        type: "question_complete_parametrization",
+    },
+    {
         name: "About: Idea",
         type: "slide_about",
         params: {

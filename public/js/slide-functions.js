@@ -61,6 +61,12 @@ function displaySlideImageParameters() {
     // The student provides a right answer if alpha is 1 and beta / gamma is 1/2
 }
 
+function displaySlideCompleteParametrization(){
+    document.getElementById("content").className = cardClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization({});
+    MathJax.typeset();
+}
+
 function displayAboutSlide(params) {
     document.getElementById("content").className = noClasses;
     document.getElementById("content").innerHTML = ejs.views_slide_about(params);
