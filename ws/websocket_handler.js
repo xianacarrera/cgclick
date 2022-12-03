@@ -30,6 +30,7 @@ class WebSocketHandler {
 
     /**
     * Handles the on change of slide event and routes the sockets.
+    * @param {Socket} socket client socket.
     * @param {JSON} new_slide the object contains the field slide and will be set.
     */
     on_change_slide(slide) {
@@ -72,6 +73,7 @@ class WebSocketHandler {
 
     /**
     * Should be called whenever the state changes.
+    * @param {Socket} socket client socket.
     * @param {String} id room id.
     * @param {JSON} state_obj the new state object.
     */

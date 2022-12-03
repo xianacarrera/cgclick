@@ -1,68 +1,45 @@
 
 let currentSlideNumber;
-let slide_mutex = false;
-
 
 function init(){
     currentSlideNumber = 0;
     initSocket();
-    let pathname = new URL(window.location.href).pathname;
-    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id, pathname});
+    document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id});
     addEventListeners();
     displaySlide();
 }
 
 function changeSlide(newSlideNumber){
+
     // Don't do anything if we're staying on the same slide
     if (newSlideNumber == currentSlideNumber) {
         return;
     }
 
-    if (slide_mutex){
-        console.log("Slide mutex is locked, not changing slide");
-        return;
-    }
-    slide_mutex = true;
-
     leaveSlide();
     currentSlideNumber = newSlideNumber;
-    /*
-    while (slide_mutex) {
-        console.log("Waiting for slide_mutex to be released...");
-    }
-    
     displaySlide(currentSlideNumber);
-    slide_mutex = false;
-    */
     if (isTeacher) {
         emitChangeSlide(currentSlideNumber);
     }
 }
 
 function leaveSlide() {
-    /*
-    while (slide_mutex) {
-        //console.log("Waiting for slide_mutex to be released...");
-    }*/
-
     console.log("Leaving current slide: " + currentSlideNumber);
 
     // Execute code necessary before leaving the current slide
     slideDefinitions[slides[currentSlideNumber].type].leaveFunction(mergeParams());
 
-    let currentURL = new URL(window.location.href);
-
     // Update HTML classes in navbar
-    document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.remove("active");
+    document.querySelector(`a[href="/${currentSlideNumber}"]`).classList.remove("active");
 }
 
 function displaySlide() {
     
     console.log("Displaying new slide: " + currentSlideNumber);
 
-    let currentURL = new URL(window.location.href);
     // Update HTML classes in navbar
-    document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.add("active");
+    document.querySelector(`a[href="/${currentSlideNumber}"]`).classList.add("active");
 
     // Update heading and descriptions
     document.getElementById("title").innerHTML = slides[currentSlideNumber].title || slides[currentSlideNumber].name || "";
@@ -85,9 +62,8 @@ function mergeParams() {
 function link_listener(e){
     e.preventDefault();
     console.log("e.currentTarget.pathname = ", e.currentTarget.pathname);
-    changeSlide(e.currentTarget.pathname.split("/").pop());     // Get last element of path
+    changeSlide(e.currentTarget.pathname.substring(1));
 }
-
 function addEventListeners(){
     document.querySelectorAll("a").forEach(link=>{
         link.removeEventListener("click", link_listener);
