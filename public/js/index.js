@@ -36,6 +36,9 @@ function changeSlide(newSlideNumber){
     */
     if (isTeacher) {
         emitChangeSlide(currentSlideNumber);
+    } else {
+        displaySlide();
+        slide_mutex = false;
     }
 }
 
