@@ -3,9 +3,9 @@
   <% slides.forEach((slide, index) => { %>
 
     <% if (index == currentSlideNumber) { %>
-      <a class="nav-link active" href="<%= pathname %>/<%= index %>" role="tab"><%= slide.name %></a>
+      <a class="nav-link active" href="/<%= index %>" role="link"><%= slide.name %></a>
     <% } else { %>
-      <a class="nav-link" href="<%= pathname %>/<%= index %>" role="tab"><%= slide.name %></a>
+      <a class="nav-link" href="/<%= index %>" role="link"><%= slide.name %></a>
     <% } %>
 
   <% }); %>
