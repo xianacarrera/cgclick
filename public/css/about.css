@@ -1,37 +1,17 @@
 img {
-    max-width: 25%;
-    max-height: 20%;
-    position: fixed;
-    margin: 0;
+    position: relative;
+    top: 0vh;
+    max-width: 20vw;
+    max-height: 20vh;
+    margin-right: 3em;
     transition: all 0.5s;
 }
 
-.img_left{
-    left: 25%;
-}
-
-.img_center {
-    left: 55%;
-}
-
-.img_right {
-    right: 5%;
-}
-
 .clicked_image {
-    margin-top: 10%;
-    margin-bottom: 5%;
-    max-width: 100%;
-    max-height: 75%;
+    top: 20vh;
+    max-width: 70vw;
+    max-height: 70vh;
     align-self: center;
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
-.clicked_image.img_center {
-    margin-left: 0;
-    margin-right: 60%;
-    left: 40%;
 }
 
 .teacher {
@@ -40,4 +20,8 @@ img {
 
 .student {
     color: red;
+}
+
+.form-range {
+    width: 300px;
 }
