@@ -5,21 +5,21 @@ function addCompleteParametrizationListeners(){
     ["x", "y", "z"].forEach((symbol) => {
         spansText[symbol] = Array.from(document.querySelectorAll(`span[data-symbol="${symbol}"]`)).map(t => t.textContent);
     });
-    console.log(spansText)
 
     document.getElementById("form-complete-param").addEventListener("submit", (e) => {
         e.preventDefault();
 
         displayErrorMessage(false);
         const formData = new FormData(e.target);
-        try {
+        //try {
             buildCustomFunction(formData);
             threeAPI.createParametricGeometry(buildCustomFunction(formData));
             threeAPI.animate();
+            /*
         } catch (e) {
             displayErrorMessage(true);
             threeAPI.clear();
-        }
+        }*/
     });
 }
 
@@ -51,11 +51,15 @@ function buildCustomFunction(formData){
         let y = buildLine("y", formData.get("y"), constant);             // Build the y function
         let z = buildLine("z", formData.get("z"), constant);             // Build the z function    
 
-        [x, y, z].forEach((symbol) => {
-            symbol = symbol.replaceAll("u", u);
-            symbol = symbol.replaceAll("v", v);
-            symbol = math.evaluate(latex_to_js(symbol));
-        });
+        x.replaceAll("\\", "\\\\");         // Escape the backslashes
+        y.replaceAll("\\", "\\\\");
+        z.replaceAll("\\", "\\\\");
+        
+        x = evaluatex(x, {u, v}, {latex: true})();        // Compile a function for x and evaluate it
+        y = evaluatex(y, {u, v}, {latex: true})();        // Compile a function for y and evaluate it
+        z = evaluatex(z, {u, v}, {latex: true})();        // Compile a function for z and evaluate it
+
+        if (x === undefined || y === undefined || z === undefined) throw new Error("Invalid function");
 
         target.set(x, y, z);
     };
