@@ -96,6 +96,7 @@ const slides = [
             slider_depth_test: false,
             slider_gamma: false,
             slider_tone_mapping: false,
+            compilation_msgs: true,
         },
     },
     {

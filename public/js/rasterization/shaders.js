@@ -118,16 +118,28 @@ var fragmentShaderCode_PM =
 var gl; // WebGL context
 var shaderProgram; // the GLSL program we will use for rendering
 
-function compileShader(shader, source, type, name = ""){
+function compileShader(shader, source, type, name = "", params){
     // link the source of the shader to the shader object
     gl.shaderSource(shader,source);
     gl.compileShader(shader);
     let success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
     if(success){
         console.log(name + " shader compiled succesfully.");
+        if (params?.compilation_msgs){
+            let txtComp = document.getElementById(`${name}-compilation-msg`);
+            txtComp.textContent = name + " shader compiled succesfully.";
+            txtComp.classList.remove("text-danger");
+            txtComp.classList.add("text-success");
+        }
     }else{
-        console.log(name + " vertex shader error.")
+        console.log(name + " shader error.")
         console.log(gl.getShaderInfoLog(shader));
+        if (params?.compilation_msgs){
+            let txtComp = document.getElementById(`${name}-compilation-msg`);
+            txtComp.textContent = name + " shader error.";
+            txtComp.classList.remove("text-success");
+            txtComp.classList.add("text-danger");
+        }
     }
 }
    
@@ -143,23 +155,23 @@ function linkProgram(program,vertShader,fragShader){
     }
 }
    
-function createGLSLPrograms(slide){
+function createGLSLPrograms(params){
     var vertexShader = gl.createShader(gl.VERTEX_SHADER);
     var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
     switch (currentSlideInfo.rasterizationType) {
         case "triangle_cube":
-            compileShader(vertexShader, vertexShaderCode, gl.VERTEX_SHADER, "Vertex shader");
-            compileShader(fragmentShader, fragmentShaderCode, gl.VERTEX_SHADER, "Fragment shader");
+            compileShader(vertexShader, vertexShaderCode, gl.VERTEX_SHADER, "Vertex");
+            compileShader(fragmentShader, fragmentShaderCode, gl.VERTEX_SHADER, "Fragment");
             break;
         case "phong_model":
-            compileShader(vertexShader, vertexShaderCode_PM, gl.VERTEX_SHADER, "Vertex shader");
-            compileShader(fragmentShader, fragmentShaderCode_PM, gl.VERTEX_SHADER, "Fragment shader");
+            compileShader(vertexShader, vertexShaderCode_PM, gl.VERTEX_SHADER, "Vertex");
+            compileShader(fragmentShader, fragmentShaderCode_PM, gl.VERTEX_SHADER, "Fragment");
             break;
         case "custom_shaders":
             let customVertexShaderCode = document.getElementById("vertex-shader-code").textContent;
             let customFragmentShaderCode = document.getElementById("fragment-shader-code").textContent;
-            compileShader(vertexShader, customVertexShaderCode, gl.VERTEX_SHADER, "Vertex shader");
-            compileShader(fragmentShader, customFragmentShaderCode, gl.VERTEX_SHADER, "Fragment shader");
+            compileShader(vertexShader, customVertexShaderCode, gl.VERTEX_SHADER, "Vertex", params);
+            compileShader(fragmentShader, customFragmentShaderCode, gl.VERTEX_SHADER, "Fragment", params);
             break;
         default:
             console.error("For this slide createGLSLPrograms is not supported");

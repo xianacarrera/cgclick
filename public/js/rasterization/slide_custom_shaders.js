@@ -3,7 +3,7 @@ function start_slide_custom_shaders(params) {
 	currentSlideInfo.rasterizationType = "custom_shaders";
 	
 	initWebGL();
-	createGLSLPrograms();
+	createGLSLPrograms(params);
 	initBuffers();
 
     is_culling_on = false;

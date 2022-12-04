@@ -6,6 +6,8 @@
             When you're done, click the submit button.
         </p>
         <button id="btn-submit-shaders" class="btn btn-primary mx-auto">Submit selection</button>
+        <p class="mx-3 mt-2" id="Vertex-compilation-msg"></p>
+        <p class="mx-3" id="Fragment-compilation-msg"></p>
     </div>
 
         
@@ -43,47 +45,47 @@
         </div>
     </div>
     <!-- Example of vertex shader. Highlighting with glsl -->
-    <pre><code id="vertex-shader-code" contenteditable="true" class="glsl">    #version 300 es
-        // Input variables
-        in vec3 a_position;
-        in vec3 a_color;
-        in vec3 a_normal;
-    
-        // Uniforms
-        uniform mat4 model_matrix;
-        uniform mat4 view_matrix;
-        uniform mat4 projection_matrix;
-        uniform vec3 light_direction;
-    
-        // Output variables
-        // ...
+    <pre class="mx-3"><code id="vertex-shader-code" contenteditable="true" class="glsl d-block" style="width: 450px; height: 525px; font-size: small;">#version 300 es
+// Input variables
+in vec3 a_position;
+in vec3 a_color;
+in vec3 a_normal;
 
-        void main(){
-            // Complete the code!
+// Uniforms
+uniform mat4 model_matrix;
+uniform mat4 view_matrix;
+uniform mat4 projection_matrix;
+uniform vec3 light_direction;
 
-            gl_Position = vec4(a_position,1.0);
-        }
+// Output variables
+// ...
+
+void main(){
+    // Complete the code!
+
+    gl_Position = vec4(a_position,1.0);
+}
     </code></pre>
     <!-- Example of fragment shader. Highlighting with glsl -->
-    <pre><code id="fragment-shader-code" contenteditable="true" class="glsl">    #version 300 es
-        precision mediump float;
-    
-        // Input variables
-        // ...
+    <pre class="mx-3"><code id="fragment-shader-code" contenteditable="true" class="glsl d-block" style="width: 450px; height: 525px; font-size: small;">#version 300 es
+precision mediump float;
 
-        // Uniforms
-        uniform float gamma;
-        uniform float alpha;
-        uniform float beta;
-        
-        // Output variables
-        out vec4 out_color;
-        
-        void main(){
-            // Complete the code!
+// Input variables
+// ...
 
-            // Default: cyan
-            out_color = vec4(0.0, 1.0, 1.0, 1.0);
-        }
+// Uniforms
+uniform float gamma;
+uniform float alpha;
+uniform float beta;
+
+// Output variables
+out vec4 out_color;
+
+void main(){
+    // Complete the code!
+
+    // Default: cyan
+    out_color = vec4(0.0, 1.0, 1.0, 1.0);
+}
     </code></pre>
 </div>
