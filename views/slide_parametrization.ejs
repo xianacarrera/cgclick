@@ -1,42 +1,35 @@
-<div class="container">
-    <div class="col-lg-8 mb-4 mx-auto">    <!-- Automatically set margin left and right to center -->
-        <canvas id="threejs-canvas" width="520" height="520"></canvas>
-    </div>
-    <h2 class="mb-4">Check the right parametrization for a torus</h2>
-    <div class="btn-group-lg btn-group" data-toggle="buttons">
-        <div class="mx-2">
-            <!-- mx-2 specifies both margin left and right -->
-            <label class="btn btn-primary">
-                <input type="radio" name="param_options" value="0" id="option1" autocomplete="off" checked />
-                <p>
-                    \(x = (R_1 + R_2 \cos(v)) cos(u)\)<br />
-                    \(y = (R_1 + R_2 \cos(v)) sin(u)\)<br />
-                    \(z = R_2 \sin(v)\)<br />
-                    \(u \in [0, 2\pi),\; v \in [0, 2\pi)\)
-                </p>
-            </label>
-        </div>
-        <div class="mx-2">
-            <label class="btn btn-primary">
-                <input type="radio" name="param_options" value="1" id="option2" autocomplete="off" />
-                <p>
-                    \(x = r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \cos(v) \)<br />
-                    \(y = (r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \sin(v) \)<br />
-                    \(z = \sin(v / 2) * \sin(u) + \cos(v / 2) * \sin(2 * u) \)<br />
-                    \(u \in [0, 2\pi),\; v \in [-\pi, \pi)\)
-                </p>
-            </label>
-        </div>
-        <div class="mx-2">
-            <label class="btn btn-primary">
-                <input type="radio" name="param_options" value="2" id="option3" autocomplete="off" />
-                <p>
-                    \(x = \rho \cos(\theta) \sin(\phi) \)<br />
-                    \(y = \rho \sin(\theta) \sin(\phi) \)<br />
-                    \(z = \rho \cos(\phi) \)<br />
-                    \(\rho \gt 0, \theta \in [0, 2\pi),\; \phi \in [0, \pi)\)
-                </p>
-            </label>
-        </div>
-    </div>
+<canvas id="threejs-canvas" class="m-3" width="500" height="500"></canvas>
+
+<div id="controls" class="m-3 d-flex flex-column btn-group-lg btn-group" data-toggle="buttons">
+
+    <label class="mb-2 btn btn-light rounded-3 d-flex justify-content-start">
+        <input type="radio" name="param_options" value="0" id="option1" class="form-check-input" autocomplete="off" checked />
+        <p class="ps-3 text-start">
+            \(x = (R_1 + R_2 \cos(v)) cos(u)\)<br />
+            \(y = (R_1 + R_2 \cos(v)) sin(u)\)<br />
+            \(z = R_2 \sin(v)\)<br />
+            \(u \in [0, 2\pi),\; v \in [0, 2\pi)\)
+        </p>
+    </label>
+
+    <label class="mb-2 btn btn-light rounded-3 d-flex justify-content-start">
+        <input type="radio" name="param_options" value="1" id="option2" class="form-check-input" autocomplete="off" />
+        <p class="ps-3 text-start">
+            \(x = r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \cos(v) \)<br />
+            \(y = (r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \sin(v) \)<br />
+            \(z = \sin(v / 2) * \sin(u) + \cos(v / 2) * \sin(2 * u) \)<br />
+            \(u \in [0, 2\pi),\; v \in [-\pi, \pi)\)
+        </p>
+    </label>
+
+    <label class="btn btn-light rounded-3 d-flex justify-content-start">
+        <input type="radio" name="param_options" value="2" id="option3" class="form-check-input" autocomplete="off" />
+        <p class="ps-3 text-start">
+            \(x = \rho \cos(\theta) \sin(\phi) \)<br />
+            \(y = \rho \sin(\theta) \sin(\phi) \)<br />
+            \(z = \rho \cos(\phi) \)<br />
+            \(\rho \gt 0, \theta \in [0, 2\pi),\; \phi \in [0, \pi)\)
+        </p>
+    </label>
+
 </div>
