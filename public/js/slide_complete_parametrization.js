@@ -8,18 +8,26 @@ function addCompleteParametrizationListeners(){
 
     document.getElementById("form-complete-param").addEventListener("submit", (e) => {
         e.preventDefault();
-        
-        threeAPI.clear();
-        displayErrorMessage(false);
-        const formData = new FormData(e.target);
-        try {
-            buildCustomFunction(formData);
-            threeAPI.createParametricGeometry(buildCustomFunction(formData));
-            threeAPI.animate();
-        } catch (e) {
-            displayErrorMessage(true);
+
+        let loadingSpinner = document.querySelector("div.spinner-border");
+        loadingSpinner.classList.remove("opacity-0");
+        loadingSpinner.classList.add("opacity-100");
+
+        setTimeout(() => {                
             threeAPI.clear();
-        }
+            displayErrorMessage(false);
+            const formData = new FormData(e.target);
+            try {
+                buildCustomFunction(formData);
+                threeAPI.createParametricGeometry(buildCustomFunction(formData));
+                threeAPI.animate();
+            } catch (e) {
+                displayErrorMessage(true);
+                threeAPI.clear();
+            }
+            loadingSpinner.classList.add("opacity-0");
+            loadingSpinner.classList.remove("opacity-100");
+        }, 10);     // To give time to the spinner to appear
     });
 }
 
