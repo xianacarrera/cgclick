@@ -152,6 +152,13 @@ threeAPI = function(){
      * Public function. Clears the canvas.
      */
     function clear(){
+        // Remove all the meshes
+        for (let i = scene.children.length - 1; i >= 0; i--) {
+            if (scene.children[i].type === "Mesh"){
+                scene.remove(scene.children[i]);
+            }
+        }
+
         renderer.clear();
     }
 
