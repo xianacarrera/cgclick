@@ -14,26 +14,14 @@ function init(){
 
 function changeSlide(newSlideNumber){
     // Don't do anything if we're staying on the same slide
-    if (newSlideNumber == currentSlideNumber) {
-        return;
-    }
+    if (newSlideNumber == currentSlideNumber) return;
+    if (slide_mutex) return;
 
-    if (slide_mutex){
-        console.log("Slide mutex is locked, not changing slide");
-        return;
-    }
     slide_mutex = true;
 
     leaveSlide();
     currentSlideNumber = newSlideNumber;
-    /*
-    while (slide_mutex) {
-        console.log("Waiting for slide_mutex to be released...");
-    }
-    
-    displaySlide(currentSlideNumber);
-    slide_mutex = false;
-    */
+
     if (isTeacher) {
         emitChangeSlide(currentSlideNumber);
     } else {
@@ -43,13 +31,6 @@ function changeSlide(newSlideNumber){
 }
 
 function leaveSlide() {
-    /*
-    while (slide_mutex) {
-        //console.log("Waiting for slide_mutex to be released...");
-    }*/
-
-    console.log("Leaving current slide: " + currentSlideNumber);
-
     // Execute code necessary before leaving the current slide
     slideDefinitions[slides[currentSlideNumber].type].leaveFunction(mergeParams());
 
@@ -60,9 +41,6 @@ function leaveSlide() {
 }
 
 function displaySlide() {
-    
-    console.log("Displaying new slide: " + currentSlideNumber);
-
     let currentURL = new URL(window.location.href);
     // Update HTML classes in navbar
     document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.add("active");
@@ -87,7 +65,6 @@ function mergeParams() {
 
 function link_listener(e){
     e.preventDefault();
-    console.log("e.currentTarget.pathname = ", e.currentTarget.pathname);
     changeSlide(e.currentTarget.pathname.split("/").pop());     // Get last element of path
 }
 
