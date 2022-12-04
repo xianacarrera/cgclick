@@ -53,12 +53,14 @@ function createVAO(vao, shader, vertices, normals, colors){
     gl.enableVertexAttribArray(positionAttributeLocation);
     gl.vertexAttribPointer(positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-    var colorAttributeLocation = gl.getAttribLocation(shaderProgram, "a_color");
-    gl.enableVertexAttribArray(colorAttributeLocation);
-    gl.vertexAttribPointer(colorAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+    if (!(currentSlideInfo.rasterizationType == "custom_shaders") || document.getElementById("a_color")?.checked) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+        var colorAttributeLocation = gl.getAttribLocation(shaderProgram, "a_color");
+        gl.enableVertexAttribArray(colorAttributeLocation);
+        gl.vertexAttribPointer(colorAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+    }
 
-    if (normals !== undefined) {
+    if (normals !== undefined && (!(currentSlideInfo.rasterizationType == "custom_shaders") || document.getElementById("a_normal")?.checked)) {
         gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
         var normalAttributeLocation = gl.getAttribLocation(shaderProgram, "a_normal");
         gl.enableVertexAttribArray(normalAttributeLocation);
@@ -76,6 +78,7 @@ function initBuffers() {
             createVAO(triangle_vao, shaderProgram, triangle_vertices, undefined, triangle_colors);
             break;
         case "phong_model":    
+        case "custom_shaders":
             cube_vao = gl.createVertexArray();
             createVAO(cube_vao, shaderProgram, cube_vertices_PM, cube_normals, cube_colors);
         
@@ -96,6 +99,7 @@ function draw(params) {
             draw_TC();
             break;
         case "phong_model":
+        case "custom_shaders":
             draw_PM(params);
     }
 }
@@ -176,6 +180,16 @@ function getLightDirection(params) {
     return vec3.fromValues(light_x, light_y, light_z);    
 }
 
+function setUniform(unif, unifname, func, nargs){
+    if (currentSlideInfo.rasterizationType == "custom_shaders" && !document.getElementById(unifname).checked) return;
+    
+    if (nargs == 2){
+        (func.bind(gl, gl.getUniformLocation(shaderProgram, unifname), unif))();
+    } else if (nargs == 3){
+        (func.bind(gl, gl.getUniformLocation(shaderProgram, unifname), false, unif))();
+    }
+}
+
 function draw_PM(params){
     let camera_position = getCameraPosition(params);
 
@@ -214,48 +228,41 @@ function draw_PM(params){
     gl.useProgram(shaderProgram);
 
     // setting all uniforms
-    let model_matrix_location = gl.getUniformLocation(shaderProgram, "model_matrix");
-    let view_matrix_location = gl.getUniformLocation(shaderProgram, "view_matrix");
-    let projection_matrix_location = gl.getUniformLocation(shaderProgram, "projection_matrix");
-    let light_direction_location = gl.getUniformLocation(shaderProgram, "light_direction");
+    setUniform(view_matrix, "view_matrix", gl.uniformMatrix4fv, 3);
+    setUniform(projection_matrix, "projection_matrix", gl.uniformMatrix4fv, 3);
+    setUniform(light_direction, "light_direction", gl.uniform3fv, 2);
 
-    gl.uniformMatrix4fv(view_matrix_location, false, view_matrix);
-    gl.uniformMatrix4fv(projection_matrix_location, false, projection_matrix);
-    gl.uniform3fv(light_direction_location, light_direction);
 
     // gamma
-    let gammaLocation = gl.getUniformLocation(shaderProgram, "gamma");
     let gamma = GAMMA;
     if (params.slider_gamma) {
         gamma = document.getElementById("gamma_correction").value;
     }
-    gl.uniform1f(gammaLocation, gamma);
+    setUniform(gamma, "gamma", gl.uniform1f, 2);
 
     // tone mapping
-    let alphaLocation = gl.getUniformLocation(shaderProgram, "alpha");
-    let betaLocation = gl.getUniformLocation(shaderProgram, "beta");
     let alpha = ALPHA;
     let beta = BETA;
     if (params.slider_tone_mapping) {
         alpha = document.getElementById("alpha").value;
         beta = document.getElementById("beta").value;
     }
-    gl.uniform1f(alphaLocation, alpha);
-    gl.uniform1f(betaLocation, beta);
+    setUniform(alpha, "alpha", gl.uniform1f, 2);
+    setUniform(beta, "beta", gl.uniform1f, 2);
     
     // CUBE 1
 
     gl.bindVertexArray(cube_vao);
 
     mat4.fromTranslation(model_matrix, vec3.fromValues(1.5, 0, 0));
-    gl.uniformMatrix4fv(model_matrix_location, false, model_matrix);
+    setUniform(model_matrix, "model_matrix", gl.uniformMatrix4fv, 3);
 
     gl.drawArrays(gl.TRIANGLES, 0, cube_vertices_PM.length/3);
 
     // CUBE 2
 
     mat4.fromTranslation(model_matrix, vec3.fromValues(-1.5, 0, 0));
-    gl.uniformMatrix4fv(model_matrix_location, false, model_matrix);
+    setUniform(model_matrix, "model_matrix", gl.uniformMatrix4fv, 3);
 
     gl.drawArrays(gl.TRIANGLES, 0, cube_vertices_PM.length/3);
 
@@ -264,7 +271,7 @@ function draw_PM(params){
     gl.bindVertexArray(sphere_vao);
 
     mat4.fromTranslation(model_matrix, vec3.fromValues(0, 0, 0));
-    gl.uniformMatrix4fv(model_matrix_location, false, model_matrix);
+    setUniform(model_matrix, "model_matrix", gl.uniformMatrix4fv, 3);
 
     gl.drawArrays(gl.TRIANGLES, 0, sphere_vertices.length/3);
     
@@ -275,7 +282,7 @@ function draw_PM(params){
     mat4.fromTranslation(translation_matrix, vec3.fromValues(0, -1, 0));
     mat4.fromScaling(scaling_matrix, vec3.fromValues(6, 6, 6));
     mat4.multiply(model_matrix, translation_matrix, scaling_matrix);
-    gl.uniformMatrix4fv(model_matrix_location, false, model_matrix);
+    setUniform(model_matrix, "model_matrix", gl.uniformMatrix4fv, 3);
 
     gl.drawArrays(gl.TRIANGLES, 0, plane_vertices.length/3);
 

@@ -155,6 +155,12 @@ function createGLSLPrograms(slide){
             compileShader(vertexShader, vertexShaderCode_PM, gl.VERTEX_SHADER, "Vertex shader");
             compileShader(fragmentShader, fragmentShaderCode_PM, gl.VERTEX_SHADER, "Fragment shader");
             break;
+        case "custom_shaders":
+            let customVertexShaderCode = document.getElementById("vertex-shader-code").textContent;
+            let customFragmentShaderCode = document.getElementById("fragment-shader-code").textContent;
+            compileShader(vertexShader, customVertexShaderCode, gl.VERTEX_SHADER, "Vertex shader");
+            compileShader(fragmentShader, customFragmentShaderCode, gl.VERTEX_SHADER, "Fragment shader");
+            break;
         default:
             console.error("For this slide createGLSLPrograms is not supported");
     }

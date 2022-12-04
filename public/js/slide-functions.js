@@ -29,6 +29,17 @@ function displaySlidePhongModel(params) {
     start_slide_phong_model(params);
 }
 
+function displaySlideShaders(params){
+    document.getElementById("content").className = cardClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_custom_shaders({});
+    hljs.highlightAll();
+    start_slide_custom_shaders(params);
+    document.getElementById("btn-submit-shaders").addEventListener("click", () => {
+        window.cancelAnimationFrame(currentSlideInfo.requestID);
+        start_slide_custom_shaders(params);
+    });
+}
+
 function showShape() {
     threeAPI.initScene();
     let checkedOption = document.querySelector("input[name='param_options']:checked");
