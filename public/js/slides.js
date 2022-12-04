@@ -8,6 +8,7 @@ const slides = [
         params: {
             slider_face_culling: true,
         },
+        evaluation: "auto",
     },
     {
         name: "Depth",
@@ -18,26 +19,31 @@ const slides = [
             slider_face_culling: true,
             slider_depth_test: true,
         },
+        evaluation: "auto",
     },
     {
         name: "Parametrization",
         title: "Shape Parametrization",
         type: "question_parametrization",
+        evaluation: "auto",
     },
     {
         name: "Phong",
         title: "Phong Model Parameters",
         type: "playground_phong_model",
+        evaluation: "teacher",
     },
     {
         name: "Midpoint",
         title: "Midpoint Algorithm Game",
         type: "question_midpoint",
+        evaluation: "auto",
     },
     {
         name: "Gamma",
         title: "Gamma Correction and Tone Mapping",
         type: "question_image_parameters",
+        evaluation: "teacher",
     },
     {
         name: "About: Idea",
@@ -45,6 +51,7 @@ const slides = [
         params: {
             subslide: "idea",
         },
+        evaluation: "no_eval",
     },
     {
         name: "About: Story",
@@ -52,6 +59,7 @@ const slides = [
         params: {
             subslide: "story",
         },
+        evaluation: "no_eval",
     },
     {
         name: "About: Technology",
