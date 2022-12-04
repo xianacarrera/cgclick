@@ -88,8 +88,8 @@ const slides = [
         type: "question_midpoint",
     },
     {
-        name: "Gamma",
-        title: "Gamma Correction and Tone Mapping",
+        name: "Image Comparison",
+        title: "Comparison of Gamma Correction and Tone Mapping",
         type: "question_image_parameters",
     },
     {
