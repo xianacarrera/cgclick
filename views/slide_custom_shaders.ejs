@@ -1,0 +1,103 @@
+<div class="d-flex flex-row p-2 justify-content-around align-items-center">
+    <canvas id="webgl-canvas" class="m-3" width="300" height="300"></canvas>
+    <div class="d-flex flex-column justify-content-center" style="max-width: 30%;">
+        <p>
+            Check the input, uniforms and output variables that you want to use, and modify the shader codes accordingly.<br/>
+            When you're done, click the submit button.
+        </p>
+        <button id="btn-submit-shaders" class="btn btn-primary mx-auto">Submit selection</button>
+    </div>
+
+    <div class="card m-3" style="max-width: 13rem;">
+        <div class="card-header">Vertex log</div>
+        <div class="card-body">
+            <h5 class="card-title" id="Vertex-compilation-msg"></h5>
+            <div class="card-text" id="Vertex-compilation-log" style="font-size: small;"></div>
+        </div>
+    </div>
+
+    <div class="card m-3" style="max-width: 13rem;">
+        <div class="card-header">Fragment log</div>
+        <div class="card-body">
+            <h5 class="card-title" id="Fragment-compilation-msg"></h5>
+            <div class="card-text" id="Fragment-compilation-log" style="font-size: small;"></div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex flex-row p-2 justify-content-around align-items-center">
+    <div>
+        <div class="card border-dark p-2 m-2">
+            <div class="card-title">Input variables for vertex shader:</div>
+            <div class="card-subtitle">Check the variables you want to use</div>
+            <div class="card-text">
+                <!-- &nbsp; adds an empty space -->
+                <%- include("includes/variable_switch", {id: "a_position", text: "Vertex position: <code>&nbsp; vec3 a_position</code>", checked: true, disabled: false}) %>
+                <%- include("includes/variable_switch", {id: "a_color", text: "Vertex color: <code>&nbsp; vec3 a_color</code>", checked: false, disabled: false}) %>
+                <%- include("includes/variable_switch", {id: "a_normal", text: "Vertex normal: <code>&nbsp; vec3 a_normal</code>", checked: false, disabled: false}) %>
+            </div>
+        </div>
+        <div class="card border-dark p-2 m-2">
+            <div class="card-title">Uniforms:</div>
+            <div class="card-text">
+                <%- include("includes/variable_switch", {id: "model_matrix", text: "Model matrix:  <code>&nbsp; mat4 model_matrix</code>", checked: false, disabled: false}) %>
+                <%- include("includes/variable_switch", {id: "view_matrix", text: "View matrix:  <code>&nbsp; mat4 view_matrix</code>", checked: false, disabled: false}) %>
+                <%- include("includes/variable_switch", {id: "projection_matrix", text: "Projection matrix:  <code>&nbsp; mat4 projection_matrix</code>", checked: false, disabled: false}) %>
+                <%- include("includes/variable_switch", {id: "light_direction", text: "Light direction:  <code>&nbsp; vec3 light_direction</code>", checked: false, disabled: false}) %>
+                <%- include("includes/variable_switch", {id: "gamma", text: "Gamma correction coefficient:  <code>&nbsp; float gamma</code>", checked: false, disabled: false}) %>
+                <%- include("includes/variable_switch", {id: "alpha", text: "Tone mapping alpha:  <code>&nbsp; float alpha</code>", checked: false, disabled: false}) %>
+                <%- include("includes/variable_switch", {id: "beta", text: "Tone mapping beta:  <code>&nbsp; float beta</code>", checked: false, disabled: false}) %>
+            </div>
+        </div>
+        <div class="card border-dark p-2 m-2">
+            <div class="card-title">Output variables for fragment shader:</div>
+            <div class="card-text">
+                <%- include("includes/variable_switch", {id: "beta", text: "Tone mapping beta:  <code>&nbsp; float beta</code>", checked: true, disabled: true}) %>
+            </div>
+        </div>
+    </div>
+    <!-- Example of vertex shader. Highlighting with glsl -->
+    <pre class="mx-3"><code id="vertex-shader-code" contenteditable="true" class="glsl d-block" style="width: 450px; height: 525px; font-size: small;">#version 300 es
+// Input variables
+in vec3 a_position;
+in vec3 a_color;
+in vec3 a_normal;
+
+// Uniforms
+uniform mat4 model_matrix;
+uniform mat4 view_matrix;
+uniform mat4 projection_matrix;
+uniform vec3 light_direction;
+
+// Output variables
+// ...
+
+void main(){
+    // Complete the code!
+
+    gl_Position = vec4(a_position,1.0);
+}
+    </code></pre>
+    <!-- Example of fragment shader. Highlighting with glsl -->
+    <pre class="mx-3"><code id="fragment-shader-code" contenteditable="true" class="glsl d-block" style="width: 450px; height: 525px; font-size: small;">#version 300 es
+precision mediump float;
+
+// Input variables
+// ...
+
+// Uniforms
+uniform float gamma;
+uniform float alpha;
+uniform float beta;
+
+// Output variables
+out vec4 out_color;
+
+void main(){
+    // Complete the code!
+
+    // Default: cyan
+    out_color = vec4(0.0, 1.0, 1.0, 1.0);
+}
+    </code></pre>
+</div>

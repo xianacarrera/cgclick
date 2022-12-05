@@ -25,6 +25,10 @@ slideDefinitions = {
             slider_tone_mapping: false,
         },
     },
+    playground_shaders: {
+        displayFunction: displaySlideShaders,
+        leaveFunction: leaveAndCancelAnimationFrame,
+    },
     question_midpoint: {
         displayFunction: displaySlideMidpoint,
         leaveFunction: () => {},
