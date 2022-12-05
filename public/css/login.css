@@ -1,0 +1,14 @@
+.login {
+    width: 600px;
+    margin-top: 200px;
+    margin-left: 500px;
+}
+
+.newRoom {
+    margin-top: 5px;
+}
+
+.warn-room {
+    color: darkorange;
+    display: none;
+}

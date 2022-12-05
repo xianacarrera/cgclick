@@ -1,42 +1,121 @@
 const slides = [
     {
-        title: "Face Culling and Depth Test",
-        displayFunction: displaySlideTriangleCube,
-        leaveFunction: leaveAndCancelAnimationFrame,
+        name: "Culling",
+        title: "Face Culling",
+        descriptionBefore: "Watch what happens when you turn off face culling and look at the triangle from behind.",
+        descriptionAfter: "Cool, right?",
+        type: "playground_triangle_cube",
+        params: {
+            slider_face_culling: true,
+        },
     },
     {
-        title: "Parametrization",
-        displayFunction: displaySlideParametrization,
-        leaveFunction: leaveAndCancelAnimationFrame,
+        name: "Depth",
+        title: "Depth Test",
+        descriptionBefore: "Now try both face culling AND depth test!",
+        type: "playground_triangle_cube",
+        params: {
+            slider_face_culling: true,
+            slider_depth_test: true,
+        },
     },
     {
-        title: "Phong Model",
-        displayFunction: displaySlidePhongModel,
-        leaveFunction: leaveAndCancelAnimationFrame,
+        name: "Shape Parametrization",
+        title: "Shape Parametrization",
+        descriptionBefore: "Check the right parametrization for a torus",
+        type: "question_parametrization",
     },
     {
-        title: "Midpoint",
-        displayFunction: displaySlideMidpoint,
-        leaveFunction: () => {},
+        name: "Gamma",
+        title: "Gamma Correction",
+        type: "playground_phong_model",
+        params: {
+            slider_gamma: true,
+        },
     },
     {
-        title: "Image parameters",
-        displayFunction: displaySlideImageParameters,
-        leaveFunction: leaveAndCancelAnimationFrame,
+        name: "Tone Mapping",
+        title: "Tone Mapping",
+        type: "playground_phong_model",
+        params: {
+            slider_tone_mapping: true,
+        },
     },
     {
-        title: "About: Idea",
-        displayFunction: displayAboutSlide.bind(null, "idea"),
-        leaveFunction: () => {}
+        name: "Field Of View",
+        title: "Field Of View",
+        descriptionAfter: "Do you see how the ratio of sides of the cube doesn't change?",
+        type: "playground_phong_model",
+        params: {
+            slider_camera_fov: true,
+        },
     },
     {
-        title: "About: Story",
-        displayFunction: displayAboutSlide.bind(null, "story"),
-        leaveFunction: () => {}
+        name: "Moving camera",
+        title: "Moving the camera around",
+        type: "playground_phong_model",
+        params: {
+            slider_camera_angles: true,
+            slider_camera_distance: true,
+        },
     },
     {
-        title: "About: Technology",
-        displayFunction: displayAboutSlide.bind(null, "technology"),
-        leaveFunction: () => {}
-    }
+        name: "Moving light",
+        title: "Moving the light around",
+        type: "playground_phong_model",
+        params: {
+            slider_lights: true,
+        },
+    },
+    {
+        name: "Phong",
+        title: "Phong Model Parameters",
+        type: "playground_phong_model",
+        params: {
+            slider_camera_angles: true,
+            slider_camera_distance: true,
+            slider_camera_fov: true,
+            slider_lights: true,
+            slider_face_culling: true,
+            slider_depth_test: true,
+            slider_gamma: true,
+            slider_tone_mapping: true,
+        },
+    },
+    {
+        name: "Midpoint",
+        title: "Midpoint Algorithm Game",
+        type: "question_midpoint",
+    },
+    {
+        name: "Image Comparison",
+        title: "Comparison of Gamma Correction and Tone Mapping",
+        type: "question_image_parameters",
+    },
+    {
+        name: "Complete Parametrization",
+        title: "Complete Parametrization",
+        type: "question_complete_parametrization",
+    },
+    {
+        name: "About: Idea",
+        type: "slide_about",
+        params: {
+            subslide: "idea",
+        },
+    },
+    {
+        name: "About: Story",
+        type: "slide_about",
+        params: {
+            subslide: "story",
+        },
+    },
+    {
+        name: "About: Technology",
+        type: "slide_about",
+        params: {
+            subslide: "technology",
+        },
+    },
 ]

@@ -11,6 +11,7 @@ class State {
     */
     constructor(initial_slide) {
         this.slide = initial_slide;
+        this.sockets = [] // Keep track of the rooms
     }
 
     /**
@@ -21,6 +22,22 @@ class State {
         return {
             slide: this.slide,
         }
+    }
+
+    /** 
+    * Add new socket to the state (aka. current room).
+    * @param    {Socket} socket socket to add.
+    */
+    addSocket(socket) {
+        this.sockets.push(socket)
+    }
+
+    /** 
+    * Add new socket to the state (aka. current room).
+    * @param    {Socket} socket socket to add.
+    */
+    broadcast(topic, message) {
+        this.sockets.forEach((socket) => socket.emit(topic, message))
     }
 }
 

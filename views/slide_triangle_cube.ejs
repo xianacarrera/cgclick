@@ -4,43 +4,29 @@ by Jiří Heller, Marie Kalousková and Xiana Carrera Alonso
 For Software Atelier 3: The Web project we modified it to make it more customizable and tangible 
 -->
 
-<!-- How to use this file:
-    ejs.views_slide_triangle_cube({culling: true/false, depth_test: true/false});
-    start_slide_triangle_cube(culling: true/false, depth_test: true/false);
--->
+<canvas id="webgl-canvas" class="m-3" width="500" height="500"></canvas>
 
-<% if (culling && depth_test) { %>
-    <h1>Face Culling and Depth Test</h1>
-<% } else if (culling) { %>
-    <h1>Face Culling</h1>
-<% } else if (depth_test) { %>
-    <h1>Depth Test</h1>
-<% } else { %>
-    <h1>Triangle and cube</h1>
-<% } %>
-
-<canvas id="webgl-canvas" width="768" height="768"></canvas>
-<div  style="float: right">
+<div id="controls" class="m-3">
 
     <div class="slidecontainer">
-        Rotation:</br><input type="range" min="0" max="200" value="100" id="rotation">
+        Rotation:</br><input type="range" min="0" max="200" value="100" id="rotation" class="form-range">
     </div>
 
-    <% if (culling) { %>
+    <% if (slider_face_culling) { %>
         <fieldset>
-            <input type="radio" id="culling_on" name="culling" value="culling_on">
+            <input type="radio" id="culling_on" class="form-check-input" name="culling" value="culling_on">
             <label for="culling_on">Face Culling on</label>
 
-            <input type="radio" id="culling_off" name="culling" value="culling_off" checked>
+            <input type="radio" id="culling_off" class="form-check-input" name="culling" value="culling_off" checked>
             <label for="culling_off">Face Culling off</label>
         </fieldset>
     <% } %>
-    <% if (depth_test) { %>
+    <% if (slider_depth_test) { %>
         <fieldset>
-            <input type="radio" id="depth_test_on" name="depth_test" value="depth_test_on" checked>
+            <input type="radio" id="depth_test_on" class="form-check-input" name="depth_test" value="depth_test_on" checked>
             <label for="depth_test_on">Depth Test on</label>
 
-            <input type="radio" id="depth_test_off" name="depth_test" value="depth_test_off">
+            <input type="radio" id="depth_test_off" class="form-check-input" name="depth_test" value="depth_test_off">
             <label for="depth_test_off">Depth Test off</label>
         </fieldset>
     <% } %>
@@ -54,10 +40,10 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
     -->
 
     <fieldset>
-        <input type="radio" id="shape_triangle" name="shape" value="triangle" checked>
+        <input type="radio" id="shape_triangle" class="form-check-input" name="shape" value="triangle" checked>
         <label for="depth_test_on">Triangle</label>
 
-        <input type="radio" id="shape_cube" name="shape" value="cube">
+        <input type="radio" id="shape_cube" class="form-check-input" name="shape" value="cube">
         <label for="depth_test_off">Cube</label>
     </fieldset>
 

@@ -16,14 +16,11 @@ const logger = require('morgan');
 const methodOverride = require('method-override');
 const multer  = require('multer');
 
-const {State} = require('./model/state');
 const {WebSocketHandler} = require('./ws/websocket_handler');
 
 const { Server } = require("socket.io");
 
-var websocket_handler = new WebSocketHandler(
-    new State(0) // Initial slide will be set to 1.
-);
+var websocket_handler = new WebSocketHandler();
 
 //init framework
 const app = express();
@@ -37,12 +34,23 @@ app.use(multer().none());   //parse multipart/form-data
 
 app.use(express.static(path.join(__dirname, 'public'), {index: "index.html"}));
 app.use('/three', express.static(__dirname + '/node_modules/three/'));
+app.use('/evaluatex', express.static(__dirname + '/node_modules/evaluatex/'));
 
 app.use(methodOverride('_method'));
 app.use(express.static('public'))
 
 app.set('view engine', 'ejs');
 
+app.get("/pin/:id", (request, response) => {
+  let id = request.params.id
+  let states = websocket_handler.getStates()
+  if (!states.hasOwnProperty(id)) {
+    response.writeHead(302, {'Location': '/'})
+    response.end()
+    return
+  }
+  response.render("main", {id, isTeacher: states[id].sockets.length === 0})
+})
 
 //default fallback handlers
 // catch 404 and forward to error handler
@@ -75,7 +83,6 @@ app.use(function(req, res, next) {
   //     error: {}
   //   });
   // });
-
 
 
 //start server

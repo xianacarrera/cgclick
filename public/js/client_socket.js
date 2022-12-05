@@ -2,6 +2,9 @@ let socket;
 
 function initSocket(){
     socket = io();
+    socket.emit("generic_login", {
+        id, // Placeholder
+    })
     addConnectionListeners();
 }
 
@@ -16,7 +19,10 @@ function addConnectionListeners(){
 
     socket.on('generic_update', (state) => {
         console.log("Update", state);
-        changeSlide(state.slide);
+        leaveSlide();
+        currentSlideNumber = state.slide;
+        displaySlide();
+        slide_mutex = false;
     });
 
     socket.on('generic_init', (state) => {
@@ -28,6 +34,7 @@ function addConnectionListeners(){
 
 function emitChangeSlide(index){
     socket.emit('teacher_changeSlide', {
-        slide: index 
+        slide: index ,
+        id
     });
 }

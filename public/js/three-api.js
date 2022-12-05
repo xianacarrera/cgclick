@@ -120,7 +120,13 @@ threeAPI = function(){
     function createParametricGeometry(func){
     
         const geometry = new THREE.ParametricGeometry(func, 120, 120, false);
-        var material = new THREE.MeshBasicMaterial( { color: 0xFF0000, side: THREE.DoubleSide} );
+        var material = new THREE.MeshMatcapMaterial( { side: THREE.DoubleSide} );
+
+        // Texture from image
+        const matcapTexture = new THREE.TextureLoader().load("../images/matcap-gold.png");
+        //const matcapTexture = new THREE.TextureLoader().load("../images/saul_goodman.png")
+        material.matcap = matcapTexture;
+
         const mesh = new THREE.Mesh( geometry, material );
         mesh.position.set(0, 0, 0);
         scene.add(mesh);
@@ -152,6 +158,13 @@ threeAPI = function(){
      * Public function. Clears the canvas.
      */
     function clear(){
+        // Remove all the meshes
+        for (let i = scene.children.length - 1; i >= 0; i--) {
+            if (scene.children[i].type === "Mesh"){
+                scene.remove(scene.children[i]);
+            }
+        }
+
         renderer.clear();
     }
 
