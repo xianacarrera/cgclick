@@ -11,17 +11,16 @@
         <script src="/js/socket.io.min.js"></script>
         <script src="/js/login.js" defer></script>
     </head>
-    <body>
-        <div class="login">
-            <h1>Welcome to CG Click!</h1>
-            <div>
-              <label for="pin">Student pin</label>
-              <input class="form-control" id="id" placeholder="Enter Pin">
+    <body class="d-flex justify-content-center" style="height: 100vh;">
+        <div class="login p-3 d-flex flex-column justify-content-center">
+            <h1 class="text-center">Welcome to CG Click!</h1>
+            <div class="d-flex mt-3">
+              <input class="form-control me-2" id="id" placeholder="Enter the room PIN">
+              <button id="joinBtn" class="btn btn-primary" style="width: 300px;" onclick="joinRoom()" disabled>Enter room as student</button>
             </div>
-            <button id = "joinBtn" class="btn btn-primary" onclick="joinRoom()" disabled>Enter room as student</button>
-            <button class = "btn btn-primary" onclick="createNewRoom()">Create new room as teacher</button>
+            <p id="not-found-msg" class="warn-room mt-2" style="display: none; color: darkorange;">Room with this PIN does not exist.</p>
+            <button class="btn btn-success mt-3" onclick="createNewRoom()">Create a new room as teacher</button>
             <br>
-            <p class="warn-room" id="not-found-msg">Room does not exist.</p>
         </div>
     </body>
 </html>
