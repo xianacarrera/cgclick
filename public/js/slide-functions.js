@@ -117,6 +117,7 @@ function displaySlideShaders(){
     start_slide_custom_shaders();
     document.getElementById("btn-submit-shaders").addEventListener("click", () => {
         window.cancelAnimationFrame(currentSlideInfo.requestID);
+        hljs.highlightAll();
         start_slide_custom_shaders();
     });
 }
