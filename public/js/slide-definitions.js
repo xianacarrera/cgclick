@@ -6,10 +6,12 @@ slideDefinitions = {
             slider_face_culling: false,
             slider_depth_test: false,
         },
+        evaluation: "teacher",
     },
     question_parametrization: {
         displayFunction: displaySlideParametrization,
         leaveFunction: leaveAndCancelAnimationFrame,
+        evaluation: "teacher",
     },
     playground_phong_model: {
         displayFunction: displaySlidePhongModel,
@@ -24,18 +26,22 @@ slideDefinitions = {
             slider_gamma: false,
             slider_tone_mapping: false,
         },
+        evaluation: "teacher",
     },
     question_midpoint: {
         displayFunction: displaySlideMidpoint,
         leaveFunction: () => {},
+        evaluation: "auto",
     },
     question_image_parameters: {
         displayFunction: displaySlideImageParameters,
         leaveFunction: leaveAndCancelAnimationFrame,
+        evaluation: "teacher",
     },
     question_complete_parametrization: {
         displayFunction: displaySlideCompleteParametrization,
         leaveFunction: leaveAndCancelAnimationFrame,
+        evaluation: "teacher",
     },
     slide_about: {
         displayFunction: displayAboutSlide,
@@ -43,5 +49,6 @@ slideDefinitions = {
         defaultParams: {
             subslide: "idea",
         },
+        evaluation: "no_eval",
     },
 }

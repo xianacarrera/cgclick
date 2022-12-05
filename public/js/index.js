@@ -49,6 +49,7 @@ function displaySlide() {
     document.getElementById("title").innerHTML = slides[currentSlideNumber].title || slides[currentSlideNumber].name || "";
     document.getElementById("description-before").innerHTML = slides[currentSlideNumber].descriptionBefore || "";
     document.getElementById("description-after").innerHTML = slides[currentSlideNumber].descriptionAfter || "";
+    displayEval(slideDefinitions[slides[currentSlideNumber].type].evaluation || "no_eval");
 
     // Display the new slide and execute necessary init code
     slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());
@@ -61,6 +62,37 @@ function mergeParams() {
         result[key] = customParams[key];
     });
     return result;
+}
+
+function displayEval(eval_type){
+    let q = document.getElementById("question_type");
+    try {
+        if(eval_type == "auto"){
+            q.classList.remove("text-success");
+            q.classList.remove("text-secondary");
+            q.classList.add("text-primary");
+            q.setAttribute("title","Automatically evaluated");
+        }
+        else if(eval_type == "teacher"){
+            q.classList.remove("text-primary");
+            q.classList.remove("text-secondary");
+            q.classList.add("text-success");
+            q.setAttribute("title","Evaluated by the teacher");
+        }
+        else if(eval_type == "no_eval"){
+            q.classList.remove("text-primary");
+            q.classList.remove("text-success");
+            q.classList.add("text-secondary");
+            q.setAttribute("title","No evaluation");
+        }
+        else{
+            throw "Invalid evalution type";
+        }
+    } catch (error) {
+        console.error(error);
+        q.setAttribute("title","");
+    }
+    
 }
 
 function link_listener(e){
