@@ -82,6 +82,12 @@ const slides = [
         },
     },
     {
+        name: "Shaders",
+        title: "Shaders",
+        descriptionBefore: "Try to complete the vertex and fragment shaders to display a scene!",
+        type: "playground_shaders",
+    },
+    {
         name: "Midpoint",
         title: "Midpoint Algorithm Game",
         type: "question_midpoint",
