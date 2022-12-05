@@ -28,10 +28,6 @@ slideDefinitions = {
     playground_shaders: {
         displayFunction: displaySlideShaders,
         leaveFunction: leaveAndCancelAnimationFrame,
-        defaultParams: {
-            slider_face_culling: false,
-            slider_depth_test: true,
-        },
     },
     question_midpoint: {
         displayFunction: displaySlideMidpoint,

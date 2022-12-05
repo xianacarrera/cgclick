@@ -87,17 +87,6 @@ const slides = [
         title: "Shaders",
         descriptionBefore: "Try to complete the vertex and fragment shaders to display a scene!",
         type: "playground_shaders",
-        params: {
-            slider_camera_angles: false,
-            slider_camera_distance: false,
-            slider_camera_fov: false,
-            slider_lights: false,
-            slider_face_culling: false,
-            slider_depth_test: false,
-            slider_gamma: false,
-            slider_tone_mapping: false,
-            compilation_msgs: true,
-        },
     },
     {
         name: "Midpoint",
