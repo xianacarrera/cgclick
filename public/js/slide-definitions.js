@@ -38,6 +38,10 @@ slideDefinitions = {
         leaveFunction: leaveAndCancelAnimationFrame,
         evaluation: "teacher",
     },
+    question_complete_parametrization: {
+        displayFunction: displaySlideCompleteParametrization,
+        leaveFunction: leaveAndCancelAnimationFrame,
+    },
     slide_about: {
         displayFunction: displayAboutSlide,
         leaveFunction: () => {},
