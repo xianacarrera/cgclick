@@ -28,6 +28,10 @@ slideDefinitions = {
         },
         evaluation: "teacher",
     },
+    playground_shaders: {
+        displayFunction: displaySlideShaders,
+        leaveFunction: leaveAndCancelAnimationFrame,
+    },
     question_midpoint: {
         displayFunction: displaySlideMidpoint,
         leaveFunction: () => {},

@@ -22,7 +22,6 @@ const slides = [
     {
         name: "Shape Parametrization",
         title: "Shape Parametrization",
-        descriptionBefore: "Check the right parametrization for a torus",
         type: "question_parametrization",
     },
     {
@@ -83,6 +82,12 @@ const slides = [
         },
     },
     {
+        name: "Shaders",
+        title: "Shaders",
+        descriptionBefore: "Try to complete the vertex and fragment shaders to display a scene!",
+        type: "playground_shaders",
+    },
+    {
         name: "Midpoint",
         title: "Midpoint Algorithm Game",
         type: "question_midpoint",
@@ -95,6 +100,7 @@ const slides = [
     {
         name: "Complete Parametrization",
         title: "Complete Parametrization",
+        descriptionBefore: "Complete the blank spaces to create a valid sphere parametrization:",
         type: "question_complete_parametrization",
     },
     {
