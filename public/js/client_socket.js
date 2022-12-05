@@ -19,10 +19,7 @@ function addConnectionListeners(){
 
     socket.on('generic_update', (state) => {
         console.log("Update", state);
-        leaveSlide();
-        currentSlideNumber = state.slide;
-        displaySlide();
-        slide_mutex = false;
+        changeSlide(state.slide);
     });
 
     socket.on('generic_init', (state) => {

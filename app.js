@@ -34,7 +34,6 @@ app.use(multer().none());   //parse multipart/form-data
 
 app.use(express.static(path.join(__dirname, 'public'), {index: "index.html"}));
 app.use('/three', express.static(__dirname + '/node_modules/three/'));
-app.use('/evaluatex', express.static(__dirname + '/node_modules/evaluatex/'));
 
 app.use(methodOverride('_method'));
 app.use(express.static('public'))

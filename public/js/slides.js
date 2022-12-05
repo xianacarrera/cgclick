@@ -89,15 +89,10 @@ const slides = [
         type: "question_midpoint",
     },
     {
-        name: "Image Comparison",
-        title: "Comparison of Gamma Correction and Tone Mapping",
+        name: "Gamma",
+        title: "Gamma Correction and Tone Mapping",
         type: "question_image_parameters",
         evaluation: "teacher",
-    },
-    {
-        name: "Complete Parametrization",
-        title: "Complete Parametrization",
-        type: "question_complete_parametrization",
     },
     {
         name: "About: Idea",
