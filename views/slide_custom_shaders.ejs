@@ -1,16 +1,28 @@
 <div class="d-flex flex-row p-2 justify-content-around align-items-center">
     <canvas id="webgl-canvas" class="m-3" width="300" height="300"></canvas>
-    <div class="d-flex flex-column justify-content-center">
+    <div class="d-flex flex-column justify-content-center" style="max-width: 30%;">
         <p>
             Check the input, uniforms and output variables that you want to use, and modify the shader codes accordingly.<br/>
             When you're done, click the submit button.
         </p>
         <button id="btn-submit-shaders" class="btn btn-primary mx-auto">Submit selection</button>
-        <p class="mx-3 mt-2" id="Vertex-compilation-msg"></p>
-        <p class="mx-3" id="Fragment-compilation-msg"></p>
     </div>
 
-        
+    <div class="card m-3" style="max-width: 13rem;">
+        <div class="card-header">Vertex log</div>
+        <div class="card-body">
+            <h5 class="card-title" id="Vertex-compilation-msg"></h5>
+            <div class="card-text" id="Vertex-compilation-log" style="font-size: small;"></div>
+        </div>
+    </div>
+
+    <div class="card m-3" style="max-width: 13rem;">
+        <div class="card-header">Fragment log</div>
+        <div class="card-body">
+            <h5 class="card-title" id="Fragment-compilation-msg"></h5>
+            <div class="card-text" id="Fragment-compilation-log" style="font-size: small;"></div>
+        </div>
+    </div>
 </div>
 
 <div class="d-flex flex-row p-2 justify-content-around align-items-center">
