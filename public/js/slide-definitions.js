@@ -33,6 +33,10 @@ slideDefinitions = {
         displayFunction: displaySlideImageParameters,
         leaveFunction: leaveAndCancelAnimationFrame,
     },
+    question_complete_parametrization: {
+        displayFunction: displaySlideCompleteParametrization,
+        leaveFunction: leaveAndCancelAnimationFrame,
+    },
     slide_about: {
         displayFunction: displayAboutSlide,
         leaveFunction: () => {},

@@ -142,6 +142,16 @@ function displaySlideImageParameters() {
     // The student provides a right answer if alpha is 1 and beta / gamma is 1/2
 }
 
+function displaySlideCompleteParametrization(){
+    document.getElementById("content").className = cardClasses;
+    document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization({});
+    threeAPI.initScene();
+    threeAPI.clear();
+    addCompleteParametrizationListeners();
+    // MathJax will change the DOM text, so we need to preload the raw html in the listeners before applying the conversion to latex for the user
+    MathJax.typeset();
+}
+
 function displayAboutSlide(params) {
     document.getElementById("content").className = noClasses;
     document.getElementById("content").innerHTML = ejs.views_slide_about(params);
