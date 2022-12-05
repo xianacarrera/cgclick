@@ -124,21 +124,29 @@ function compileShader(shader, source, type, name = "", params){
     gl.compileShader(shader);
     let success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
     if(success){
-        console.log(name + " shader compiled succesfully.");
         if (params?.compilation_msgs){
             let txtComp = document.getElementById(`${name}-compilation-msg`);
             txtComp.textContent = name + " shader compiled succesfully.";
             txtComp.classList.remove("text-danger");
             txtComp.classList.add("text-success");
+            txtComp.parentNode.parentNode.classList.add("border-success");
+            txtComp.parentNode.parentNode.classList.remove("border-danger");
+            document.getElementById(`${name}-compilation-log`).textContent = "";
+        } else {
+            console.log(name + " shader compiled succesfully.");
         }
     }else{
-        console.log(name + " shader error.")
-        console.log(gl.getShaderInfoLog(shader));
         if (params?.compilation_msgs){
             let txtComp = document.getElementById(`${name}-compilation-msg`);
             txtComp.textContent = name + " shader error.";
             txtComp.classList.remove("text-success");
             txtComp.classList.add("text-danger");
+            txtComp.parentNode.parentNode.classList.remove("border-success");
+            txtComp.parentNode.parentNode.classList.add("border-danger");
+            document.getElementById(`${name}-compilation-log`).textContent = gl.getShaderInfoLog(shader);
+        } else {
+            console.log(name + " shader error.")
+            console.log(gl.getShaderInfoLog(shader));
         }
     }
 }

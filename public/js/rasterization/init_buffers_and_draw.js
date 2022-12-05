@@ -29,7 +29,7 @@ const BETA = 1;
 /* A function which takes the arrays containing values of the attributes,
              * and then, creates VBOa, VAOs, and sets up the attributes. 
              */
-function createVAO(vao, shader, vertices, normals, colors){
+function createVAO(vao, shader, vertices, normals, colors) {
 
     // a buffer for positions
     var vertexBuffer = gl.createBuffer();
@@ -65,7 +65,7 @@ function createVAO(vao, shader, vertices, normals, colors){
         var normalAttributeLocation = gl.getAttribLocation(shaderProgram, "a_normal");
         gl.enableVertexAttribArray(normalAttributeLocation);
         gl.vertexAttribPointer(normalAttributeLocation, 3, gl.FLOAT, false, 0, 0);
-    } 
+    }
 }
 
 function initBuffers() {
@@ -73,23 +73,25 @@ function initBuffers() {
         case "triangle_cube":
             cube_vao = gl.createVertexArray();
             createVAO(cube_vao, shaderProgram, cube_vertices, undefined, cube_colors);
-        
+
             triangle_vao = gl.createVertexArray();
             createVAO(triangle_vao, shaderProgram, triangle_vertices, undefined, triangle_colors);
             break;
-        case "phong_model":    
+        case "phong_model":
         case "custom_shaders":
             cube_vao = gl.createVertexArray();
             createVAO(cube_vao, shaderProgram, cube_vertices_PM, cube_normals, cube_colors);
-        
+
             sphere_vao = gl.createVertexArray();
             createVAO(sphere_vao, shaderProgram, sphere_vertices, sphere_normals, sphere_colors);
-        
+
             plane_vao = gl.createVertexArray();
             createVAO(plane_vao, shaderProgram, plane_vertices, plane_normals, plane_colors);
             break;
         default:
-            console.error("For this slide initBuffers is not supported.");
+            if (!params?.compilation_msgs) {
+                console.error("For this slide initBuffers is not supported.");
+            }
     }
 }
 
@@ -104,11 +106,11 @@ function draw(params) {
     }
 }
 
-function draw_TC(){
-    shaderProgram.rotationMatrix= gl.getUniformLocation(shaderProgram, "rotationMatrix");
+function draw_TC() {
+    shaderProgram.rotationMatrix = gl.getUniformLocation(shaderProgram, "rotationMatrix");
     var rotation = document.getElementById("rotation");
     var rotationMatrix = mat4.create();
-    mat4.fromRotation(rotationMatrix, -(rotation.value-100)/100*Math.PI, vec3.fromValues(-0.2,1,0));
+    mat4.fromRotation(rotationMatrix, -(rotation.value - 100) / 100 * Math.PI, vec3.fromValues(-0.2, 1, 0));
 
     // set the size of our rendering area
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
@@ -136,7 +138,7 @@ function draw_TC(){
         gl.drawArrays(gl.TRIANGLES, 0, 3);
     } else {
         gl.bindVertexArray(cube_vao);
-        gl.drawArrays(gl.TRIANGLES, 0, 12*3);
+        gl.drawArrays(gl.TRIANGLES, 0, 12 * 3);
     }
 
     let requestID = window.requestAnimationFrame(draw_TC);
@@ -177,20 +179,20 @@ function getLightDirection(params) {
     let light_x = LIGHT_DISTANCE * Math.sin(light_polar_angle) * Math.cos(light_azimuthal_angle);
     let light_y = LIGHT_DISTANCE * Math.cos(light_polar_angle);
     let light_z = - LIGHT_DISTANCE * Math.sin(light_polar_angle) * Math.sin(light_azimuthal_angle);
-    return vec3.fromValues(light_x, light_y, light_z);    
+    return vec3.fromValues(light_x, light_y, light_z);
 }
 
-function setUniform(unif, unifname, func, nargs){
+function setUniform(unif, unifname, func, nargs) {
     if (currentSlideInfo.rasterizationType == "custom_shaders" && !document.getElementById(unifname).checked) return;
-    
-    if (nargs == 2){
+
+    if (nargs == 2) {
         (func.bind(gl, gl.getUniformLocation(shaderProgram, unifname), unif))();
-    } else if (nargs == 3){
+    } else if (nargs == 3) {
         (func.bind(gl, gl.getUniformLocation(shaderProgram, unifname), false, unif))();
     }
 }
 
-function draw_PM(params){
+function draw_PM(params) {
     let camera_position = getCameraPosition(params);
 
     // camera fov
@@ -207,7 +209,7 @@ function draw_PM(params){
     var model_matrix = mat4.create();
     var view_matrix = mat4.create();
     var projection_matrix = mat4.create();
-    
+
     // computation of view and projection matrices (because they are the same for all objects)
     mat4.lookAt(view_matrix, camera_position, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 1, 0));
     let aspectRatio = gl.viewportWidth / gl.viewportHeight;
@@ -249,7 +251,7 @@ function draw_PM(params){
     }
     setUniform(alpha, "alpha", gl.uniform1f, 2);
     setUniform(beta, "beta", gl.uniform1f, 2);
-    
+
     // CUBE 1
 
     gl.bindVertexArray(cube_vao);
@@ -257,14 +259,14 @@ function draw_PM(params){
     mat4.fromTranslation(model_matrix, vec3.fromValues(1.5, 0, 0));
     setUniform(model_matrix, "model_matrix", gl.uniformMatrix4fv, 3);
 
-    gl.drawArrays(gl.TRIANGLES, 0, cube_vertices_PM.length/3);
+    gl.drawArrays(gl.TRIANGLES, 0, cube_vertices_PM.length / 3);
 
     // CUBE 2
 
     mat4.fromTranslation(model_matrix, vec3.fromValues(-1.5, 0, 0));
     setUniform(model_matrix, "model_matrix", gl.uniformMatrix4fv, 3);
 
-    gl.drawArrays(gl.TRIANGLES, 0, cube_vertices_PM.length/3);
+    gl.drawArrays(gl.TRIANGLES, 0, cube_vertices_PM.length / 3);
 
     // SPHERE 1
 
@@ -273,8 +275,8 @@ function draw_PM(params){
     mat4.fromTranslation(model_matrix, vec3.fromValues(0, 0, 0));
     setUniform(model_matrix, "model_matrix", gl.uniformMatrix4fv, 3);
 
-    gl.drawArrays(gl.TRIANGLES, 0, sphere_vertices.length/3);
-    
+    gl.drawArrays(gl.TRIANGLES, 0, sphere_vertices.length / 3);
+
     // PLANE
 
     gl.bindVertexArray(plane_vao);
@@ -284,8 +286,8 @@ function draw_PM(params){
     mat4.multiply(model_matrix, translation_matrix, scaling_matrix);
     setUniform(model_matrix, "model_matrix", gl.uniformMatrix4fv, 3);
 
-    gl.drawArrays(gl.TRIANGLES, 0, plane_vertices.length/3);
+    gl.drawArrays(gl.TRIANGLES, 0, plane_vertices.length / 3);
 
-    let requestID = window.requestAnimationFrame(function() {draw_PM(params)});
+    let requestID = window.requestAnimationFrame(function () { draw_PM(params) });
     currentSlideInfo.requestID = requestID;
 }
