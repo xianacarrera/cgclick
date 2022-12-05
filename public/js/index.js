@@ -45,7 +45,7 @@ function displaySlide() {
     document.getElementById("title").innerHTML = slides[currentSlideNumber].title || slides[currentSlideNumber].name || "";
     document.getElementById("description-before").innerHTML = slides[currentSlideNumber].descriptionBefore || "";
     document.getElementById("description-after").innerHTML = slides[currentSlideNumber].descriptionAfter || "";
-    displayEval(slides[currentSlideNumber].evaluation || "");
+    displayEval(slideDefinitions[slides[currentSlideNumber].type].evaluation || "no_eval");
 
     // Display the new slide and execute necessary init code
     slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());
@@ -65,15 +65,21 @@ function displayEval(eval_type){
     let q = document.getElementById("question_type");
     try {
         if(eval_type == "auto"){
-            q.setAttribute("style","color:blue;font-size:32px");
-            q.setAttribute("title","Automaticly evaluated");
+            q.classList.remove("text-success");
+            q.classList.remove("text-secondary");
+            q.classList.add("text-primary");
+            q.setAttribute("title","Automatically evaluated");
         }
         else if(eval_type == "teacher"){
-            q.setAttribute("style","color:red;font-size:32px");
+            q.classList.remove("text-primary");
+            q.classList.remove("text-secondary");
+            q.classList.add("text-success");
             q.setAttribute("title","Evaluated by the teacher");
         }
         else if(eval_type == "no_eval"){
-            q.setAttribute("style","color:pink;font-size:32px");
+            q.classList.remove("text-primary");
+            q.classList.remove("text-success");
+            q.classList.add("text-secondary");
             q.setAttribute("title","No evaluation");
         }
         else{
@@ -81,7 +87,6 @@ function displayEval(eval_type){
         }
     } catch (error) {
         console.error(error);
-        q.setAttribute("style","visibility:hidden;font-size:32px");
         q.setAttribute("title","");
     }
     
