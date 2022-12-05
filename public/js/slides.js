@@ -8,7 +8,6 @@ const slides = [
         params: {
             slider_face_culling: true,
         },
-        evaluation: "auto",
     },
     {
         name: "Depth",
@@ -19,14 +18,12 @@ const slides = [
             slider_face_culling: true,
             slider_depth_test: true,
         },
-        evaluation: "auto",
     },
     {
         name: "Shape Parametrization",
         title: "Shape Parametrization",
         descriptionBefore: "Check the right parametrization for a torus",
         type: "question_parametrization",
-        evaluation: "auto",
     },
     {
         name: "Gamma",
@@ -90,7 +87,6 @@ const slides = [
         name: "Midpoint",
         title: "Midpoint Algorithm Game",
         type: "question_midpoint",
-        evaluation: "auto",
     },
     {
         name: "Gamma",
@@ -104,7 +100,6 @@ const slides = [
         params: {
             subslide: "idea",
         },
-        evaluation: "no_eval",
     },
     {
         name: "About: Story",
@@ -112,7 +107,6 @@ const slides = [
         params: {
             subslide: "story",
         },
-        evaluation: "no_eval",
     },
     {
         name: "About: Technology",
