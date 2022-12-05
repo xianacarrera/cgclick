@@ -22,7 +22,6 @@ const slides = [
     {
         name: "Shape Parametrization",
         title: "Shape Parametrization",
-        descriptionBefore: "Check the right parametrization for a torus",
         type: "question_parametrization",
     },
     {
@@ -95,6 +94,7 @@ const slides = [
     {
         name: "Complete Parametrization",
         title: "Complete Parametrization",
+        descriptionBefore: "Complete the blank spaces to create a valid sphere parametrization:",
         type: "question_complete_parametrization",
     },
     {
