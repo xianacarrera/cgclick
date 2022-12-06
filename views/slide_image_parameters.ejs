@@ -1,27 +1,30 @@
 <canvas id="webgl-canvas" class="m-3" width="600" height="300"></canvas>
 
-<div id="controls" class="m-3" style="float: right">
+<div id="controls" class="m-3">
+    
+    <h4 class="mt-3">Tone mapping</h4>
 
-    <h4>Gamma correction</h4>
-
-    <label class="form-label bd-highlight" for="gamma_input">Gamma coefficient:</label>
-    <div class="range d-flex flex-row">
-        <span class="me-3" id="rangeval_gamma">1</span>    <!-- Default value of 1 -->
-        <input type="range" class="form-range" min="1" max="5" value="1" step="0.5" id="gamma_input" onChange="document.getElementById('rangeval_gamma').innerText = document.getElementById('gamma_input').value">
+    <div class="slidecontainer">
+        Alpha:
+        <output id="rangeval_tm_alpha">1</output>
+        <br/>
+        <input type="range" min="0.5" max="3" value="1" step="0.5" id="alpha_input" class="form-range" oninput="document.getElementById('rangeval_tm_alpha').innerHTML = document.getElementById('alpha_input').value">
     </div>
 
-    <h4 class="mt-2">Tone mapping</h4>
-
-    <label class="form-label bd-highlight" for="alpha_input">Alpha:</label>
-    <div class="range d-flex flex-row">
-        <span class="me-3" id="rangeval_tm_alpha">3</span>    <!-- Default value of 9 -->
-        <input type="range" class="form-range" min="0.5" max="3" value="3" step="0.5" id="alpha_input" onChange="document.getElementById('rangeval_tm_alpha').innerText = document.getElementById('alpha_input').value">
+    <div class="slidecontainer">
+        Beta:
+        <output id="rangeval_tm_beta">1</output>
+        <br/>
+        <input type="range" min="0.5" max="3" value="1" step="0.5" id="beta_input" class="form-range" oninput="document.getElementById('rangeval_tm_beta').innerHTML = document.getElementById('beta_input').value">
     </div>
 
-    <label class="form-label bd-highlight" for="beta_input">Beta:</label>
-    <div class="range d-flex flex-row">
-        <span class="me-3" id="rangeval_tm_beta">0.5</span>    <!-- Default value of 1 -->
-        <input type="range" class="form-range" min="0.5" max="3" value="0.5" step="0.5" id="beta_input" onChange="document.getElementById('rangeval_tm_beta').innerText = document.getElementById('beta_input').value">
+    <h4 class="mt-3">Gamma correction</h4>
+
+    <div class="slidecontainer">
+        Gamma coefficient:
+        <output id="rangeval_tm_gamma">1</output>
+        <br/>
+        <input type="range" min="0.5" max="5" value="1" step="0.5" id="gamma_input" class="form-range" oninput="document.getElementById('rangeval_tm_gamma').innerHTML = document.getElementById('gamma_input').value">
     </div>
 
 </div>

@@ -93,9 +93,14 @@ const slides = [
         type: "question_midpoint",
     },
     {
-        name: "Image Comparison",
-        title: "Comparison of Gamma Correction and Tone Mapping",
+        name: "Match the images",
+        title: "Gamma Correction and Tone Mapping",
         type: "question_image_parameters",
+        params: {
+            target_alpha: 1.5,
+            target_beta: 1.5,
+            target_gamma: 2.5,
+        }
     },
     {
         name: "Complete Parametrization",
