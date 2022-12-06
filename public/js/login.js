@@ -17,6 +17,9 @@ const createNewRoom = () => {
     let id = generateId();
     socket.on('generic_create_done', () => window.location.href = `/pin/${id}`)
     socket.emit('teacher_createRoom', {id});
+    socket.on('student_openAnswer', (msg) => {
+        console.log("Received open answer from the student: " + msg.answer);
+    })
 }
 
 const joinRoom = () => {

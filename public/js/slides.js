@@ -1,5 +1,11 @@
 const slides = [
     {
+        name: "Open Question",
+        title: "Open Question",
+        descriptionBefore: "Tell me your thoughts",
+        type: "question_open",
+    },
+    {
         name: "Culling",
         title: "Face Culling",
         descriptionBefore: "Watch what happens when you turn off face culling and look at the triangle from behind.",

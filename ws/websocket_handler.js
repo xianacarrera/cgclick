@@ -26,6 +26,10 @@ class WebSocketHandler {
         socket.on('teacher_createRoom', (room) => this.on_create_room(socket, room.id));
         // check if a student room exist
         socket.on('student_roomExist', (room) => this.on_room_exist(socket, room.id));
+        // retransmit an open answer from a student to the teacher
+        socket.on('student_openAnswer', (msg) => this.on_open_answer(msg.id, msg.answer, socket));
+        
+        socket.on('generic_requestId', () => socket.emit('generic_updateId', {id: socket.id}));
     }
 
     /**
@@ -45,6 +49,8 @@ class WebSocketHandler {
     */
     on_create_room(socket, id) {
         this.states[id] = new State(0); // Start from first slide.
+        this.states[id].teacherSocketId = socket.id;
+        console.log(this.states[id].teacherSocketId);
         socket.emit("generic_create_done", {}); // Just send this when we are done.
     }
 
@@ -66,6 +72,7 @@ class WebSocketHandler {
         // Create new room if it does not exist.
         if (!this.states.hasOwnProperty(id)) {
             this.states[id] = new State(0); // Start from first slide
+            this.states[id].teacherSocketId = socket.id;             // NECESSARY??
         }
         this.states[id].addSocket(socket)
         socket.emit("generic_update", this.states[id].stateObject())
@@ -80,6 +87,22 @@ class WebSocketHandler {
     on_update(id, state_obj) {
         // update topic should be received by the client and update current slide and whatever accordingly.
         this.states[id].broadcast('generic_update', state_obj)
+    }
+
+    on_open_answer(id, answer, socket){
+        //console.log("Received answer at the server");
+        //this.states[id].teacherSocket.emit('student_openAnswer', {answer});
+        //this.io.sockets.socket(this.states[id].teacherSocketId).emit('student_openAnswer', {answer});
+        console.log("Resending answer to teacher");
+        //this.io.to(this.states[id].teacherSocketId).emit('student_openAnswer', {answer});
+        console.log(this.states[id].teacherSocketId);
+        this.io.to(socket.id).emit("student_openAnswer", {answer});
+        socket.to(this.states[id].teacherSocketId).emit("student_openAnswer", {answer});
+        this.io.to(this.states[id].teacherSocketId).emit("student_openAnswer", {answer});
+    }
+
+    setIO(io_instance){
+        this.io = io_instance;
     }
 
     /**

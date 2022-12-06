@@ -55,4 +55,9 @@ slideDefinitions = {
         },
         evaluation: "no_eval",
     },
+    question_open: {
+        displayFunction: displayOpenQuestionSlide,
+        leaveFunction: () => {},
+        evaluation: "teacher",
+    }
 }

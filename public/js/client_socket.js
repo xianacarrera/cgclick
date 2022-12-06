@@ -21,20 +21,29 @@ function addConnectionListeners(){
         console.log("Update", state);
         leaveSlide();
         currentSlideNumber = state.slide;
+        currentTeacherSlideNumber = state.slide;
         displaySlide();
         slide_mutex = false;
     });
 
-    socket.on('generic_init', (state) => {
-        console.log("Received init from the server, slide number: ", state.slide);
-        changeSlide(state.slide);
+    socket.on('student_openAnswer', (msg) => {
+        console.log("Received open answer from the student: " + msg.answer);
     })
-
 }
 
 function emitChangeSlide(index){
     socket.emit('teacher_changeSlide', {
         slide: index ,
         id
+    });
+}
+
+function emitOpenAnswerToTeacher(answer){
+    if (isTeacher) return;
+    if (currentSlideNumber != currentTeacherSlideNumber) return;            // The student is not on the right slide
+    console.log("Sent open answer");
+    socket.emit('student_openAnswer', {
+        id,
+        answer
     });
 }

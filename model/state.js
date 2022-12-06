@@ -18,9 +18,10 @@ class State {
     * Return the state object for broadcasting.
     * @return   {JSON} State object.
     */
-    stateObject() {
+    stateObject(id) {
         return {
             slide: this.slide,
+            id,
         }
     }
 

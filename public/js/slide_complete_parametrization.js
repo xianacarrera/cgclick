@@ -76,3 +76,4 @@ function displayErrorMessage(display){
         document.getElementById("error-msg-complete-param").classList.add("opacity-0");
     }
 }
+
