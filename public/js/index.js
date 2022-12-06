@@ -103,7 +103,7 @@ function displayEval(eval_type){
 
 function link_listener(e){
     e.preventDefault();
-    if (!isFollowing) {
+    if (!isFollowing || isTeacher) {
         changeSlide(e.currentTarget.pathname.split("/").pop());     // Get last element of path
     }
 }
