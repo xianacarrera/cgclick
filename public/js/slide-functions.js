@@ -150,8 +150,6 @@ function displaySlideImageParameters(params) {
         { azimuthal: -45, polar: 60, distance: 150, fov: 45 },   // Camera
         { gamma: params.target_gamma, tone_mapping_alpha: params.target_alpha, tone_mapping_beta: params.target_beta }
     );
-
-    // The student provides a right answer if alpha is 1 and beta / gamma is 1/2
 }
 
 function displaySlideCompleteParametrization(){
