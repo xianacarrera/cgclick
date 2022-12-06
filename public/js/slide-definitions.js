@@ -40,6 +40,11 @@ slideDefinitions = {
     question_image_parameters: {
         displayFunction: displaySlideImageParameters,
         leaveFunction: leaveAndCancelAnimationFrame,
+        defaultParams: {
+            target_alpha: 2,
+            target_beta: 2,
+            target_gamma: 2,
+        },
         evaluation: "teacher",
     },
     question_complete_parametrization: {
