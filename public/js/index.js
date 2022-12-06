@@ -1,13 +1,19 @@
 
 let currentSlideNumber;
 let slide_mutex = false;
-
+var isFollowing = true;
 
 function init(){
     currentSlideNumber = 0;
     initSocket();
     let pathname = new URL(window.location.href).pathname;
     document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id, pathname});
+    if (!isTeacher) {
+        document.getElementById('follow').addEventListener('change', () => {
+            isFollowing = document.getElementById('follow').checked
+            if (isFollowing) login()
+        })
+    }
     addEventListeners();
     displaySlide();
 }
@@ -97,7 +103,9 @@ function displayEval(eval_type){
 
 function link_listener(e){
     e.preventDefault();
-    changeSlide(e.currentTarget.pathname.split("/").pop());     // Get last element of path
+    if (!isFollowing || isTeacher) {
+        changeSlide(e.currentTarget.pathname.split("/").pop());     // Get last element of path
+    }
 }
 
 function addEventListeners(){

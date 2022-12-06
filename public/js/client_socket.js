@@ -2,9 +2,7 @@ let socket;
 
 function initSocket(){
     socket = io();
-    socket.emit("generic_login", {
-        id, // Placeholder
-    })
+    login()
     addConnectionListeners();
 }
 
@@ -18,6 +16,9 @@ function addConnectionListeners(){
     });
 
     socket.on('generic_update', (state) => {
+        if (!isFollowing) {
+            return;
+        }
         console.log("Update", state);
         leaveSlide();
         currentSlideNumber = state.slide;
@@ -38,3 +39,6 @@ function emitChangeSlide(index){
         id
     });
 }
+
+
+const login = () => socket.emit("generic_login", {id})
