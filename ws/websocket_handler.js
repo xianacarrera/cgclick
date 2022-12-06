@@ -49,8 +49,6 @@ class WebSocketHandler {
     */
     on_create_room(socket, id) {
         this.states[id] = new State(0); // Start from first slide.
-        this.states[id].teacherSocketId = socket.id;
-        console.log(this.states[id].teacherSocketId);
         socket.emit("generic_create_done", {}); // Just send this when we are done.
     }
 
@@ -69,10 +67,15 @@ class WebSocketHandler {
     * @param {String} id the id of the room we want to join.
     */
     on_login(socket, id) {
+        console.log("Login of " + socket.id);
+
         // Create new room if it does not exist.
         if (!this.states.hasOwnProperty(id)) {
             this.states[id] = new State(0); // Start from first slide
-            this.states[id].teacherSocketId = socket.id;             // NECESSARY??
+        }
+        if (this.states[id].sockets.length == 0){
+            // Needs to be done here and not on create room because the id of the teacher's socket changes
+            this.states[id].teacherSocketId = socket.id;
         }
         this.states[id].addSocket(socket)
         socket.emit("generic_update", this.states[id].stateObject())
