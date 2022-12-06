@@ -181,7 +181,7 @@ function displayAboutSlide(params) {
 function displayOpenQuestionSlide(){
     document.getElementById("content").className = cardClasses;
     if (isTeacher){
-        document.getElementById("content").innerHTML = ejs.views_teacher_open_question({});
+        document.getElementById("content").innerHTML = ejs.views_teacher_open_answers({});
     } else {
         document.getElementById("content").innerHTML = ejs.views_slide_open_question({question: "Tell me your most profound thoughts"});
         document.getElementById("student_open_question").addEventListener("submit", (e) => {

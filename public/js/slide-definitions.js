@@ -59,5 +59,6 @@ slideDefinitions = {
         displayFunction: displayOpenQuestionSlide,
         leaveFunction: () => {},
         evaluation: "teacher",
+        answer_container: "answer-list",
     }
 }

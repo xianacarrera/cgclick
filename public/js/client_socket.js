@@ -28,6 +28,14 @@ function addConnectionListeners(){
 
     socket.on('student_answer', (msg) => {
         console.log("Received answer from the student: " + msg.answer);
+
+        // If the answer should be unique for each student, filter by using msg.student (id of the student)
+
+        let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+        let new_item = document.createElement("li");
+        let textnode = document.createTextNode(msg.answer);
+        new_item.appendChild(textnode);
+        answer_container.appendChild(new_item);
     })
 }
 
