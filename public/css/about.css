@@ -14,14 +14,10 @@ img {
     align-self: center;
 }
 
-.teacher {
-    color: green;
-}
-
-.student {
-    color: red;
-}
-
 .form-range {
     width: 300px;
+}
+
+#statusbar p span {
+    font-size: 15px;
 }
