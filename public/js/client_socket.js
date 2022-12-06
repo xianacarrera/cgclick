@@ -26,8 +26,8 @@ function addConnectionListeners(){
         slide_mutex = false;
     });
 
-    socket.on('student_openAnswer', (msg) => {
-        console.log("Received open answer from the student: " + msg.answer);
+    socket.on('student_answer', (msg) => {
+        console.log("Received answer from the student: " + msg.answer);
     })
 }
 
@@ -38,12 +38,13 @@ function emitChangeSlide(index){
     });
 }
 
-function emitOpenAnswerToTeacher(answer){
+function emitAnswerToTeacher(answer){
     if (isTeacher) return;
     if (currentSlideNumber != currentTeacherSlideNumber) return;            // The student is not on the right slide
     console.log("Sent open answer");
-    socket.emit('student_openAnswer', {
-        id,
-        answer
+    socket.emit('student_answer', {
+        id,             // Room id
+        answer,         // Answer
+        student: socket.id,         // Identifies the student (useful for questions where the answer per student is unique)
     });
 }

@@ -180,13 +180,17 @@ function displayAboutSlide(params) {
 
 function displayOpenQuestionSlide(){
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_open_question({question: "Tell me your most profound thoughts"});
-    document.getElementById("student_open_question").addEventListener("submit", (e) => {
-        e.preventDefault();
-        let answer = document.getElementById("student_open_question").querySelector("textarea").value;
-        console.log(answer);
-        emitOpenAnswerToTeacher(answer);
-    })
+    if (isTeacher){
+        document.getElementById("content").innerHTML = ejs.views_teacher_open_question({});
+    } else {
+        document.getElementById("content").innerHTML = ejs.views_slide_open_question({question: "Tell me your most profound thoughts"});
+        document.getElementById("student_open_question").addEventListener("submit", (e) => {
+            e.preventDefault();
+            let answer = document.getElementById("student_open_question").querySelector("textarea").value;
+            console.log(answer);
+            emitAnswerToTeacher(answer);
+        })
+    }
 }
 
 
