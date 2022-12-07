@@ -13,13 +13,8 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
     </div>
 
     <% if (slider_face_culling) { %>
-        <fieldset>
-            <input type="radio" id="culling_on" class="form-check-input" name="culling" value="culling_on">
-            <label for="culling_on">Face Culling on</label>
-
-            <input type="radio" id="culling_off" class="form-check-input" name="culling" value="culling_off" checked>
-            <label for="culling_off">Face Culling off</label>
-        </fieldset>
+        <input type="checkbox" id="culling" name="culling">
+        <label for="culling">Face Culling</label>
     <% } %>
     <% if (slider_depth_test) { %>
         <fieldset>

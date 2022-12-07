@@ -31,16 +31,12 @@ function start_slide_triangle_cube(params) {
 	});
 
 	if (params.slider_face_culling) {
-		let culling_button_on = document.getElementById("culling_on");
-		culling_button_on.addEventListener("change", (e) => {
-			if (culling_button_on.checked) {
+		let culling_checkbox = document.getElementById("culling");
+		culling_checkbox.addEventListener("change", (e) => {
+			if (culling_checkbox.checked) {
 				is_culling_on = true;
 			}
-		});
-
-		let culling_button_off = document.getElementById("culling_off");
-		culling_button_off.addEventListener("change", (e) => {
-			if (culling_button_off.checked) {
+			else {
 				is_culling_on = false;
 			}
 		});
