@@ -43,16 +43,12 @@ function start_slide_triangle_cube(params) {
 	}
 
 	if (params.slider_depth_test) {
-		let depth_test_button_on = document.getElementById("depth_test_on");
-		depth_test_button_on.addEventListener("change", (e) => {
-			if (depth_test_button_on.checked) {
+		let depth_test_checkbox = document.getElementById("depth_test");
+		depth_test_checkbox.addEventListener("change", (e) => {
+			if (depth_test_checkbox.checked) {
 				is_depth_test_on = true;
 			}
-		});
-
-		let depth_test_button_off = document.getElementById("depth_test_off");
-		depth_test_button_off.addEventListener("change", (e) => {
-			if (depth_test_button_off.checked) {
+			else {
 				is_depth_test_on = false;
 			}
 		});
