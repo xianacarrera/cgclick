@@ -38,6 +38,14 @@ function addConnectionListeners(){
         new_item.appendChild(textnode);
         answer_container.appendChild(new_item);
     })
+
+    socket.on('teacher_showResults', (msg) => {
+        leaveSlide();
+        currentSlideNumber = msg.slide;
+        currentTeacherSlideNumber = msg.slide;
+        displaySlide(msg.results);
+        slide_mutex = false;
+    });
 }
 
 function emitChangeSlide(index){

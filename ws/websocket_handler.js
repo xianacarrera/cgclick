@@ -97,7 +97,7 @@ class WebSocketHandler {
     }
 
     on_show_results(teacherSocket, roomId, results){
-        teacherSocket.broadcast.to(roomId).emit({results})
+        teacherSocket.broadcast.to(roomId).emit('teacher_showResults', {results})
     }
 
     setIO(io_instance){
