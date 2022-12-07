@@ -37,6 +37,8 @@ function addConnectionListeners(){
         let textnode = document.createTextNode(msg.answer);
         new_item.appendChild(textnode);
         answer_container.appendChild(new_item);
+
+        enableButtons();
     })
 
     socket.on('teacher_showResults', (msg) => {
@@ -66,6 +68,23 @@ function emitAnswerToTeacher(answer){
     });
 }
 
+function enableButtons(){
+    // This switch is not the best solution in terms of scalability (if we want to change the names of the slides), but parametrizing this info
+    // in the slides definition would be too cumbersome in terms of refactoring
+    switch (slides[currentSlideNumber].type) {
+        case "question_open":
+            enableOpenAnswerButtons(true);
+    }
+}
+
+function emitAnswersToStudents(model){
+    model.isAnswer = true;
+    let msg = {
+        model,
+        id
+    }
+    socket.emit('teacher_showResults', msg);
+}
 
 
 const login = () => socket.emit("generic_login", {id})

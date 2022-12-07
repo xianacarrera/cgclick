@@ -46,7 +46,7 @@ function leaveSlide() {
     document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.remove("active");
 }
 
-function displaySlide() {
+function displaySlide(model) {
     let currentURL = new URL(window.location.href);
     // Update HTML classes in navbar
     document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.add("active");

@@ -67,9 +67,9 @@ function boxDrop(e) {
     // Get the id of the option
     let optionId = e.dataTransfer.getData("text/plain");
     let option = document.getElementById(optionId);
-    
-    e.preventDefault();  
-    
+
+    e.preventDefault();
+
     // Swap the option with the target    
     [e.target.textContent, option.textContent] = [option.textContent, e.target.textContent];
 
@@ -110,7 +110,7 @@ function displaySlidePhongModel(params) {
     start_slide_phong_model(params);
 }
 
-function displaySlideShaders(){
+function displaySlideShaders() {
     document.getElementById("content").className = cardClasses;
     document.getElementById("content").innerHTML = ejs.views_slide_custom_shaders({});
     hljs.highlightAll();
@@ -152,7 +152,7 @@ function displaySlideImageParameters(params) {
     );
 }
 
-function displaySlideCompleteParametrization(){
+function displaySlideCompleteParametrization() {
     document.getElementById("content").className = cardClasses;
     document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization({});
     threeAPI.initScene();
@@ -176,13 +176,29 @@ function displayAboutSlide(params) {
     }));
 }
 
-function displayOpenQuestionSlide(params){
+function displayOpenQuestionSlide(params) {
     document.getElementById("content").className = cardClasses;
-    if (isTeacher){
+    let question = "Tell me your most profound thoughts";
+    if (isTeacher) {
         document.getElementById("content").innerHTML = ejs.views_teacher_open_answers({});
+        let answerContainer = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+        document.querySelector("button[data-action='reset']").addEventListener("click", () => {
+            answerContainer.innerHTML = "";     // Remove all child nodes
+            enableOpenAnswerButtons(false);
+        });
+        document.querySelector("button[data-action='send-answers']").addEventListener("click", () => {
+            let results;
+            answerContainer.childNodes.forEach(item => results.add(item.textContent));
+            let model = {
+                question, 
+                results
+            }
+            emitAnswersToStudents(model);
+        })
+    } else if (params?.isAnswer) {        // The teacher is showing the answers to the students
+        document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params);
     } else {
-        let model = params?.model? params.model : {question: "Tell me your most profound thoughts"};
-        document.getElementById("content").innerHTML = ejs.views_slide_open_question(model);
+        document.getElementById("content").innerHTML = ejs.views_slide_open_question({ question });
         document.getElementById("student_open_question").addEventListener("submit", (e) => {
             e.preventDefault();
             let answer = document.getElementById("student_open_question").querySelector("textarea").value;
@@ -190,6 +206,18 @@ function displayOpenQuestionSlide(params){
             emitAnswerToTeacher(answer);
         })
     }
+}
+
+function enableOpenAnswerButtons(enable) {
+    document.querySelectorAll(".enabled-on-answer").forEach(e => {
+        if (enable) {
+            e.classList.remove("disabled");
+            e.disabled = false;
+        } else {
+            e.classList.add("disabled");
+            e.disabled = true;
+        }
+    })
 }
 
 
