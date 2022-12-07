@@ -6,6 +6,7 @@ const slides = [
         descriptionAfter: "Cool, right?",
         type: "playground_triangle_cube",
         params: {
+            canvas_size: "tiny",
             slider_face_culling: true,
         },
     },
@@ -23,12 +24,17 @@ const slides = [
         name: "Shape Parametrization",
         title: "Shape Parametrization",
         type: "question_parametrization",
+        params: {
+            canvas_width: 500,
+            canvas_height: 300,
+        },
     },
     {
         name: "Gamma",
         title: "Gamma Correction",
         type: "playground_phong_model",
         params: {
+            canvas_size: "large",
             slider_gamma: true,
         },
     },
@@ -37,6 +43,7 @@ const slides = [
         title: "Tone Mapping",
         type: "playground_phong_model",
         params: {
+            canvas_size: "huge",
             slider_tone_mapping: true,
         },
     },
@@ -86,6 +93,9 @@ const slides = [
         title: "Shaders",
         descriptionBefore: "Try to complete the vertex and fragment shaders to display a scene!",
         type: "playground_shaders",
+        params: {
+            canvas_size: "small",
+        },
     },
     {
         name: "Midpoint",
@@ -100,13 +110,16 @@ const slides = [
             target_alpha: 1.5,
             target_beta: 1.5,
             target_gamma: 2.5,
-        }
+        },
     },
     {
         name: "Complete Parametrization",
         title: "Complete Parametrization",
         descriptionBefore: "Complete the blank spaces to create a valid sphere parametrization:",
         type: "question_complete_parametrization",
+        params: {
+            canvas_size: "medium",
+        },
     },
     {
         name: "About: Idea",

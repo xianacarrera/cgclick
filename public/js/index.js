@@ -68,7 +68,31 @@ function mergeParams() {
     Object.keys(customParams || {}).forEach((key) => {
         result[key] = customParams[key];
     });
-    return result;
+    return parseStringParams(result);
+}
+
+function parseStringParams(params) {
+    if (params.canvas_size == "tiny") {
+        params.canvas_width = 150;
+        params.canvas_height = 150;
+    } else if (params.canvas_size == "small") {
+        params.canvas_width = 300;
+        params.canvas_height = 300;
+    } else if (params.canvas_size == "medium") {
+        params.canvas_width = 450;
+        params.canvas_height = 450;
+    } else if (params.canvas_size == "large") {
+        params.canvas_width = 600;
+        params.canvas_height = 600;
+    } else if (params.canvas_size == "huge") {
+        params.canvas_width = 750;
+        params.canvas_height = 750;
+    }
+    
+    if (params.canvas_size != "exact" && slideDefinitions[slides[currentSlideNumber].type].double_canvas) {
+        params.canvas_width *= 2;
+    }
+    return params;
 }
 
 function displayEval(eval_type){
