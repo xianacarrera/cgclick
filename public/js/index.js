@@ -8,6 +8,7 @@ function init(){
     initSocket();
     let pathname = new URL(window.location.href).pathname;
     document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id, pathname});
+    document.getElementById("statusbar").innerHTML = ejs.views_includes_statusbar({id, pathname});
     if (!isTeacher) {
         document.getElementById('follow').addEventListener('change', () => {
             isFollowing = document.getElementById('follow').checked
@@ -74,7 +75,7 @@ function displayEval(eval_type){
     let q = document.getElementById("question_type");
     try {
         if(eval_type == "auto"){
-            q.classList.remove("text-success");
+            q.classList.remove("text-danger");
             q.classList.remove("text-secondary");
             q.classList.add("text-primary");
             q.setAttribute("title","Automatically evaluated");
@@ -82,12 +83,12 @@ function displayEval(eval_type){
         else if(eval_type == "teacher"){
             q.classList.remove("text-primary");
             q.classList.remove("text-secondary");
-            q.classList.add("text-success");
+            q.classList.add("text-danger");
             q.setAttribute("title","Evaluated by the teacher");
         }
         else if(eval_type == "no_eval"){
             q.classList.remove("text-primary");
-            q.classList.remove("text-success");
+            q.classList.remove("text-danger");
             q.classList.add("text-secondary");
             q.setAttribute("title","No evaluation");
         }
