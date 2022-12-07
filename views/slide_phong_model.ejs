@@ -60,26 +60,6 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <input type="range" min="1" max="180" value="60" id="light_polar_angle" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value + '°'">
         </div>
     <% } %>
-    <% if (slider_face_culling) { %>
-        <h4>Face Culling:</h4>
-        <fieldset>
-            <input type="radio" id="culling_on" name="culling" value="culling_on">
-            <label for="culling_on">on</label>
-
-            <input type="radio" id="culling_off" name="culling" value="culling_off" checked>
-            <label for="culling_off">off</label>
-        </fieldset>
-    <% } %>
-    <% if (slider_depth_test) { %>
-        <h4>Depth Test:</h4>
-        <fieldset>
-            <input type="radio" id="depth_test_on" name="depth_test" value="depth_test_on" checked>
-            <label for="depth_test_on">on</label>
-
-            <input type="radio" id="depth_test_off" name="depth_test" value="depth_test_off">
-            <label for="depth_test_off">off</label>
-        </fieldset>
-    <% } %>
     <% if (slider_gamma || slider_tone_mapping) { %>
         <h4>Tone mapping:</h4>
     <% } %>
@@ -104,5 +84,20 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <br/>
             <input type="range" min="1" max="5" step="0.1" value="2" id="gamma_correction" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value">
         </div>
+    <% } %>
+    <% if (slider_face_culling || slider_depth_test) { %>
+        <h4>WebGL Toggle Features:</h4>
+    <% } %>
+    <% if (slider_face_culling) { %>
+        <fieldset>
+            <input type="checkbox" id="culling" name="culling">
+            <label for="culling">Face Culling</label>
+        </fieldset>
+    <% } %>
+    <% if (slider_depth_test) { %>
+        <fieldset>
+            <input type="checkbox" id="depth_test" name="depth_test" checked>
+            <label for="depth_test">Depth Test</label>
+        </fieldset>
     <% } %>
 </div>

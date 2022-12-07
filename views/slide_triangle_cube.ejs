@@ -14,30 +14,16 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
 
     <% if (slider_face_culling) { %>
         <fieldset>
-            <input type="radio" id="culling_on" class="form-check-input" name="culling" value="culling_on">
-            <label for="culling_on">Face Culling on</label>
-
-            <input type="radio" id="culling_off" class="form-check-input" name="culling" value="culling_off" checked>
-            <label for="culling_off">Face Culling off</label>
+            <input type="checkbox" id="culling" name="culling">
+            <label for="culling">Face Culling</label>
         </fieldset>
     <% } %>
     <% if (slider_depth_test) { %>
         <fieldset>
-            <input type="radio" id="depth_test_on" class="form-check-input" name="depth_test" value="depth_test_on" checked>
-            <label for="depth_test_on">Depth Test on</label>
-
-            <input type="radio" id="depth_test_off" class="form-check-input" name="depth_test" value="depth_test_off">
-            <label for="depth_test_off">Depth Test off</label>
+            <input type="checkbox" id="depth_test" name="depth_test" checked>
+            <label for="depth_test">Depth Test</label>
         </fieldset>
     <% } %>
-
-    <!--
-    <div class="shapecontainer">
-        <input type="checkbox" id="shape-selector"></button> 
-        <label for="shape-selector"></label>
-        <div id="shape-div"></div>                           
-    </div>
-    -->
 
     <fieldset>
         <input type="radio" id="shape_triangle" class="form-check-input" name="shape" value="triangle" checked>
