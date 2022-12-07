@@ -1,5 +1,7 @@
 const { State } = require("../model/state");
 
+const { StudentCounter } = require("../model/students");
+
 /**
  * WebsocketHandler handles all incoming connections.
  */
@@ -11,6 +13,7 @@ class WebSocketHandler {
     constructor() {
         // A JSON object acts like an hashmap so we can have different states assigned to different ids
         this.states = {}
+        this.students = {}
     }
 
     /**
@@ -45,6 +48,7 @@ class WebSocketHandler {
     */
     on_create_room(socket, id) {
         this.states[id] = new State(0); // Start from first slide.
+        this.students[id] = new StudentCounter(0); // Start from first slide.
         socket.emit("generic_create_done", {}); // Just send this when we are done.
     }
 
