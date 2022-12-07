@@ -11,7 +11,7 @@ function init(){
     if (!isTeacher) {
         document.getElementById('follow').addEventListener('change', () => {
             isFollowing = document.getElementById('follow').checked
-            if (isFollowing) login()
+            if (isFollowing) login(readonly = true)
         })
     }
     addEventListeners();
