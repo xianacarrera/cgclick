@@ -33,6 +33,7 @@ function addConnectionListeners(){
         // If the answer should be unique for each student, filter by using msg.student (id of the student)
 
         let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+        if (answer_container == null) return;
         let new_item = document.createElement("li");
         let textnode = document.createTextNode(msg.answer);
         new_item.appendChild(textnode);
@@ -63,6 +64,11 @@ function emitAnswerToTeacher(answer){
     if (isTeacher) return;
     if (currentSlideNumber != currentTeacherSlideNumber) return;            // The student is not on the right slide
     console.log("Sent open answer");
+    console.log({
+        id,             // Room id
+        answer,         // Answer
+        student: socket.id,         // Identifies the student (useful for questions where the answer per student is unique)
+    })
     socket.emit('student_answer', {
         id,             // Room id
         answer,         // Answer
