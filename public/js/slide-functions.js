@@ -143,13 +143,20 @@ function displaySlideMidpoint() {
 
 function displaySlideImageParameters(params) {
     document.getElementById("content").className = cardClasses;
+    params.showButtons = true;
+    params.alpha_p = 15;
+    params.beta_gamma_p = 67;
+    document.getElementById("content").innerHTML = ejs.views_teacher_image_parameters(params);
+    MathJax.typeset();
+
+    /*
     document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params);
     document.getElementById("phong-done-btn").addEventListener("click", () => {
         const alpha = document.getElementById("alpha_input").value;
         const beta = document.getElementById("beta_input").value;
         const gamma = document.getElementById("gamma_input").value;
         console.log(`` + alpha + ` ` + beta + ` ` + gamma);
-        //emitAnswerToTeacher({ alpha, beta, gamma });
+        emitAnswerToTeacher({ alpha, beta, gamma });
     });
 
     ip_start(
@@ -158,6 +165,7 @@ function displaySlideImageParameters(params) {
         { azimuthal: -45, polar: 60, distance: 150, fov: 45 },   // Camera
         { gamma: params.target_gamma, tone_mapping_alpha: params.target_alpha, tone_mapping_beta: params.target_beta }
     );
+    */
 }
 
 function displaySlideCompleteParametrization(params){

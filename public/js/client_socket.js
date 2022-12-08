@@ -32,8 +32,8 @@ function addConnectionListeners(){
 
         // If the answer should be unique for each student, filter by using msg.student (id of the student)
 
+        if (msg.slide != currentSlideNumber) return;            // The student is not on the right slide
         let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
-        if (answer_container == null) return;
         let new_item = document.createElement("li");
         let textnode = document.createTextNode(msg.answer);
         new_item.appendChild(textnode);
