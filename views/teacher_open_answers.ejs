@@ -2,6 +2,10 @@
     <h3>Student open answers</h3>
     <ul id="answer-list">
     </ul>
-    <button data-action="reset" class="btn btn-primary m-3 p-2 disabled enabled-on-answer" disabled="true">Reset</button>
-    <button data-action="send-answers" class="btn btn-primary m-3 p-2 disabled enabled-on-answer" disabled="true">Send answers</button>
+    <% if (showButtons) { %>
+        <button data-action="reset" class="btn btn-primary m-3 p-2 disabled enabled-on-answer"
+            disabled="true">Reset</button>
+        <button data-action="send-answers" class="btn btn-primary m-3 p-2 disabled enabled-on-answer"
+            disabled="true">Send answers</button>
+    <% } %>
 </div>

@@ -180,7 +180,7 @@ function displayOpenQuestionSlide(params) {
     document.getElementById("content").className = cardClasses;
     let question = "Tell me your most profound thoughts";
     if (isTeacher) {
-        document.getElementById("content").innerHTML = ejs.views_teacher_open_answers({});
+        document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params);
         let answerContainer = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
         document.querySelector("button[data-action='reset']").addEventListener("click", () => {
             answerContainer.innerHTML = "";     // Remove all child nodes
@@ -198,15 +198,16 @@ function displayOpenQuestionSlide(params) {
             emitAnswersToStudents(model);
         })
     } else if (params?.model?.isAnswer) {        // The teacher is showing the answers to the students
+        params.model.showButtons = false;
         document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params.model);
 
         let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
-        params.model.results.forEach(r => {
+        for (let i = 1; i < params.model.results.length; i++) {     // Skip the first element (it's empty)
             let new_item = document.createElement("li");
-            let textnode = document.createTextNode(r);
+            let textnode = document.createTextNode(params.model.results[i]);
             new_item.appendChild(textnode);
             answer_container.appendChild(new_item);
-        })
+        }
 
     } else {
         document.getElementById("content").innerHTML = ejs.views_slide_open_question({ question });

@@ -65,5 +65,8 @@ slideDefinitions = {
         leaveFunction: () => {},
         evaluation: "teacher",
         answer_container: "answer-list",
+        defaultParams: {
+            showButtons: true,
+        }
     }
 }
