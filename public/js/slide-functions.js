@@ -144,6 +144,14 @@ function displaySlideMidpoint() {
 function displaySlideImageParameters(params) {
     document.getElementById("content").className = cardClasses;
     document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params);
+    document.getElementById("phong-done-btn").addEventListener("click", () => {
+        const alpha = document.getElementById("alpha_input").value;
+        const beta = document.getElementById("beta_input").value;
+        const gamma = document.getElementById("gamma_input").value;
+        console.log(`` + alpha + ` ` + beta + ` ` + gamma);
+        //emitAnswerToTeacher({ alpha, beta, gamma });
+    });
+
     ip_start(
         { azimuthal: -70, polar: 60 },                           // Directional light
         { x: -200, y: 150, z: -40, intensity: 30 },              // Point light
