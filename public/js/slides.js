@@ -24,10 +24,6 @@ const slides = [
         name: "Shape Parametrization",
         title: "Shape Parametrization",
         type: "question_parametrization",
-        params: {
-            canvas_width: 500,
-            canvas_height: 300,
-        },
     },
     {
         name: "Gamma",
@@ -117,9 +113,6 @@ const slides = [
         title: "Complete Parametrization",
         descriptionBefore: "Complete the blank spaces to create a valid sphere parametrization:",
         type: "question_complete_parametrization",
-        params: {
-            canvas_size: "medium",
-        },
     },
     {
         name: "About: Idea",

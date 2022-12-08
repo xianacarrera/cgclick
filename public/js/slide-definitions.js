@@ -16,8 +16,8 @@ slideDefinitions = {
         leaveFunction: leaveAndCancelAnimationFrame,
         defaultParams: {
             canvas_size: "exact",
-            canvas_width: 300,
-            canvas_height: 300,
+            canvas_width: 500,
+            canvas_height: 240,
         },
         evaluation: "teacher",
     },
@@ -72,8 +72,8 @@ slideDefinitions = {
         leaveFunction: leaveAndCancelAnimationFrame,
         defaultParams: {
             canvas_size: "exact",
-            canvas_width: 300,
-            canvas_height: 300,
+            canvas_width: 500,
+            canvas_height: 240,
         },
         evaluation: "teacher",
     },
