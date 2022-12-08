@@ -87,9 +87,9 @@ function boxDragEnd(e) {   // Note that this always fires after stopping the dra
     e.target.addEventListener("dragleave", boxDragLeave);
 }
 
-function displaySlideParametrization() {
+function displaySlideParametrization(params) {
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_parametrization({});
+    document.getElementById("content").innerHTML = ejs.views_slide_parametrization(params);
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
     document.querySelectorAll(".drop-box.card").forEach(box => {
         box.addEventListener("dragstart", boxDragStart);
@@ -110,9 +110,9 @@ function displaySlidePhongModel(params) {
     start_slide_phong_model(params);
 }
 
-function displaySlideShaders() {
+function displaySlideShaders(params){
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_custom_shaders({});
+    document.getElementById("content").innerHTML = ejs.views_slide_custom_shaders(params);
     hljs.highlightAll();
     start_slide_custom_shaders();
     document.getElementById("btn-submit-shaders").addEventListener("click", () => {
@@ -152,9 +152,9 @@ function displaySlideImageParameters(params) {
     );
 }
 
-function displaySlideCompleteParametrization() {
+function displaySlideCompleteParametrization(params){
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization({});
+    document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization(params);
     threeAPI.initScene();
     threeAPI.clear();
     addCompleteParametrizationListeners();

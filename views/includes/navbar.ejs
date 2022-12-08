@@ -1,9 +1,4 @@
 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-  Pin: <%= id %>  <% if (isTeacher) { %> 
-    <span class="teacher">Teacher</span> <% 
-  } else { %> 
-    <span class="student">Student</span> <p>Follow teacher: <input id="follow" type="checkbox" checked/></p>
-    <% } %>
   <% slides.forEach((slide, index) => { %>
     <% if (index == currentSlideNumber) { %>
       <a class="nav-link active" href="<%= pathname %>/<%= index %>" role="tab"><%= slide.name %></a>
