@@ -6,6 +6,7 @@ const slides = [
         descriptionAfter: "Cool, right?",
         type: "playground_triangle_cube",
         params: {
+            canvas_size: "tiny",
             slider_face_culling: true,
         },
     },
@@ -29,6 +30,7 @@ const slides = [
         title: "Gamma Correction",
         type: "playground_phong_model",
         params: {
+            canvas_size: "large",
             slider_gamma: true,
         },
     },
@@ -37,6 +39,7 @@ const slides = [
         title: "Tone Mapping",
         type: "playground_phong_model",
         params: {
+            canvas_size: "huge",
             slider_tone_mapping: true,
         },
     },
@@ -86,6 +89,9 @@ const slides = [
         title: "Shaders",
         descriptionBefore: "Try to complete the vertex and fragment shaders to display a scene!",
         type: "playground_shaders",
+        params: {
+            canvas_size: "small",
+        },
     },
     {
         name: "Midpoint",
@@ -100,7 +106,7 @@ const slides = [
             target_alpha: 1.5,
             target_beta: 1.5,
             target_gamma: 2.5,
-        }
+        },
     },
     {
         name: "Complete Parametrization",
