@@ -42,9 +42,11 @@ function addConnectionListeners(){
     })
 
     socket.on('teacher_showResults', (msg) => {
+        if (isTeacher) return;
+        console.log(msg);
         leaveSlide();
-        currentSlideNumber = msg.slide;
-        currentTeacherSlideNumber = msg.slide;
+        currentSlideNumber = msg.results.slide;
+        currentTeacherSlideNumber = msg.results.slide;
         displaySlide(msg.results);
         slide_mutex = false;
     });
@@ -77,10 +79,10 @@ function enableButtons(){
     }
 }
 
-function emitAnswersToStudents(model){
-    model.isAnswer = true;
+function emitAnswersToStudents(results){
+    results.isAnswer = true;
     let msg = {
-        model,
+        results,
         id
     }
     socket.emit('teacher_showResults', msg);

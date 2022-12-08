@@ -187,16 +187,27 @@ function displayOpenQuestionSlide(params) {
             enableOpenAnswerButtons(false);
         });
         document.querySelector("button[data-action='send-answers']").addEventListener("click", () => {
-            let results;
-            answerContainer.childNodes.forEach(item => results.add(item.textContent));
+            let results = [];
+            let answers = [...answerContainer.childNodes];      // Necessary because childNodes is not a true array
+            answers.forEach(item => results.push(item.textContent));
             let model = {
                 question, 
-                results
+                results,
+                slide: currentSlideNumber
             }
             emitAnswersToStudents(model);
         })
-    } else if (params?.isAnswer) {        // The teacher is showing the answers to the students
-        document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params);
+    } else if (params?.model?.isAnswer) {        // The teacher is showing the answers to the students
+        document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params.model);
+
+        let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+        params.model.results.forEach(r => {
+            let new_item = document.createElement("li");
+            let textnode = document.createTextNode(r);
+            new_item.appendChild(textnode);
+            answer_container.appendChild(new_item);
+        })
+
     } else {
         document.getElementById("content").innerHTML = ejs.views_slide_open_question({ question });
         document.getElementById("student_open_question").addEventListener("submit", (e) => {

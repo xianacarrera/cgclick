@@ -29,7 +29,7 @@ class WebSocketHandler {
         // retransmit an answer from a student to the teacher
         socket.on('student_answer', (msg) => this.on_open_answer(msg.id, msg.answer, msg.student));
         // retransmit the aggregation of student answers from the teacher to the students
-        socket.on('teacher_showResults', (msg) => this.on_show_results(socket, msg.id, msg.results));
+        socket.on('teacher_showResults', (msg) => this.on_show_results(msg.id, msg.results));
     }
 
     /**
@@ -96,8 +96,8 @@ class WebSocketHandler {
         this.io.to(this.states[id].teacherSocketId).emit("student_answer", {answer, student});
     }
 
-    on_show_results(teacherSocket, roomId, results){
-        teacherSocket.broadcast.to(roomId).emit('teacher_showResults', {results})
+    on_show_results(roomId, results){
+        this.states[roomId].broadcast('teacher_showResults', {results});
     }
 
     setIO(io_instance){
