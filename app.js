@@ -91,6 +91,7 @@ app.set('port', process.env.PORT || 8888);
 var server = require('http').createServer(app);
 
 const io = new Server(server);
+websocket_handler.setIO(io);
 
 io.on('connection', (socket) => websocket_handler.on_connect(socket));
 

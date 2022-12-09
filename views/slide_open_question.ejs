@@ -1,7 +1,7 @@
-<section>
+<section class="p-2">
     <h2><%= question %></h2>
-    <form id="student_answer" method="POST" action="/question/open">
-        <textarea name="answer" type="text" placeholder="Type your answer here..."></textarea>
+    <form id="student_open_question" method="POST" action="/question/open">
+        <textarea name="answer" type="text" placeholder="Type your answer here..." required></textarea>
         <input type="submit" value="Done">
     </form>
 </section>

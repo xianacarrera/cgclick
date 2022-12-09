@@ -47,7 +47,7 @@ function leaveSlide() {
     document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.remove("active");
 }
 
-function displaySlide() {
+function displaySlide(model) {
     let currentURL = new URL(window.location.href);
     // Update HTML classes in navbar
     document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.add("active");
@@ -59,7 +59,9 @@ function displaySlide() {
     displayEval(slideDefinitions[slides[currentSlideNumber].type].evaluation || "no_eval");
 
     // Display the new slide and execute necessary init code
-    slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());
+    let params = mergeParams();
+    if (model) params.model = model;
+    slideDefinitions[slides[currentSlideNumber].type].displayFunction(params);
 }
 
 function mergeParams() {
@@ -116,23 +118,27 @@ function displayEval(eval_type){
             q.classList.remove("text-danger");
             q.classList.remove("text-secondary");
             q.classList.add("text-primary");
-            q.setAttribute("title","Automatically evaluated");
+            q.setAttribute("title","This slide is evaluated automatically");
         }
         else if(eval_type == "teacher"){
             q.classList.remove("text-primary");
             q.classList.remove("text-secondary");
             q.classList.add("text-danger");
-            q.setAttribute("title","Evaluated by the teacher");
+            q.setAttribute("title","This slide is evaluated by the teacher");
         }
         else if(eval_type == "no_eval"){
             q.classList.remove("text-primary");
             q.classList.remove("text-danger");
             q.classList.add("text-secondary");
-            q.setAttribute("title","No evaluation");
+            q.setAttribute("title","This slide is not evaluated at all");
         }
         else{
             throw "Invalid evalution type";
         }
+        // Initialize tooltips
+        [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
     } catch (error) {
         console.error(error);
         q.setAttribute("title","");
