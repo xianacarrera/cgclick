@@ -8,7 +8,7 @@ function init(){
     initSocket();
     let pathname = new URL(window.location.href).pathname;
     document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id, pathname});
-    document.getElementById("statusbar").innerHTML = ejs.views_includes_statusbar({id, pathname});
+    document.getElementById("statusbar").innerHTML = ejs.views_includes_statusbar({id, pathname, "students": studentData});
     if (!isTeacher) {
         document.getElementById('follow').addEventListener('change', () => {
             isFollowing = document.getElementById('follow').checked

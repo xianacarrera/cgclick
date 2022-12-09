@@ -29,6 +29,9 @@ class WebSocketHandler {
         socket.on('teacher_createRoom', (room) => this.on_create_room(socket, room.id));
         // check if a student room exist
         socket.on('student_roomExist', (room) => this.on_room_exist(socket, room.id));
+        // when a student follows/unfollows the course
+        socket.on('student_follow', (follow) => this.on_follow(follow));
+
     }
 
     /**
@@ -48,7 +51,7 @@ class WebSocketHandler {
     */
     on_create_room(socket, id) {
         this.states[id] = new State(0); // Start from first slide.
-        this.students[id] = new StudentCounter(0); // Start from first slide.
+        this.students[id] = new StudentCounter();
         socket.emit("generic_create_done", {}); // Just send this when we are done.
     }
 
@@ -74,6 +77,7 @@ class WebSocketHandler {
         if (!readonly) {
             this.states[id].addSocket(socket)
         }
+        socket.emit("teacher_update", this.students[id].getData());
         socket.emit("generic_update", this.states[id].stateObject())
     }
 
@@ -94,6 +98,16 @@ class WebSocketHandler {
     */
     getStates() {
         return this.states;
+    }
+
+    on_follow(follow) {
+        if(follow){
+            this.students[id].following++;
+        }
+        else{
+            this.students[id].following--;
+        }
+        io.emit("teacher_update", this.students[id].getData());
     }
 }
 

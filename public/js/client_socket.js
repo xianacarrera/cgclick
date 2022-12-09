@@ -4,7 +4,10 @@ function initSocket(){
     socket = io();
     login()
     addConnectionListeners();
+    if(isTeacher) addTeacherListeners();
 }
+
+let studentData = {};
 
 function addConnectionListeners(){
     socket.on('connect', () => {
@@ -31,6 +34,15 @@ function addConnectionListeners(){
         changeSlide(state.slide);
     })
 
+}
+
+function addTeacherListeners(){
+    socket.on('teacher_update', (data) => {
+        console.log(data);
+        studentData = data;
+        let pathname = new URL(window.location.href).pathname;
+        document.getElementById("statusbar").innerHTML = ejs.views_includes_statusbar({id, pathname, "students": studentData});
+    })
 }
 
 function emitChangeSlide(index){
