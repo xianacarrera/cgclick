@@ -67,9 +67,9 @@ function boxDrop(e) {
     // Get the id of the option
     let optionId = e.dataTransfer.getData("text/plain");
     let option = document.getElementById(optionId);
-    
-    e.preventDefault();  
-    
+
+    e.preventDefault();
+
     // Swap the option with the target    
     [e.target.textContent, option.textContent] = [option.textContent, e.target.textContent];
 
@@ -174,6 +174,63 @@ function displayAboutSlide(params) {
             }
         });
     }));
+}
+
+function displayOpenQuestionSlide(params) {
+    document.getElementById("content").className = cardClasses;
+    let question = "Tell me your most profound thoughts";
+    if (isTeacher) {
+        document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params);
+        let answerContainer = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+        document.querySelector("button[data-action='reset']").addEventListener("click", () => {
+            answerContainer.innerHTML = "";     // Remove all child nodes
+            enableOpenAnswerButtons(false);
+        });
+        document.querySelector("button[data-action='send-answers']").addEventListener("click", () => {
+            let results = [];
+            let answers = [...answerContainer.childNodes];      // Necessary because childNodes is not a true array
+            answers.forEach(item => results.push(item.textContent));
+            let model = {
+                question, 
+                results,
+                slide: currentSlideNumber
+            }
+            emitAnswersToStudents(model);
+        })
+    } else if (params?.model?.isAnswer) {        // The teacher is showing the answers to the students
+        params.model.showButtons = false;
+        document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params.model);
+
+        let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+        for (let i = 0; i < params.model.results.length; i++) {     // Skip the first element (it's empty)
+            if (params.model.results[i].trim() == "" || params.model.results[i].trim() == "\n") continue;
+            let new_item = document.createElement("li");
+            let textnode = document.createTextNode(params.model.results[i]);
+            new_item.appendChild(textnode);
+            answer_container.appendChild(new_item);
+        }
+
+    } else {
+        document.getElementById("content").innerHTML = ejs.views_slide_open_question({ question });
+        document.getElementById("student_open_question").addEventListener("submit", (e) => {
+            e.preventDefault();
+            let answer = document.getElementById("student_open_question").querySelector("textarea").value;
+            console.log(answer);
+            emitAnswerToTeacher(answer);
+        })
+    }
+}
+
+function enableOpenAnswerButtons(enable) {
+    document.querySelectorAll(".enabled-on-answer").forEach(e => {
+        if (enable) {
+            e.classList.remove("disabled");
+            e.disabled = false;
+        } else {
+            e.classList.add("disabled");
+            e.disabled = true;
+        }
+    })
 }
 
 

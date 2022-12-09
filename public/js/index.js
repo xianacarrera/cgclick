@@ -47,7 +47,7 @@ function leaveSlide() {
     document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.remove("active");
 }
 
-function displaySlide() {
+function displaySlide(model) {
     let currentURL = new URL(window.location.href);
     // Update HTML classes in navbar
     document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.add("active");
@@ -59,7 +59,9 @@ function displaySlide() {
     displayEval(slideDefinitions[slides[currentSlideNumber].type].evaluation || "no_eval");
 
     // Display the new slide and execute necessary init code
-    slideDefinitions[slides[currentSlideNumber].type].displayFunction(mergeParams());
+    let params = mergeParams();
+    if (model) params.model = model;
+    slideDefinitions[slides[currentSlideNumber].type].displayFunction(params);
 }
 
 function mergeParams() {

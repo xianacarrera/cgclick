@@ -85,4 +85,13 @@ slideDefinitions = {
         },
         evaluation: "no_eval",
     },
+    question_open: {
+        displayFunction: displayOpenQuestionSlide,
+        leaveFunction: () => {},
+        evaluation: "teacher",
+        answer_container: "answer-list",
+        defaultParams: {
+            showButtons: true,
+        }
+    }
 }
