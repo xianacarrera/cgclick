@@ -9,7 +9,7 @@
             Alpha:
             <output id="rangeval_tm_alpha">1</output>
             <br />
-            <input type="range" min="0.5" max="3" value="1" step="0.5" id="alpha_input" class="form-range"
+            <input type="range" min="<%= alpha.startIndex %>" max="<%= alpha.endIndex %>" value="1" step="<%= alpha.step %>" id="alpha_input" class="form-range"
                 oninput="document.getElementById('rangeval_tm_alpha').innerHTML = document.getElementById('alpha_input').value">
         </div>
 
@@ -17,7 +17,7 @@
             Beta:
             <output id="rangeval_tm_beta">1</output>
             <br />
-            <input type="range" min="0.5" max="3" value="1" step="0.5" id="beta_input" class="form-range"
+            <input type="range" min="<%= beta.startIndex %>" max="<%= beta.endIndex %>" value="1" step="<%= beta.step %>" id="beta_input" class="form-range"
                 oninput="document.getElementById('rangeval_tm_beta').innerHTML = document.getElementById('beta_input').value">
         </div>
 
@@ -27,17 +27,25 @@
             Gamma coefficient:
             <output id="rangeval_tm_gamma">1</output>
             <br />
-            <input type="range" min="0.5" max="5" value="1" step="0.5" id="gamma_input" class="form-range"
+            <input type="range" min="<%= gamma.startIndex %>" max="<%= gamma.endIndex %>" value="1" step="<%= gamma.step %>" id="gamma_input" class="form-range"
                 oninput="document.getElementById('rangeval_tm_gamma').innerHTML = document.getElementById('gamma_input').value">
         </div>
 
     </div>
 
     <div style="min-width: 20%;" class="p-2 m-3">
-        <button id="phong-done-btn" class="btn btn-primary">Done</button>
+        <button id="phong-done-btn" class="btn btn-primary 
+        <% if (isTeacher) { %> 
+            disabled" disabled 
+        <% } else { %> 
+            " 
+        <% } %>
+        >Done</button>
     </div>
 </div>
 
 <% if (isTeacher) { %>
-    <%- include("includes/teacher_image_parameters", {alpha_p, beta_gamma_p}) %>
+    <div id="graphs_results" class="m-3">
+        <%- include("includes/teacher_image_parameters", {alpha_p, beta_gamma_p}) %>
+    </div>
 <% } %>

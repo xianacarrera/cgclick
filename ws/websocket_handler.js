@@ -27,7 +27,7 @@ class WebSocketHandler {
         // check if a student room exist
         socket.on('student_roomExist', (room) => this.on_room_exist(socket, room.id));
         // retransmit an answer from a student to the teacher
-        socket.on('student_answer', (msg) => this.on_open_answer(msg.id, msg.answer, msg.student));
+        socket.on('student_answer', (msg) => this.on_open_answer(msg.id, {answer: msg.answer, slide: msg.slide, student: msg.student}));
         // retransmit the aggregation of student answers from the teacher to the students
         socket.on('teacher_showResults', (msg) => this.on_show_results(msg.id, msg.results));
     }
@@ -92,8 +92,8 @@ class WebSocketHandler {
         this.states[id].broadcast('generic_update', state_obj)
     }
 
-    on_open_answer(id, answer, student){
-        this.io.to(this.states[id].teacherSocketId).emit("student_answer", {answer, student});
+    on_open_answer(id, msg){
+        this.io.to(this.states[id].teacherSocketId).emit("student_answer", msg);
     }
 
     on_show_results(roomId, results){
