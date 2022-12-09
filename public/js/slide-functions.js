@@ -1,11 +1,3 @@
-/*
-function displaySlideOpenQuestion() {
-    let question = "How are you?";
-    document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_open_question({ question });
-}
-*/
-
 let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
 let noClasses = "";
 
@@ -141,16 +133,29 @@ function displaySlideMidpoint() {
     addMidpointListeners();
 }
 
+let image_parameters_answers = { alpha: {}, beta_gamma: {} };
+
 function displaySlideImageParameters(params) {
     document.getElementById("content").className = cardClasses;
     params.showButtons = true;
     params.alpha_p = 15;
     params.beta_gamma_p = 67;
-    document.getElementById("content").innerHTML = ejs.views_teacher_image_parameters(params);
+    params.isTeacher = true;
+
+    for (let i = params.alpha.startIndex; i <= params.alpha.endIndex; i += params.alpha.step) {
+        image_parameters_answers.alpha.i = 0;
+    };
+
+    for (let j = params.beta.startIndex; j <= params.beta.endIndex; j += params.beta.step) {
+        for (let k = params.gamma.startIndex; j <= params.gamma.endIndex; j += params.gamma.step) {
+            image_parameters_answers.beta_gamma[j / k] = 0;
+        }
+    }
+
+    document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params);
+
     MathJax.typeset();
 
-    /*
-    document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params);
     document.getElementById("phong-done-btn").addEventListener("click", () => {
         const alpha = document.getElementById("alpha_input").value;
         const beta = document.getElementById("beta_input").value;
@@ -165,7 +170,6 @@ function displaySlideImageParameters(params) {
         { azimuthal: -45, polar: 60, distance: 150, fov: 45 },   // Camera
         { gamma: params.target_gamma, tone_mapping_alpha: params.target_alpha, tone_mapping_beta: params.target_beta }
     );
-    */
 }
 
 function displaySlideCompleteParametrization(params){

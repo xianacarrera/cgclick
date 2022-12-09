@@ -33,12 +33,7 @@ function addConnectionListeners(){
         // If the answer should be unique for each student, filter by using msg.student (id of the student)
 
         if (msg.slide != currentSlideNumber) return;            // The student is not on the right slide
-        let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
-        let new_item = document.createElement("li");
-        let textnode = document.createTextNode(msg.answer);
-        new_item.appendChild(textnode);
-        answer_container.appendChild(new_item);
-
+        manageAnswer(msg.answer);
         enableButtons();
     })
 
@@ -92,6 +87,21 @@ function emitAnswersToStudents(results){
         id
     }
     socket.emit('teacher_showResults', msg);
+}
+
+
+function manageAnswer(answer){
+    let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+    switch(slides[currentSlideNumber].type){
+        case "question_open":
+            let new_item = document.createElement("li");
+            let textnode = document.createTextNode(msg.answer);
+            new_item.appendChild(textnode);
+            answer_container.appendChild(new_item);
+            break;
+        case "question_image_parameters":
+
+            break;
 }
 
 

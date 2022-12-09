@@ -37,3 +37,7 @@
         <button id="phong-done-btn" class="btn btn-primary">Done</button>
     </div>
 </div>
+
+<% if (isTeacher) { %>
+    <%- include("includes/teacher_image_parameters", {alpha_p, beta_gamma_p}) %>
+<% } %>
