@@ -87,9 +87,9 @@ function boxDragEnd(e) {   // Note that this always fires after stopping the dra
     e.target.addEventListener("dragleave", boxDragLeave);
 }
 
-function displaySlideParametrization() {
+function displaySlideParametrization(params) {
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_parametrization({});
+    document.getElementById("content").innerHTML = ejs.views_slide_parametrization(params);
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
     document.querySelectorAll(".drop-box.card").forEach(box => {
         box.addEventListener("dragstart", boxDragStart);
@@ -110,9 +110,9 @@ function displaySlidePhongModel(params) {
     start_slide_phong_model(params);
 }
 
-function displaySlideShaders(){
+function displaySlideShaders(params){
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_custom_shaders({});
+    document.getElementById("content").innerHTML = ejs.views_slide_custom_shaders(params);
     hljs.highlightAll();
     start_slide_custom_shaders();
     document.getElementById("btn-submit-shaders").addEventListener("click", () => {
@@ -141,22 +141,20 @@ function displaySlideMidpoint() {
     addMidpointListeners();
 }
 
-function displaySlideImageParameters() {
+function displaySlideImageParameters(params) {
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_image_parameters({});
+    document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params);
     ip_start(
         { azimuthal: -70, polar: 60 },                           // Directional light
         { x: -200, y: 150, z: -40, intensity: 30 },              // Point light
         { azimuthal: -45, polar: 60, distance: 150, fov: 45 },   // Camera
-        { gamma: 2, tone_mapping_alpha: 1, tone_mapping_beta: 1 }
+        { gamma: params.target_gamma, tone_mapping_alpha: params.target_alpha, tone_mapping_beta: params.target_beta }
     );
-
-    // The student provides a right answer if alpha is 1 and beta / gamma is 1/2
 }
 
-function displaySlideCompleteParametrization(){
+function displaySlideCompleteParametrization(params){
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization({});
+    document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization(params);
     threeAPI.initScene();
     threeAPI.clear();
     addCompleteParametrizationListeners();

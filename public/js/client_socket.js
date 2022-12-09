@@ -41,4 +41,4 @@ function emitChangeSlide(index){
 }
 
 
-const login = () => socket.emit("generic_login", {id})
+const login = (readonly = false) => socket.emit("generic_login", {id, readonly})

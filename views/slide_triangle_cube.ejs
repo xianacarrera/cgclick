@@ -4,45 +4,36 @@ by Jiří Heller, Marie Kalousková and Xiana Carrera Alonso
 For Software Atelier 3: The Web project we modified it to make it more customizable and tangible 
 -->
 
-<canvas id="webgl-canvas" class="m-3" width="500" height="500"></canvas>
+<canvas id="webgl-canvas" class="m-3" width="<%= canvas_width %>" height="<%= canvas_height %>"></canvas>
 
-<div id="controls" class="m-3">
+<div id="controls" class="m-3 mt-0">
 
+    <h4 class="mt-3">Camera</h4>
     <div class="slidecontainer">
         Rotation:</br><input type="range" min="0" max="200" value="100" id="rotation" class="form-range">
     </div>
 
+    <% if (slider_face_culling || slider_depth_test) { %>
+        <h4 class="mt-3">WebGL Features</h4>
+    <% } %>
     <% if (slider_face_culling) { %>
-        <fieldset>
-            <input type="radio" id="culling_on" class="form-check-input" name="culling" value="culling_on">
-            <label for="culling_on">Face Culling on</label>
-
-            <input type="radio" id="culling_off" class="form-check-input" name="culling" value="culling_off" checked>
-            <label for="culling_off">Face Culling off</label>
+        <fieldset class="form-check form-switch">
+            <input type="checkbox" id="culling" class="form-check-input" name="culling">
+            <label class="ps-1 form-check-label" for="culling">Face Culling</label>
         </fieldset>
     <% } %>
     <% if (slider_depth_test) { %>
-        <fieldset>
-            <input type="radio" id="depth_test_on" class="form-check-input" name="depth_test" value="depth_test_on" checked>
-            <label for="depth_test_on">Depth Test on</label>
-
-            <input type="radio" id="depth_test_off" class="form-check-input" name="depth_test" value="depth_test_off">
-            <label for="depth_test_off">Depth Test off</label>
+        <fieldset class="form-check form-switch">
+            <input type="checkbox" id="depth_test" class="form-check-input" name="depth_test" checked>
+            <label class="ps-1 form-check-label" for="depth_test">Depth Test</label>
         </fieldset>
     <% } %>
 
-    <!--
-    <div class="shapecontainer">
-        <input type="checkbox" id="shape-selector"></button> 
-        <label for="shape-selector"></label>
-        <div id="shape-div"></div>                           
-    </div>
-    -->
-
+    <h4 class="mt-3">Shape or scene</h4>
     <fieldset>
         <input type="radio" id="shape_triangle" class="form-check-input" name="shape" value="triangle" checked>
         <label for="depth_test_on">Triangle</label>
-
+        <br/>
         <input type="radio" id="shape_cube" class="form-check-input" name="shape" value="cube">
         <label for="depth_test_off">Cube</label>
     </fieldset>

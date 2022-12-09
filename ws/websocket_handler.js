@@ -22,7 +22,7 @@ class WebSocketHandler {
     */
     on_connect(socket) {
         // Participants must login with the ID, disregarding whether it is a teacher or not.
-        socket.on("generic_login", (login_id) => this.on_login(socket, login_id.id));
+        socket.on("generic_login", (login_id) => this.on_login(socket, login_id.id, login_id.readonly));
         // changeSlide topic should be called whenever slide are sent
         socket.on('teacher_changeSlide', (new_slide) => this.on_change_slide(new_slide));
         // create will create a new session
@@ -66,12 +66,14 @@ class WebSocketHandler {
     * @param {Socket} socket client socket.
     * @param {String} id the id of the room we want to join.
     */
-    on_login(socket, id) {
+    on_login(socket, id, readonly) {
         // Create new room if it does not exist.
         if (!this.states.hasOwnProperty(id)) {
             this.states[id] = new State(0); // Start from first slide
         }
-        this.states[id].addSocket(socket)
+        if (!readonly) {
+            this.states[id].addSocket(socket)
+        }
         socket.emit("generic_update", this.states[id].stateObject())
     }
 
