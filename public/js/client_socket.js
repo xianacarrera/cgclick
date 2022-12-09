@@ -47,6 +47,12 @@ function addConnectionListeners() {
             addOpenQuestionNode(answer_container, msg.answer, "0");
         }
 
+        var list = document.querySelector('#test-list');
+
+        [...answer_container.children]
+            .sort((a, b) => parseInt(a.querySelector(".answerCount").textContent) < parseInt(b.querySelector(".answerCount").textContent) ? 1 : -1)
+            .forEach(node => answer_container.appendChild(node));
+
         enableButtons();
     })
 
