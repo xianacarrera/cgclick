@@ -45,7 +45,8 @@ function displaySlideImageParameters(params) {
 
 function updateImageParametersGraphs(){
     let total = Object.values(image_parameters_answers.alpha).reduce((a, b) => a + b, 0);
-    let alpha_p = image_parameters_answers[target_alpha] / total;
-    let beta_gamma_p = image_parameters_answers[target_beta_gamma] / total;
+    let alpha_p = image_parameters_answers.alpha[target_alpha] / total;
+    let beta_gamma_p = image_parameters_answers.beta_gamma[target_beta_gamma] / total;
     document.getElementById("graphs_results").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons: true});
+    MathJax.typeset();
 }
