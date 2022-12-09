@@ -991,7 +991,7 @@ micromatch@^2.3.11, micromatch@^2.3.7:
 
 micromatch@jonschlinkert/micromatch#2.2.0:
   version "2.2.0"
-  resolved "git+ssh://git@github.com/jonschlinkert/micromatch.git#5017fd78202e04c684cc31d3c2fb1f469ea222ff"
+  resolved "https://git@github.com/jonschlinkert/micromatch.git#5017fd78202e04c684cc31d3c2fb1f469ea222ff"
   dependencies:
     arr-diff "^1.0.1"
     array-unique "^0.2.1"
