@@ -49,9 +49,9 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
         <h4 class="mt-3">Light</h4>
         <div class="slidecontainer">
             Azimuthal angle:
-            <output>200°</output>
+            <output>225°</output>
             <br/>
-            <input type="range" min="0" max="360" value="200" id="light_azimuthal_angle" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value + '°'">
+            <input type="range" min="0" max="360" value="225" id="light_azimuthal_angle" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value + '°'">
         </div>
         <div class="slidecontainer">
             Polar angle:
@@ -100,4 +100,13 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <label class="ps-1 form-check-label" for="depth_test">Depth Test</label>
         </fieldset>
     <% } %>
+
+        <div class="input-group">
+            <select class="custom-select" id="scene">
+                <option value="complex" selected>Multiple difefrent objects</option>
+                <option value="triangle">RGB triangle</option>
+                <option value="cube">RGB cube</option>
+            </select>
+        </div>
+
 </div>

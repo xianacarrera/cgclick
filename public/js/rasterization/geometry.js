@@ -29,11 +29,17 @@ var plane_colors = [
     0.56, 0.45, 0.4,
 ];
 
- var triangle_vertices = [
+var triangle_vertices = [
     0.0,  0.5,  0.0,
    -0.5, -0.5,  0.0,
     0.5, -0.5,  0.0,
 ];
+
+var triangle_normals = [
+    0.0,  0.0,  1.0,
+    0.0,  0.0,  1.0,
+    0.0,  0.0,  1.0,
+]
 
 var triangle_colors = [
    1.0, 0.0, 0.0,
