@@ -23,7 +23,7 @@ function displaySlideImageParameters(params) {
     document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params);
     MathJax.typeset();
 
-    if (isTeacher){
+    if (isTeacher) {
         x_values_alpha = [];
         x_values_beta_gamma = [];
         target_alpha = params.target_alpha;
@@ -36,10 +36,12 @@ function displaySlideImageParameters(params) {
         for (let j = params.beta.startIndex; j <= params.beta.endIndex; j += params.beta.step) {
             for (let k = params.gamma.startIndex; k <= params.gamma.endIndex; k += params.gamma.step) {
                 image_parameters_answers.beta_gamma[j / k] = 0;
-                x_values_beta_gamma.push(i);
+                x_values_beta_gamma.push(+(j / k).toFixed(2));       // 2 decimal places (the + eliminates 0s at the end)
             }
         }
-        
+        x_values_beta_gamma = [...new Set(x_values_beta_gamma)];    // Delete duplicates   
+        x_values_beta_gamma.sort();
+
     } else {
         document.getElementById("phong-done-btn").addEventListener("click", () => {
             const alpha = document.getElementById("alpha_input").value;
@@ -47,7 +49,7 @@ function displaySlideImageParameters(params) {
             const gamma = document.getElementById("gamma_input").value;
             console.log(`` + alpha + ` ` + beta + ` ` + gamma);
             emitAnswerToTeacher({ alpha, beta, gamma, slide: currentSlideNumber });
-        });    
+        });
     }
 
 
@@ -59,7 +61,7 @@ function displaySlideImageParameters(params) {
     );
 }
 
-function drawCharts(){
+function drawCharts() {
     // Discrete cuantitative variables -> bar charts
     y_values_alpha = [];
     x_values_alpha.forEach(x => {
@@ -70,22 +72,46 @@ function drawCharts(){
     x_values_beta_gamma.forEach(bg => {
         y_values_beta_gamma.push(image_parameters_answers.beta_gamma[bg]);
     })
-    bar_colors_beta_gamma.generateRandomColors(x_values_beta_gamma.length);
+    bar_colors_beta_gamma = generateRandomColors(x_values_beta_gamma.length);
 
-    new Chart("myChart", {
-    type: "bar",
-    data: {
-        labels: x_values_alpha,
-        datasets: [{
-        backgroundColor: bar_colors_alpha,
-        data: y_values_alpha
-        }]
-    },
-    options: {...}
+    new Chart("alpha_chart", {
+        type: "bar",
+        data: {
+            labels: x_values_alpha,
+            datasets: [{
+                backgroundColor: bar_colors_alpha,
+                data: y_values_alpha
+            }]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Alpha"
+            }
+        }
+    });
+
+    new Chart("beta_gamma_chart", {
+        type: "bar",
+        data: {
+            labels: x_values_beta_gamma,
+            datasets: [{
+                backgroundColor: bar_colors_beta_gamma,
+                data: y_values_beta_gamma
+            }]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Beta / Gamma"
+            }
+        }
     });
 }
 
-function generateRandomColors(n){
+function generateRandomColors(n) {
     let colors = [];
     while (colors.length < n) {
         colors.push(`rgb(${rand(0, 255)}, ${rand(0, 255)}, ${rand(0, 255)})`);
@@ -99,10 +125,11 @@ function rand(from, to) {
 }
 
 
-function updateImageParametersGraphs(){
+function updateImageParametersGraphs() {
     let total = Object.values(image_parameters_answers.alpha).reduce((a, b) => a + b, 0);
     let alpha_p = image_parameters_answers.alpha[target_alpha] / total * 100;
     let beta_gamma_p = image_parameters_answers.beta_gamma[target_beta_gamma] / total * 100;
-    document.getElementById("graphs_results").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons: true});
+    document.getElementById("graphs_results").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons: true });
+    drawCharts();
     MathJax.typeset();
 }
