@@ -1,11 +1,13 @@
-<div class="m-3">
+<div class="m-3" style="min-width: 300px;">
     <h3>Student open answers</h3>
-    <ul id="answer-list">
+    <ul id="answer-list" class="d-none">
     </ul>
+    <button id="hidden" data-action="show-answers" class="btn btn-primary m-3 p-2 disabled enabled-on-answer"
+            disabled="true">Show answers</button>
     <% if (showButtons) { %>
-        <button data-action="reset" class="btn btn-primary m-3 p-2 disabled enabled-on-answer"
+        <button data-action="reset" class="btn btn-primary m-3 p-2 disabled enabled-on-answer d-none"
             disabled="true">Reset</button>
-        <button data-action="send-answers" class="btn btn-primary m-3 p-2 disabled enabled-on-answer"
+        <button data-action="send-answers" class="btn btn-primary m-3 p-2 disabled enabled-on-answer d-none"
             disabled="true">Send answers</button>
     <% } %>
 </div>

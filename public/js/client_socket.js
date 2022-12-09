@@ -91,6 +91,8 @@ function emitAnswersToStudents(results){
         results,
         id
     }
+    console.log("Sending messages");
+    console.log(msg)
     socket.emit('teacher_showResults', msg);
 }
 
