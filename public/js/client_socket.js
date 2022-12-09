@@ -1,12 +1,12 @@
 let socket;
 
-function initSocket(){
+function initSocket() {
     socket = io();
     login()
     addConnectionListeners();
 }
 
-function addConnectionListeners(){
+function addConnectionListeners() {
     socket.on('connect', () => {
         console.log("Connected");
     });
@@ -34,10 +34,18 @@ function addConnectionListeners(){
 
         let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
         if (answer_container == null || msg.answer == "" || msg.answer == "\n") return;
-        let new_item = document.createElement("li");
-        let textnode = document.createTextNode(msg.answer);
-        new_item.appendChild(textnode);
-        answer_container.appendChild(new_item);
+        let found = false;
+        for (let i = 0; i < answer_container.childElementCount; i++) {
+            let ans = answer_container.children[i].querySelector(".answerText");
+            if (msg.answer == ans.textContent) {
+                let count = +answer_container.children[i].querySelector(".answerCount").textContent;
+                answer_container.children[i].querySelector(".answerCount").textContent = "" + (count + 1);
+                found = true;
+            }
+        }
+        if (!found) {
+            addOpenQuestionNode(answer_container, msg.answer, "0");
+        }
 
         enableButtons();
     })
@@ -53,14 +61,14 @@ function addConnectionListeners(){
     });
 }
 
-function emitChangeSlide(index){
+function emitChangeSlide(index) {
     socket.emit('teacher_changeSlide', {
-        slide: index ,
+        slide: index,
         id
     });
 }
 
-function emitAnswerToTeacher(answer){
+function emitAnswerToTeacher(answer) {
     if (isTeacher) return;
     if (currentSlideNumber != currentTeacherSlideNumber) return;            // The student is not on the right slide
     console.log("Sent open answer");
@@ -76,7 +84,7 @@ function emitAnswerToTeacher(answer){
     });
 }
 
-function enableButtons(){
+function enableButtons() {
     // This switch is not the best solution in terms of scalability (if we want to change the names of the slides), but parametrizing this info
     // in the slides definition would be too cumbersome in terms of refactoring
     switch (slides[currentSlideNumber].type) {
@@ -85,7 +93,7 @@ function enableButtons(){
     }
 }
 
-function emitAnswersToStudents(results){
+function emitAnswersToStudents(results) {
     results.isAnswer = true;
     let msg = {
         results,
@@ -97,4 +105,4 @@ function emitAnswersToStudents(results){
 }
 
 
-const login = (readonly = false) => socket.emit("generic_login", {id, readonly})
+const login = (readonly = false) => socket.emit("generic_login", { id, readonly })

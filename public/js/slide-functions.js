@@ -206,8 +206,12 @@ function displayOpenQuestionSlide(params) {
         });
         sendAnswersButton.addEventListener("click", () => {
             let results = [];
-            let answers = [...answerContainer.childNodes];      // Necessary because childNodes is not a true array
-            answers.forEach(item => results.push(item.textContent));
+            for (let i = 0; i < answerContainer.childElementCount; i++){
+                results.push({
+                    text: answerContainer.children[i].querySelector(".answerText").textContent,
+                    count: answerContainer.children[i].querySelector(".answerCount").textContent
+                })
+            }
             let model = {
                 question, 
                 results,
@@ -222,11 +226,8 @@ function displayOpenQuestionSlide(params) {
         let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
         answer_container.classList.remove("d-none");
         for (let i = 0; i < params.model.results.length; i++) {     // Skip the first element (it's empty)
-            if (params.model.results[i].trim() == "" || params.model.results[i].trim() == "\n") continue;
-            let new_item = document.createElement("li");
-            let textnode = document.createTextNode(params.model.results[i]);
-            new_item.appendChild(textnode);
-            answer_container.appendChild(new_item);
+            if (params.model.results[i].text.trim() == "" || params.model.results[i].text.trim() == "\n") continue;
+            addOpenQuestionNode(answer_container, params.model.results[i].text, params.model.results[i].count);
         }
 
     } else {
@@ -238,6 +239,22 @@ function displayOpenQuestionSlide(params) {
             emitAnswerToTeacher(answer);
         })
     }
+}
+
+function addOpenQuestionNode(answer_container, text, count){
+    let new_item = document.createElement("li");
+    let new_count = document.createElement("p");
+    new_count.classList.add("answerCount");
+    new_count.appendChild(document.createTextNode(count));
+    
+    let new_text = document.createElement("p");
+    new_text.classList.add("answerText");
+    new_text.appendChild(document.createTextNode(text));
+    
+    new_item.appendChild(new_count);
+    new_item.appendChild(new_text);
+
+    answer_container.appendChild(new_item);
 }
 
 function enableOpenAnswerButtons(enable) {
