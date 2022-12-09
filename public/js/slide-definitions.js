@@ -1,26 +1,4 @@
 slideDefinitions = {
-    playground_triangle_cube: {
-        displayFunction: displaySlideTriangleCube,
-        leaveFunction: leaveAndCancelAnimationFrame,
-        defaultParams: {
-            canvas_size: "exact",
-            canvas_width: 500,
-            canvas_height: 500,
-            slider_face_culling: false,
-            slider_depth_test: false,
-        },
-        evaluation: "teacher",
-    },
-    question_parametrization: {
-        displayFunction: displaySlideParametrization,
-        leaveFunction: leaveAndCancelAnimationFrame,
-        defaultParams: {
-            canvas_size: "exact",
-            canvas_width: 500,
-            canvas_height: 240,
-        },
-        evaluation: "teacher",
-    },
     playground_phong_model: {
         displayFunction: displaySlidePhongModel,
         leaveFunction: leaveAndCancelAnimationFrame,
@@ -54,6 +32,16 @@ slideDefinitions = {
             canvas_width: 300,
             canvas_height: 300,
         },
+    },
+    question_parametrization: {
+        displayFunction: displaySlideParametrization,
+        leaveFunction: leaveAndCancelAnimationFrame,
+        defaultParams: {
+            canvas_size: "exact",
+            canvas_width: 500,
+            canvas_height: 240,
+        },
+        evaluation: "teacher",
     },
     question_midpoint: {
         displayFunction: displaySlideMidpoint,

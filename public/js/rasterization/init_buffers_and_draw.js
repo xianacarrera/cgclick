@@ -70,16 +70,9 @@ function createVAO(vao, shader, vertices, normals, colors) {
 
 function initBuffers() {
     switch (currentSlideInfo.rasterizationType) {
-        case "triangle_cube":
-            cube_vao = gl.createVertexArray();
-            createVAO(cube_vao, shaderProgram, cube_vertices, undefined, cube_colors);
-
-            triangle_vao = gl.createVertexArray();
-            createVAO(triangle_vao, shaderProgram, triangle_vertices, undefined, triangle_colors);
-            break;
         case "phong_model":
             cube_vao = gl.createVertexArray();
-            createVAO(cube_vao, shaderProgram, cube_vertices_PM, cube_normals, cube_colors);
+            createVAO(cube_vao, shaderProgram, cube_vertices, cube_normals, cube_colors);
 
             sphere_vao = gl.createVertexArray();
             createVAO(sphere_vao, shaderProgram, sphere_vertices, sphere_normals, sphere_colors);
@@ -92,7 +85,7 @@ function initBuffers() {
             break;
         case "custom_shaders":
             cube_vao = gl.createVertexArray();
-            createVAO(cube_vao, shaderProgram, cube_vertices_PM, cube_normals, cube_colors);
+            createVAO(cube_vao, shaderProgram, cube_vertices, cube_normals, cube_colors);
 
             sphere_vao = gl.createVertexArray();
             createVAO(sphere_vao, shaderProgram, sphere_vertices, sphere_normals, sphere_colors);
@@ -105,57 +98,6 @@ function initBuffers() {
                 console.error("For this slide initBuffers is not supported.");
             }
     }
-}
-
-function draw(params) {
-    switch (currentSlideInfo.rasterizationType) {
-        case "triangle_cube":
-            draw_TC();
-            break;
-        case "phong_model":
-        case "custom_shaders":
-            draw_PM(params);
-    }
-}
-
-function draw_TC() {
-    shaderProgram.rotationMatrix = gl.getUniformLocation(shaderProgram, "rotationMatrix");
-    var rotation = document.getElementById("rotation");
-    var rotationMatrix = mat4.create();
-    mat4.fromRotation(rotationMatrix, -(rotation.value - 100) / 100 * Math.PI, vec3.fromValues(-0.2, 1, 0));
-
-    // set the size of our rendering area
-    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-
-    // setting the background color
-    gl.clearColor(0.2, 0.2, 0.2, 1.0);
-    // clear the rendering area
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.clear(gl.DEPTH_BUFFER_BIT);
-
-    // Enable/disable face culling and depth test
-    if (is_culling_on) { gl.enable(gl.CULL_FACE); }
-    else { gl.disable(gl.CULL_FACE); }
-
-    if (is_depth_test_on) { gl.enable(gl.DEPTH_TEST); }
-    else { gl.disable(gl.DEPTH_TEST); }
-
-    // enable the GLSL program for the rendering
-    gl.useProgram(shaderProgram);
-    gl.uniformMatrix4fv(shaderProgram.rotationMatrix, false, rotationMatrix); // extra code for interactive rotation, it does need to be modified
-
-    // bind the VAO
-    if (is_triangle_shown) {
-        gl.bindVertexArray(triangle_vao);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
-    } else {
-        gl.bindVertexArray(cube_vao);
-        gl.drawArrays(gl.TRIANGLES, 0, 12 * 3);
-    }
-
-    let requestID = window.requestAnimationFrame(draw_TC);
-    // console.log("Requested animation frame with requestID = " + requestID);
-    currentSlideInfo.requestID = requestID;
 }
 
 function getCameraPosition(params) {
@@ -204,7 +146,7 @@ function setUniform(unif, unifname, func, nargs) {
     }
 }
 
-function draw_PM(params) {
+function draw(params) {
     let camera_position = getCameraPosition(params);
 
     // camera fov
@@ -265,7 +207,7 @@ function draw_PM(params) {
     setUniform(beta, "beta", gl.uniform1f, 2);
 
     let scene_dropdown = document.getElementById("scene");
-    let scene = scene_dropdown.options[scene_dropdown.selectedIndex].value;
+    let scene = scene_dropdown?.options[scene_dropdown.selectedIndex].value || "complex";
     // let scene = "complex";
 
     if (scene == "triangle") {
@@ -299,14 +241,14 @@ function draw_PM(params) {
         mat4.fromTranslation(model_matrix, vec3.fromValues(1.5, 0, 0));
         setUniform(model_matrix, "model_matrix", gl.uniformMatrix4fv, 3);
 
-        gl.drawArrays(gl.TRIANGLES, 0, cube_vertices_PM.length / 3);
+        gl.drawArrays(gl.TRIANGLES, 0, cube_vertices.length / 3);
 
         // CUBE 2
 
         mat4.fromTranslation(model_matrix, vec3.fromValues(-1.5, 0, 0));
         setUniform(model_matrix, "model_matrix", gl.uniformMatrix4fv, 3);
 
-        gl.drawArrays(gl.TRIANGLES, 0, cube_vertices_PM.length / 3);
+        gl.drawArrays(gl.TRIANGLES, 0, cube_vertices.length / 3);
 
         // SPHERE 1
 
@@ -330,6 +272,6 @@ function draw_PM(params) {
 
     }
 
-    let requestID = window.requestAnimationFrame(function () { draw_PM(params) });
+    let requestID = window.requestAnimationFrame(function () { draw(params) });
     currentSlideInfo.requestID = requestID;
 }
