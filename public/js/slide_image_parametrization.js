@@ -1,19 +1,21 @@
 let image_parameters_answers = { alpha: {}, beta_gamma: {} };
+let memory_students = {};
 let target_alpha, target_beta_gamma;
 
 function displaySlideImageParameters(params) {
     document.getElementById("content").className = cardClasses;
-    target_alpha = params.target_alpha;
-    target_beta_gamma = params.target_beta / params.target_gamma;
     params.showButtons = true;
     params.alpha_p = 0;
     params.beta_gamma_p = 0;
     params.isTeacher = isTeacher;
+    memory_students = {};
 
     document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params);
     MathJax.typeset();
 
     if (isTeacher){
+        target_alpha = params.target_alpha;
+        target_beta_gamma = params.target_beta / params.target_gamma;
         for (let i = params.alpha.startIndex; i <= params.alpha.endIndex; i += params.alpha.step) {
             image_parameters_answers.alpha[i] = 0;
         };
@@ -45,8 +47,8 @@ function displaySlideImageParameters(params) {
 
 function updateImageParametersGraphs(){
     let total = Object.values(image_parameters_answers.alpha).reduce((a, b) => a + b, 0);
-    let alpha_p = image_parameters_answers.alpha[target_alpha] / total;
-    let beta_gamma_p = image_parameters_answers.beta_gamma[target_beta_gamma] / total;
+    let alpha_p = image_parameters_answers.alpha[target_alpha] / total * 100;
+    let beta_gamma_p = image_parameters_answers.beta_gamma[target_beta_gamma] / total * 100;
     document.getElementById("graphs_results").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons: true});
     MathJax.typeset();
 }

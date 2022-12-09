@@ -34,7 +34,7 @@ function addConnectionListeners(){
         // If the answer should be unique for each student, filter by using msg.student (id of the student)
 
         if (msg.slide != currentSlideNumber) return;            // The student is not on the right slide
-        manageAnswer(msg.answer);
+        manageAnswer(msg.answer, msg.student);
         enableButtons();
     })
 
@@ -92,7 +92,7 @@ function emitAnswersToStudents(results){
 }
 
 
-function manageAnswer(answer){
+function manageAnswer(answer, student){
     console.log(slides[currentSlideNumber].type);
     switch(slides[currentSlideNumber].type){
         case "question_open":
@@ -104,8 +104,18 @@ function manageAnswer(answer){
             break;
         case "question_image_parameters":
             console.log("HERE");
-            image_parameters_answers.alpha[answer.alpha] += 1;
-            image_parameters_answers.beta_gamma[answer.beta / answer.gamma] += 1;
+            if (student in memory_students){            // The student had previously answered this question
+                let previous_answer = memory_students[student];
+                image_parameters_answers.alpha[previous_answer.alpha]--;
+                image_parameters_answers.beta_gamma[previous_answer.beta_gamma]--
+            }
+            let beta_gamma = answer.beta / answer.gamma;
+            memory_students[student] = {
+                alpha: answer.alpha,
+                beta_gamma: answer.beta / answer.gamma,
+            }
+            image_parameters_answers.alpha[answer.alpha]++;
+            image_parameters_answers.beta_gamma[beta_gamma]++;
             updateImageParametersGraphs();
             break;
     }
