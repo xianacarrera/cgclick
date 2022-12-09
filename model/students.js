@@ -7,9 +7,14 @@ class StudentCounter{
         this.submits = 0;
     }
 
-    addStudent() {
-        this.students++;
+    getData(){
+        return {
+            "students": this.students,
+            "following": this.following,
+            "submits": this.submits,
+        }
     }
+    
 }
 
 module.exports.StudentCounter = StudentCounter
