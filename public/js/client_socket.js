@@ -44,10 +44,8 @@ function addConnectionListeners() {
             }
         }
         if (!found) {
-            addOpenQuestionNode(answer_container, msg.answer, "0");
+            addOpenQuestionNode(answer_container, msg.answer, "1");
         }
-
-        var list = document.querySelector('#test-list');
 
         [...answer_container.children]
             .sort((a, b) => parseInt(a.querySelector(".answerCount").textContent) < parseInt(b.querySelector(".answerCount").textContent) ? 1 : -1)
@@ -99,8 +97,8 @@ function enableButtons() {
     }
 }
 
-function emitAnswersToStudents(results) {
-    results.isAnswer = true;
+function emitAnswersToStudents(results, isAnswer = true) {
+    results.isAnswer = isAnswer;
     let msg = {
         results,
         id

@@ -203,6 +203,8 @@ function displayOpenQuestionSlide(params) {
             showAnswersButton.id = "hidden";
             showAnswersButton.innerHTML = "Show Answers";
             enableOpenAnswerButtons(false);
+
+            emitAnswersToStudents({question, slide: currentSlideNumber}, false)
         });
         sendAnswersButton.addEventListener("click", () => {
             let results = [];
