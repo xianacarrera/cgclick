@@ -202,7 +202,8 @@ function displayOpenQuestionSlide(params) {
         document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params.model);
 
         let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
-        for (let i = 1; i < params.model.results.length; i++) {     // Skip the first element (it's empty)
+        for (let i = 0; i < params.model.results.length; i++) {     // Skip the first element (it's empty)
+            if (params.model.results[i].trim() == "" || params.model.results[i].trim() == "\n") continue;
             let new_item = document.createElement("li");
             let textnode = document.createTextNode(params.model.results[i]);
             new_item.appendChild(textnode);

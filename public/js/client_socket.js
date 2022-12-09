@@ -33,7 +33,7 @@ function addConnectionListeners(){
         // If the answer should be unique for each student, filter by using msg.student (id of the student)
 
         let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
-        if (answer_container == null) return;
+        if (answer_container == null || msg.answer == "" || msg.answer == "\n") return;
         let new_item = document.createElement("li");
         let textnode = document.createTextNode(msg.answer);
         new_item.appendChild(textnode);
