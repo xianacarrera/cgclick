@@ -24,6 +24,11 @@ slideDefinitions = {
     playground_phong_model: {
         displayFunction: displaySlidePhongModel,
         leaveFunction: leaveAndCancelAnimationFrame,
+        sceneDescriptions: {
+            complex: "Multiple different objects",
+            triangle: "RGB triangle",
+            cube: "RGB cube",
+        },
         defaultParams: {
             canvas_size: "exact",
             canvas_width: 500,
@@ -36,6 +41,8 @@ slideDefinitions = {
             slider_depth_test: false,
             slider_gamma: false,
             slider_tone_mapping: false,
+            available_scenes: ["complex", "triangle", "cube"],
+            available_scenes_descriptions: [],
         },
         evaluation: "teacher",
     },

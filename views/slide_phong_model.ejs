@@ -12,6 +12,20 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
 <canvas id="webgl-canvas" class="m-3" width="<%= canvas_width %>" height="<%= canvas_height %>"></canvas>
 
 <div id="controls" class="m-3 mt-0">
+    <% if (available_scenes.length > 1) { %>
+        <div class="input-group">
+            <label class="input-group-text" for="scene">Scene</label>
+            <select class="form-select" id="scene">
+                <% available_scenes.forEach((s, i) => { %>
+                    <% if (i == 0) { %>
+                        <option value="<%= s %>" selected><%= available_scenes_descriptions[i] %></option>
+                    <% } else { %>
+                        <option value="<%= s %>"><%= available_scenes_descriptions[i] %></option>
+                    <% } %>
+                <% }); %>
+            </select>
+        </div>
+    <% } %>
     <% if (slider_camera_angles || slider_camera_distance || slider_camera_fov) { %>
         <h4 class="mt-3">Camera</h4>
     <% } %>
@@ -100,13 +114,4 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <label class="ps-1 form-check-label" for="depth_test">Depth Test</label>
         </fieldset>
     <% } %>
-
-        <div class="input-group">
-            <select class="custom-select" id="scene">
-                <option value="complex" selected>Multiple difefrent objects</option>
-                <option value="triangle">RGB triangle</option>
-                <option value="cube">RGB cube</option>
-            </select>
-        </div>
-
 </div>
