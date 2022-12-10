@@ -122,8 +122,6 @@ function manageAnswer(answer, student){
             image_parameters_answers.alpha[answer.alpha]++;
             image_parameters_answers.beta_gamma[beta_gamma]++;
             updateImageParametersGraphs();
-
-
             addListenerShowAnswersImageParameters();
 
             break;

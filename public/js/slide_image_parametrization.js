@@ -1,6 +1,8 @@
 let image_parameters_answers = { alpha: {}, beta_gamma: {} };
 let memory_students = {};
 let target_alpha, target_beta_gamma;
+let alpha_p, beta_gamma_p;
+let canvas_size, canvas_width, canvas_height, alpha, beta, gamma;
 
 let x_values_alpha;
 let y_values_alpha;
@@ -19,6 +21,7 @@ function displaySlideImageParameters(params) {
     params.beta_gamma_p = 0;
     params.isTeacher = isTeacher;
     memory_students = {};
+    [canvas_size, canvas_width, canvas_height, alpha, beta, gamma] = [params.canvas_size, params.canvas_width, params.canvas_height, params.alpha, params.beta, params.gamma];
 
     document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params);
     MathJax.typeset();
@@ -42,8 +45,20 @@ function displaySlideImageParameters(params) {
         x_values_beta_gamma = [...new Set(x_values_beta_gamma)];    // Delete duplicates   
         x_values_beta_gamma.sort();
 
-        addListenerShowAnswersImageParameters();   
-
+        addListenerShowAnswersImageParameters();
+    } else if (params?.model?.isAnswer) {        // The teacher is showing the answers to the students
+        // Needs to be set here and adjusted in the graphs function
+        document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params.model.results);
+        console.log(params.model);
+        setTimeout(() => {
+            [x_values_alpha, y_values_alpha, bar_colors_alpha] = [params.model.results.x_values_alpha, params.model.results.y_values_alpha, params.model.results.bar_colors_alpha];
+            [x_values_beta_gamma, y_values_beta_gamma, bar_colors_beta_gamma] = [params.model.results.x_values_beta_gamma, params.model.results.y_values_beta_gamma, params.model.results.bar_colors_beta_gamma]
+            [alpha_p, beta_gamma_p] = [params.model.results.alpha_p, params.model.results.beta_gamma_p];
+            updateImageParametersGraphs(false, false, params.model.results.alpha_p, params.model.results.beta_gamma_p);
+            document.querySelector("button[data-action='show-images-answers']").classList.add("d-none");
+            document.getElementById("phong-done-btn").classList.add("d-none");
+            document.getElementById("student_answers_div_image").classList.remove("d-none");
+        }, 100);
 
     } else {
         document.getElementById("phong-done-btn").addEventListener("click", () => {
@@ -64,15 +79,15 @@ function displaySlideImageParameters(params) {
     );
 }
 
-function addListenerShowAnswersImageParameters(){
+function addListenerShowAnswersImageParameters() {
     let answers_div = document.getElementById("student_answers_div_image");
     let resetButton = document.querySelector("button[data-action='reset']");
     let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
     let arr = [answers_div, resetButton, sendAnswersButton];
 
     let showAnswersButton = document.querySelector("button[data-action='show-images-answers']");
-    showAnswersButton.addEventListener("click", () => {showAnswersButtonFunction(showAnswersButton, arr)});
-    
+    showAnswersButton.addEventListener("click", () => { showAnswersButtonFunction(showAnswersButton, arr) });
+
 
     resetButton.addEventListener("click", () => {
         arr.forEach(c => c.classList.add("d-none"));
@@ -80,39 +95,47 @@ function addListenerShowAnswersImageParameters(){
         showAnswersButton.innerHTML = "Show Answers";
         enableOnAnswerButtons(false);
 
-        emitAnswersToStudents({slide: currentSlideNumber}, false)
+        emitAnswersToStudents({ slide: currentSlideNumber }, false)
     });
     sendAnswersButton.addEventListener("click", () => {
-        /*
-        let results = [];
-        for (let i = 0; i < answerContainer.childElementCount; i++){
-            results.push({
-                text: answerContainer.children[i].querySelector(".answerText").textContent,
-                count: answerContainer.children[i].querySelector(".answerCount").textContent
-            })
-        }
         let model = {
-            question, 
-            results,
+            results: {
+                x_values_alpha,
+                y_values_alpha,
+                bar_colors_alpha,
+                x_values_beta_gamma,
+                y_values_beta_gamma,
+                bar_colors_beta_gamma,
+                showButtons: false,
+                isTeacher: true,
+                alpha_p,
+                beta_gamma_p,
+                slide: currentSlideNumber,
+                canvas_size,
+                canvas_width,
+                canvas_height,
+            },
             slide: currentSlideNumber
-        }
+        };
         emitAnswersToStudents(model);
-        */
     })
 }
 
-function drawCharts() {
+function drawCharts(reload) {
     // Discrete cuantitative variables -> bar charts
-    y_values_alpha = [];
-    x_values_alpha.forEach(x => {
-        y_values_alpha.push(image_parameters_answers.alpha[x]);
-    })
-    bar_colors_alpha = generateRandomColors(x_values_alpha.length);
-    y_values_beta_gamma = [];
-    x_values_beta_gamma.forEach(bg => {
-        y_values_beta_gamma.push(image_parameters_answers.beta_gamma[bg]);
-    })
-    bar_colors_beta_gamma = generateRandomColors(x_values_beta_gamma.length);
+    if (reload) {
+        console.log("reloading");
+        y_values_alpha = [];
+        x_values_alpha.forEach(x => {
+            y_values_alpha.push(image_parameters_answers.alpha[x]);
+        })
+        bar_colors_alpha = generateRandomColors(x_values_alpha.length);
+        y_values_beta_gamma = [];
+        x_values_beta_gamma.forEach(bg => {
+            y_values_beta_gamma.push(image_parameters_answers.beta_gamma[bg]);
+        })
+        bar_colors_beta_gamma = generateRandomColors(x_values_beta_gamma.length);
+    }
 
     new Chart("alpha_chart", {
         type: "bar",
@@ -165,11 +188,18 @@ function rand(from, to) {
 }
 
 
-function updateImageParametersGraphs() {
+function updateImageParametersGraphs(showButtons = true, reload = true, new_alpha_p, new_beta_gamma_p) {
     let total = Object.values(image_parameters_answers.alpha).reduce((a, b) => a + b, 0);
-    let alpha_p = image_parameters_answers.alpha[target_alpha] / total * 100;
-    let beta_gamma_p = image_parameters_answers.beta_gamma[target_beta_gamma] / total * 100;
-    document.getElementById("graphs_results").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons: true });
-    drawCharts();
+    if (new_alpha_p === undefined || new_beta_gamma_p === undefined){
+        alpha_p = image_parameters_answers.alpha[target_alpha] / total * 100;
+        beta_gamma_p = image_parameters_answers.beta_gamma[target_beta_gamma] / total * 100;
+    } else {
+        alpha_p = new_alpha_p;
+        beta_gamma_p = new_beta_gamma_p;
+    }
+    console.log(new_alpha_p)
+    console.log(new_beta_gamma_p)
+    document.getElementById("graphs_results").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons });
+    drawCharts(reload);
     MathJax.typeset();
 }
