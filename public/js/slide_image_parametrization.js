@@ -42,14 +42,8 @@ function displaySlideImageParameters(params) {
         x_values_beta_gamma = [...new Set(x_values_beta_gamma)];    // Delete duplicates   
         x_values_beta_gamma.sort();
 
+        addListenerShowAnswersImageParameters();   
 
-        let answers_div = document.getElementById("student_answers_div_image");
-        let resetButton = document.querySelector("button[data-action='reset']");
-        let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
-        let arr = [answers_div, resetButton, sendAnswersButton];
-
-        let showAnswersButton = document.querySelector("button[data-action='show-answers']")
-        showAnswersButton.addEventListener("click", () => showAnswersButtonFunction(showAnswersButton, arr));
 
     } else {
         document.getElementById("phong-done-btn").addEventListener("click", () => {
@@ -68,6 +62,43 @@ function displaySlideImageParameters(params) {
         { azimuthal: -45, polar: 60, distance: 150, fov: 45 },   // Camera
         { gamma: params.target_gamma, tone_mapping_alpha: params.target_alpha, tone_mapping_beta: params.target_beta }
     );
+}
+
+function addListenerShowAnswersImageParameters(){
+    let answers_div = document.getElementById("student_answers_div_image");
+    let resetButton = document.querySelector("button[data-action='reset']");
+    let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
+    let arr = [answers_div, resetButton, sendAnswersButton];
+
+    let showAnswersButton = document.querySelector("button[data-action='show-images-answers']");
+    showAnswersButton.addEventListener("click", () => {showAnswersButtonFunction(showAnswersButton, arr)});
+    
+
+    resetButton.addEventListener("click", () => {
+        arr.forEach(c => c.classList.add("d-none"));
+        showAnswersButton.id = "hidden";
+        showAnswersButton.innerHTML = "Show Answers";
+        enableOnAnswerButtons(false);
+
+        emitAnswersToStudents({slide: currentSlideNumber}, false)
+    });
+    sendAnswersButton.addEventListener("click", () => {
+        /*
+        let results = [];
+        for (let i = 0; i < answerContainer.childElementCount; i++){
+            results.push({
+                text: answerContainer.children[i].querySelector(".answerText").textContent,
+                count: answerContainer.children[i].querySelector(".answerCount").textContent
+            })
+        }
+        let model = {
+            question, 
+            results,
+            slide: currentSlideNumber
+        }
+        emitAnswersToStudents(model);
+        */
+    })
 }
 
 function drawCharts() {

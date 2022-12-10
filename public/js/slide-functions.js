@@ -237,9 +237,7 @@ function addOpenQuestionNode(answer_container, text, count){
 }
 
 function enableOnAnswerButtons(enable) {
-    console.log("hi2");
     document.querySelectorAll(".enabled-on-answer").forEach(e => {
-        console.log("hi");
         if (enable) {
             e.classList.remove("disabled");
             e.disabled = false;

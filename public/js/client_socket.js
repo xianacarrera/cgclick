@@ -109,7 +109,6 @@ function manageAnswer(answer, student){
                 .forEach(node => answer_container.appendChild(node));
             break;
         case "question_image_parameters":
-            console.log("HERE");
             if (student in memory_students){            // The student had previously answered this question
                 let previous_answer = memory_students[student];
                 image_parameters_answers.alpha[previous_answer.alpha]--;
@@ -123,9 +122,15 @@ function manageAnswer(answer, student){
             image_parameters_answers.alpha[answer.alpha]++;
             image_parameters_answers.beta_gamma[beta_gamma]++;
             updateImageParametersGraphs();
+
+
+            addListenerShowAnswersImageParameters();
+
             break;
     }
 }
+
+
 
 
 const login = (readonly = false) => socket.emit("generic_login", {id, readonly});
