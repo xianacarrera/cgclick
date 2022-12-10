@@ -31,30 +31,15 @@ function addConnectionListeners(){
     });
 
     socket.on('student_answer', (msg) => {
-        console.log("Received answer from the student: " + msg.answer);
+        console.log("Received answer from the student: ");
+        console.log(msg.answer);
 
         // If the answer should be unique for each student, filter by using msg.student (id of the student)
 
-        let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
-        if (answer_container == null || msg.answer == "" || msg.answer == "\n") return;
-        let found = false;
-        for (let i = 0; i < answer_container.childElementCount; i++) {
-            let ans = answer_container.children[i].querySelector(".answerText");
-            if (msg.answer == ans.textContent) {
-                let count = +answer_container.children[i].querySelector(".answerCount").textContent;
-                answer_container.children[i].querySelector(".answerCount").textContent = "" + (count + 1);
-                found = true;
-            }
-        }
-        if (!found) {
-            addOpenQuestionNode(answer_container, msg.answer, "1");
-        }
+        if (msg.slide != currentSlideNumber) return;            // The student is not on the right slide
+        manageAnswer(msg.answer, msg.student);
 
-        [...answer_container.children]
-            .sort((a, b) => parseInt(a.querySelector(".answerCount").textContent) < parseInt(b.querySelector(".answerCount").textContent) ? 1 : -1)
-            .forEach(node => answer_container.appendChild(node));
-
-        enableButtons();
+        enableOnAnswerButtons(true);
     })
 
     socket.on('teacher_showResults', (msg) => {
@@ -87,7 +72,7 @@ function emitChangeSlide(index) {
 function emitAnswerToTeacher(answer) {
     if (isTeacher) return;
     if (currentSlideNumber != currentTeacherSlideNumber) return;            // The student is not on the right slide
-    console.log("Sent open answer");
+    console.log("Sent answer");
     console.log({
         id,             // Room id
         answer,         // Answer
@@ -97,16 +82,8 @@ function emitAnswerToTeacher(answer) {
         id,             // Room id
         answer,         // Answer
         student: socket.id,         // Identifies the student (useful for questions where the answer per student is unique)
+        slide: currentSlideNumber,
     });
-}
-
-function enableButtons() {
-    // This switch is not the best solution in terms of scalability (if we want to change the names of the slides), but parametrizing this info
-    // in the slides definition would be too cumbersome in terms of refactoring
-    switch (slides[currentSlideNumber].type) {
-        case "question_open":
-            enableOpenAnswerButtons(true);
-    }
 }
 
 function emitAnswersToStudents(results, isAnswer = true) {
@@ -120,5 +97,50 @@ function emitAnswersToStudents(results, isAnswer = true) {
     socket.emit('teacher_showResults', msg);
 }
 
+function manageAnswer(answer, student){
+    console.log(slides[currentSlideNumber].type);
+    switch(slides[currentSlideNumber].type){
+        case "question_open":
+            let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+            if (answer_container == null || answer == "" || answer == "\n") return;
+            let found = false;
+            for (let i = 0; i < answer_container.childElementCount; i++) {
+                let ans = answer_container.children[i].querySelector(".answerText");
+                if (answer == ans.textContent) {
+                    let count = +answer_container.children[i].querySelector(".answerCount").textContent;
+                    answer_container.children[i].querySelector(".answerCount").textContent = "" + (count + 1);
+                    found = true;
+                }
+            }
+            if (!found) {
+                addOpenQuestionNode(answer_container, answer, "1");
+            }
 
-const login = (readonly = false) => socket.emit("generic_login", { id, readonly })
+            [...answer_container.children]
+                .sort((a, b) => parseInt(a.querySelector(".answerCount").textContent) < parseInt(b.querySelector(".answerCount").textContent) ? 1 : -1)
+                .forEach(node => answer_container.appendChild(node));
+            break;
+        case "question_image_parameters":
+            if (student in memory_students){            // The student had previously answered this question
+                let previous_answer = memory_students[student];
+                image_parameters_answers.alpha[previous_answer.alpha]--;
+                image_parameters_answers.beta_gamma[previous_answer.beta_gamma]--
+            }
+            let beta_gamma = answer.beta / answer.gamma;
+            memory_students[student] = {
+                alpha: answer.alpha,
+                beta_gamma: answer.beta / answer.gamma,
+            }
+            image_parameters_answers.alpha[answer.alpha]++;
+            image_parameters_answers.beta_gamma[beta_gamma]++;
+            updateImageParametersGraphs();
+            addListenerShowAnswersImageParameters();
+
+            break;
+    }
+}
+
+
+
+
+const login = (readonly = false) => socket.emit("generic_login", {id, readonly});
