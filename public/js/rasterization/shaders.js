@@ -167,10 +167,6 @@ function createGLSLPrograms(params){
     var vertexShader = gl.createShader(gl.VERTEX_SHADER);
     var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
     switch (currentSlideInfo.rasterizationType) {
-        case "triangle_cube":
-            compileShader(vertexShader, vertexShaderCode, gl.VERTEX_SHADER, "Vertex");
-            compileShader(fragmentShader, fragmentShaderCode, gl.VERTEX_SHADER, "Fragment");
-            break;
         case "phong_model":
             compileShader(vertexShader, vertexShaderCode_PM, gl.VERTEX_SHADER, "Vertex");
             compileShader(fragmentShader, fragmentShaderCode_PM, gl.VERTEX_SHADER, "Fragment");

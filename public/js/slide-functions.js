@@ -9,12 +9,6 @@ function displaySlideOpenQuestion() {
 let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
 let noClasses = "";
 
-function displaySlideTriangleCube(params) {
-    document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_triangle_cube(params);
-    start_slide_triangle_cube(params);
-}
-
 // The element starts to be dragged
 function boxDragStart(e) {
     // Data is transferred between dragstart and drop events using dataTransfer
@@ -184,14 +178,38 @@ function displayOpenQuestionSlide(params) {
     if (isTeacher) {
         document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params);
         let answerContainer = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
-        document.querySelector("button[data-action='reset']").addEventListener("click", () => {
+        let showAnswersButton = document.querySelector("button[data-action='show-answers']");
+        let resetButton = document.querySelector("button[data-action='reset']");
+        let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
+        let arr = [answerContainer, resetButton, sendAnswersButton];
+        showAnswersButton.addEventListener("click", () => {
+            if (showAnswersButton.id == "hidden"){
+                arr.forEach(c => c.classList.remove("d-none"));
+                showAnswersButton.id = "shown";
+                showAnswersButton.innerHTML = "Hide Answers";
+            } else {
+                arr.forEach(c => c.classList.add("d-none"));
+                showAnswersButton.id = "hidden";
+                showAnswersButton.innerHTML = "Show Answers";
+            }
+        })
+        resetButton.addEventListener("click", () => {
             answerContainer.innerHTML = "";     // Remove all child nodes
+            arr.forEach(c => c.classList.add("d-none"));
+            showAnswersButton.id = "hidden";
+            showAnswersButton.innerHTML = "Show Answers";
             enableOpenAnswerButtons(false);
+
+            emitAnswersToStudents({question, slide: currentSlideNumber}, false)
         });
-        document.querySelector("button[data-action='send-answers']").addEventListener("click", () => {
+        sendAnswersButton.addEventListener("click", () => {
             let results = [];
-            let answers = [...answerContainer.childNodes];      // Necessary because childNodes is not a true array
-            answers.forEach(item => results.push(item.textContent));
+            for (let i = 0; i < answerContainer.childElementCount; i++){
+                results.push({
+                    text: answerContainer.children[i].querySelector(".answerText").textContent,
+                    count: answerContainer.children[i].querySelector(".answerCount").textContent
+                })
+            }
             let model = {
                 question, 
                 results,
@@ -202,14 +220,12 @@ function displayOpenQuestionSlide(params) {
     } else if (params?.model?.isAnswer) {        // The teacher is showing the answers to the students
         params.model.showButtons = false;
         document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params.model);
-
+        document.querySelector("button[data-action='show-answers']").classList.add("d-none");
         let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+        answer_container.classList.remove("d-none");
         for (let i = 0; i < params.model.results.length; i++) {     // Skip the first element (it's empty)
-            if (params.model.results[i].trim() == "" || params.model.results[i].trim() == "\n") continue;
-            let new_item = document.createElement("li");
-            let textnode = document.createTextNode(params.model.results[i]);
-            new_item.appendChild(textnode);
-            answer_container.appendChild(new_item);
+            if (params.model.results[i].text.trim() == "" || params.model.results[i].text.trim() == "\n") continue;
+            addOpenQuestionNode(answer_container, params.model.results[i].text, params.model.results[i].count);
         }
 
     } else {
@@ -221,6 +237,22 @@ function displayOpenQuestionSlide(params) {
             emitAnswerToTeacher(answer);
         })
     }
+}
+
+function addOpenQuestionNode(answer_container, text, count){
+    let new_item = document.createElement("li");
+    let new_count = document.createElement("p");
+    new_count.classList.add("answerCount");
+    new_count.appendChild(document.createTextNode(count));
+    
+    let new_text = document.createElement("p");
+    new_text.classList.add("answerText");
+    new_text.appendChild(document.createTextNode(text));
+    
+    new_item.appendChild(new_count);
+    new_item.appendChild(new_text);
+
+    answer_container.appendChild(new_item);
 }
 
 function enableOpenAnswerButtons(enable) {
