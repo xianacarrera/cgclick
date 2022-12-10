@@ -2,16 +2,16 @@
 class StudentCounter{
 
     constructor() {
-        this.students = 0;
-        this.following = 0;
-        this.submits = 0;
+        this.students = [];
+        this.following = [];
+        this.submits = [];
     }
 
     getData(){
         return {
-            "students": this.students,
-            "following": this.following,
-            "submits": this.submits,
+            "students": this.students.length-1,
+            "following": this.following.length-1,
+            "submits": this.submits.length-1,
         }
     }
     

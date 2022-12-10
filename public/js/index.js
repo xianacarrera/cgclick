@@ -13,6 +13,7 @@ function init(){
         document.getElementById('follow').addEventListener('change', () => {
             isFollowing = document.getElementById('follow').checked
             if (isFollowing) login(readonly = true)
+            socket.emit("student_follow", {id, "val": isFollowing});
         })
     }
     addEventListeners();
