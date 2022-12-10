@@ -74,6 +74,9 @@ function mergeParams() {
 }
 
 function parseStringParams(params) {
+
+    // Canvas size
+
     if (params.canvas_size == "tiny") {
         params.canvas_width = 150;
         params.canvas_height = 150;
@@ -94,6 +97,17 @@ function parseStringParams(params) {
     if (params.canvas_size != "exact" && slideDefinitions[slides[currentSlideNumber].type].double_canvas) {
         params.canvas_width *= 2;
     }
+
+    // Scene
+
+    if (params.available_scenes) {
+        params.available_scenes.forEach((s, i) => {
+            if (!params.available_scenes_descriptions[i]) {
+                params.available_scenes_descriptions[i] = slideDefinitions.playground_phong_model.sceneDescriptions[s];
+            }
+        });
+    }
+
     return params;
 }
 
