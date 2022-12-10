@@ -69,35 +69,17 @@ function createVAO(vao, shader, vertices, normals, colors) {
 }
 
 function initBuffers() {
-    switch (currentSlideInfo.rasterizationType) {
-        case "phong_model":
-            cube_vao = gl.createVertexArray();
-            createVAO(cube_vao, shaderProgram, cube_vertices, cube_normals, cube_colors);
+    triangle_vao = gl.createVertexArray();
+    createVAO(triangle_vao, shaderProgram, triangle_vertices, triangle_normals, triangle_colors);
 
-            sphere_vao = gl.createVertexArray();
-            createVAO(sphere_vao, shaderProgram, sphere_vertices, sphere_normals, sphere_colors);
+    cube_vao = gl.createVertexArray();
+    createVAO(cube_vao, shaderProgram, cube_vertices, cube_normals, cube_colors);
 
-            plane_vao = gl.createVertexArray();
-            createVAO(plane_vao, shaderProgram, plane_vertices, plane_normals, plane_colors);
+    sphere_vao = gl.createVertexArray();
+    createVAO(sphere_vao, shaderProgram, sphere_vertices, sphere_normals, sphere_colors);
 
-            triangle_vao = gl.createVertexArray();
-            createVAO(triangle_vao, shaderProgram, triangle_vertices, triangle_normals, triangle_colors);
-            break;
-        case "custom_shaders":
-            cube_vao = gl.createVertexArray();
-            createVAO(cube_vao, shaderProgram, cube_vertices, cube_normals, cube_colors);
-
-            sphere_vao = gl.createVertexArray();
-            createVAO(sphere_vao, shaderProgram, sphere_vertices, sphere_normals, sphere_colors);
-
-            plane_vao = gl.createVertexArray();
-            createVAO(plane_vao, shaderProgram, plane_vertices, plane_normals, plane_colors);
-            break;
-        default:
-            if (!params?.compilation_msgs) {
-                console.error("For this slide initBuffers is not supported.");
-            }
-    }
+    plane_vao = gl.createVertexArray();
+    createVAO(plane_vao, shaderProgram, plane_vertices, plane_normals, plane_colors);
 }
 
 function getCameraPosition(params) {
