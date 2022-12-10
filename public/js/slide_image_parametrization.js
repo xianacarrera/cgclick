@@ -42,6 +42,15 @@ function displaySlideImageParameters(params) {
         x_values_beta_gamma = [...new Set(x_values_beta_gamma)];    // Delete duplicates   
         x_values_beta_gamma.sort();
 
+
+        let answers_div = document.getElementById("student_answers_div_image");
+        let resetButton = document.querySelector("button[data-action='reset']");
+        let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
+        let arr = [answers_div, resetButton, sendAnswersButton];
+
+        let showAnswersButton = document.querySelector("button[data-action='show-answers']")
+        showAnswersButton.addEventListener("click", () => showAnswersButtonFunction(showAnswersButton, arr));
+
     } else {
         document.getElementById("phong-done-btn").addEventListener("click", () => {
             const alpha = document.getElementById("alpha_input").value;

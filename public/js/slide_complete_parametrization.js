@@ -29,14 +29,6 @@ function addCompleteParametrizationListeners(){
             loadingSpinner.classList.remove("opacity-100");
         }, 10);     // To give time to the spinner to appear
     });
-
-    let answers_div = document.getElementById("student_answers_div_image");
-    let resetButton = document.querySelector("button[data-action='reset']");
-    let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
-    let arr = [answers_div, resetButton, sendAnswersButton];
-
-    let showAnswersButton = document.querySelector("button[data-action='show-answers']")
-    showAnswersButton.addEventListener("click", () => showAnswersButtonFunction(showAnswersButton, arr));
 }
 
 function buildLine(symbol, input, constant){

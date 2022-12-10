@@ -36,7 +36,7 @@ function addConnectionListeners() {
         if (msg.slide != currentSlideNumber) return;            // The student is not on the right slide
         manageAnswer(msg.answer, msg.student);
 
-        enableButtons();
+        enableOnAnswerButtons(true);
     })
 
     socket.on('teacher_showResults', (msg) => {
@@ -60,7 +60,7 @@ function emitChangeSlide(index) {
 function emitAnswerToTeacher(answer) {
     if (isTeacher) return;
     if (currentSlideNumber != currentTeacherSlideNumber) return;            // The student is not on the right slide
-    console.log("Sent open answer");
+    console.log("Sent answer");
     console.log({
         id,             // Room id
         answer,         // Answer
@@ -72,15 +72,6 @@ function emitAnswerToTeacher(answer) {
         student: socket.id,         // Identifies the student (useful for questions where the answer per student is unique)
         slide: currentSlideNumber,
     });
-}
-
-function enableButtons() {
-    // This switch is not the best solution in terms of scalability (if we want to change the names of the slides), but parametrizing this info
-    // in the slides definition would be too cumbersome in terms of refactoring
-    switch (slides[currentSlideNumber].type) {
-        case "question_open":
-            enableOpenAnswerButtons(true);
-    }
 }
 
 function emitAnswersToStudents(results, isAnswer = true) {

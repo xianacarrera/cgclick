@@ -179,7 +179,7 @@ function displayOpenQuestionSlide(params) {
             arr.forEach(c => c.classList.add("d-none"));
             showAnswersButton.id = "hidden";
             showAnswersButton.innerHTML = "Show Answers";
-            enableOpenAnswerButtons(false);
+            enableOnAnswerButtons(false);
 
             emitAnswersToStudents({question, slide: currentSlideNumber}, false)
         });
@@ -236,8 +236,10 @@ function addOpenQuestionNode(answer_container, text, count){
     answer_container.appendChild(new_item);
 }
 
-function enableOpenAnswerButtons(enable) {
+function enableOnAnswerButtons(enable) {
+    console.log("hi2");
     document.querySelectorAll(".enabled-on-answer").forEach(e => {
+        console.log("hi");
         if (enable) {
             e.classList.remove("disabled");
             e.disabled = false;
