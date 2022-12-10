@@ -85,6 +85,7 @@ function displaySlideParametrization(params) {
     document.getElementById("content").className = cardClasses;
     params.sentAnswer = sentParametrizationAnswer
     params.showAnswer = showParametrizationAnswer
+    console.log(params)
     document.getElementById("content").innerHTML = ejs.views_slide_parametrization(params);
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
     document.querySelectorAll(".drop-box.card").forEach(box => {
@@ -95,6 +96,17 @@ function displaySlideParametrization(params) {
         box.addEventListener("drop", boxDrop);
         box.addEventListener("dragend", boxDragEnd);
     });
+    document.getElementById('param-btn').addEventListener('click', () => {
+        document.getElementById('param-btn').disabled = true;
+        sentParametrizationAnswer = true;
+        // Do stuff here with websockets
+        if (isTeacher) {
+            socket.emit('teacher_showParemetrizationAnswers', {id})
+            return
+        }
+        // Student section. should send answer to teacher.
+        sentParametrizationAnswer = true;
+    })
 
     MathJax.typeset();
     showShape();

@@ -57,7 +57,7 @@
     <div class="d-flex flex-column justify-content-center mx-2 my-4">
         <!-- Automatically set margin left and right to center -->
         <canvas id="threejs-canvas" width="<%= canvas_width %>" height="<%= canvas_height %>"></canvas>
-        <button style="max-width: 70px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary" <% if(sentAnswer) { %> disabled <% } %>>Done</button>
+        <button id="param-btn" style="max-width: 70px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary" <% if(sentAnswer) { %> disabled <% } %>>Done</button>
     </div>
 </div>
 <% } else { %>
@@ -65,17 +65,23 @@
         <div class="custom-spacing drop-targets d-flex flex-column justify-content-evenly mx-2 p-2" >
             <div class="drop-box card p-3" draggable="false" id="drop-box2">
                 <div class="object-draggable-name card-title">
-                    <p>Torus</p>
+                    <p>
+                        Torus
+                    </p>
                 </div>
             </div>
             <div class="drop-box card p-3"  draggable="false" id="drop-box3">
                 <div class="object-draggable-name card-title">
-                    <p>Klein bottle</p>
+                    <p>
+                        Klein bottle
+                    </p>
                 </div>
             </div>
             <div class="drop-box card p-3" draggable="false" id="drop-box1">
                 <div class="object-draggable-name card-title">
-                    <p>Sphere</p>
+                    <p>
+                        Sphere
+                    </p>
                 </div>
             </div>
         </div>
@@ -118,10 +124,10 @@
         <div class="d-flex flex-column justify-content-center mx-2 my-4">
             <!-- Automatically set margin left and right to center -->
             <canvas id="threejs-canvas" width="<%= canvas_width %>" height="<%= canvas_height %>"></canvas>
-            <% if(isTeacher) { %>
-                <button style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary">Show answers</button>
+            <% if(isTeacher && !showAnswer) { %>
+                <button id="param-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary">Show answers</button>
             <% } else { %>
-                <button style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary" disabled>Answers shown</button>
+                <button id="param-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary" disabled>Answers shown</button>
             <% } %>
         </div>
     </div>

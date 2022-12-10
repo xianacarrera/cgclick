@@ -11,6 +11,7 @@ class State {
     */
     constructor(initial_slide) {
         this.slide = initial_slide;
+        this.showParametrizationAnswer = false;
         this.sockets = [] // Keep track of the rooms
     }
 
@@ -21,6 +22,7 @@ class State {
     stateObject(id) {
         return {
             slide: this.slide,
+            showParametrizationAnswer: this.showParametrizationAnswer,
             id,
         }
     }

@@ -30,6 +30,8 @@ class WebSocketHandler {
         socket.on('student_answer', (msg) => this.on_open_answer(msg.id, msg.answer, msg.student));
         // retransmit the aggregation of student answers from the teacher to the students
         socket.on('teacher_showResults', (msg) => this.on_show_results(msg.id, msg.results));
+        // retransmit the aggregation of student answers for parametrisation slides.
+        socket.on('teacher_showParemetrizationAnswers', (msg) => this.on_show_paremetrization_answers(msg.id));
     }
 
     /**
@@ -98,6 +100,11 @@ class WebSocketHandler {
 
     on_show_results(roomId, results){
         this.states[roomId].broadcast('teacher_showResults', {results});
+    }
+
+    on_show_paremetrization_answers(roomId, results){
+        this.states[roomId].showParametrizationAnswer = true;
+        this.on_update(roomId, this.states[roomId].stateObject())
     }
 
     setIO(io_instance){

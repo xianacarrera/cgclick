@@ -23,6 +23,8 @@ function addConnectionListeners() {
         leaveSlide();
         currentSlideNumber = state.slide;
         currentTeacherSlideNumber = state.slide;
+        showParametrizationAnswer = state.showParametrizationAnswer;
+        console.log(state)
         displaySlide();
         slide_mutex = false;
     });
