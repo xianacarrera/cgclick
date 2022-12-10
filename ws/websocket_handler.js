@@ -34,6 +34,10 @@ class WebSocketHandler {
         // when a student follows/unfollows the course
         socket.on('student_follow', (follow) => this.on_follow(socket, follow.id, follow.val));
 
+        // retransmit an answer from a student to the teacher
+        socket.on('student_answer', (msg) => this.on_open_answer(msg.id, msg.answer, msg.student));
+        // retransmit the aggregation of student answers from the teacher to the students
+        socket.on('teacher_showResults', (msg) => this.on_show_results(msg.id, msg.results));
     }
 
     /**
@@ -79,6 +83,10 @@ class WebSocketHandler {
         if (!this.states.hasOwnProperty(id)) {
             this.states[id] = new State(0); // Start from first slide
         }
+        if (this.states[id].sockets.length == 0){       // The room could exist but be empty
+            // Needs to be done here and not on create room because the id of the teacher's socket changes
+            this.states[id].teacherSocketId = socket.id;
+        }
         if (!readonly) {
             this.states[id].addSocket(socket)
             this.students[id].students.push(socket);
@@ -97,6 +105,18 @@ class WebSocketHandler {
     on_update(id, state_obj) {
         // update topic should be received by the client and update current slide and whatever accordingly.
         this.states[id].broadcast('generic_update', state_obj)
+    }
+
+    on_open_answer(id, answer, student){
+        this.io.to(this.states[id].teacherSocketId).emit("student_answer", {answer, student});
+    }
+
+    on_show_results(roomId, results){
+        this.states[roomId].broadcast('teacher_showResults', {results});
+    }
+
+    setIO(io_instance){
+        this.io = io_instance;
     }
 
     /**

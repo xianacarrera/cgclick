@@ -29,11 +29,17 @@ var plane_colors = [
     0.56, 0.45, 0.4,
 ];
 
- var triangle_vertices = [
+var triangle_vertices = [
     0.0,  0.5,  0.0,
    -0.5, -0.5,  0.0,
     0.5, -0.5,  0.0,
 ];
+
+var triangle_normals = [
+    0.0,  0.0,  1.0,
+    0.0,  0.0,  1.0,
+    0.0,  0.0,  1.0,
+]
 
 var triangle_colors = [
    1.0, 0.0, 0.0,
@@ -42,14 +48,15 @@ var triangle_colors = [
 ];
 
 // cube's vertices (L = left, R = right, U = up/top, D = down/bottom, F = front, B = back)
-var LUF = [-0.3952845, 0.25, -0.5];
-var LUB = [-0.3952845, 0.5, 0.25];
-var LDF = [-0.3952845, -0.5, -0.25];
-var LDB = [-0.3952845, -0.25, 0.5];
-var RUF = [0.3952845, 0.25, -0.5];
-var RUB = [0.3952845, 0.5, 0.25];
-var RDF = [0.3952845, -0.5, -0.25];
-var RDB = [0.3952845, -0.25, 0.5];
+// looking to along -z
+var LUF = [-0.5, 0.5, 0.5];
+var LUB = [-0.5, 0.5, -0.5];
+var LDF = [-0.5, -0.5, 0.5];
+var LDB = [-0.5, -0.5, -0.5];
+var RUF = [0.5, 0.5, 0.5];
+var RUB = [0.5, 0.5, -0.5];
+var RDF = [0.5, -0.5, 0.5];
+var RDB = [0.5, -0.5, -0.5];
 
 var cube_vertices = [
     
@@ -76,45 +83,6 @@ var cube_vertices = [
     // bottom side
     ...LDF, ...LDB, ...RDF,
     ...LDB, ...RDB, ...RDF,
-
-];
-
-// cube's vertices (L = left, R = right, U = up/top, D = down/bottom, F = front, B = back)
-// looking to along -z
-var LUF_PM = [-0.5, 0.5, 0.5];
-var LUB_PM = [-0.5, 0.5, -0.5];
-var LDF_PM = [-0.5, -0.5, 0.5];
-var LDB_PM = [-0.5, -0.5, -0.5];
-var RUF_PM = [0.5, 0.5, 0.5];
-var RUB_PM = [0.5, 0.5, -0.5];
-var RDF_PM = [0.5, -0.5, 0.5];
-var RDB_PM = [0.5, -0.5, -0.5];
-
-var cube_vertices_PM = [
-    
-    // front side
-    ...RDF_PM, ...LUF_PM, ...LDF_PM,
-    ...LUF_PM, ...RDF_PM, ...RUF_PM,
-
-    // back side
-    ...LDB_PM, ...LUB_PM, ...RDB_PM,
-    ...LUB_PM, ...RUB_PM, ...RDB_PM, 
-
-    // left side
-    ...LDF_PM, ...LUF_PM, ...LDB_PM,
-    ...LUF_PM, ...LUB_PM, ...LDB_PM,
-
-    // right side
-    ...RDB_PM, ...RUF_PM, ...RDF_PM,
-    ...RUF_PM, ...RDB_PM, ...RUB_PM,
-
-    // top side
-    ...RUF_PM, ...LUB_PM, ...LUF_PM,
-    ...LUB_PM, ...RUF_PM, ...RUB_PM,
-
-    // bottom side
-    ...LDF_PM, ...LDB_PM, ...RDF_PM,
-    ...LDB_PM, ...RDB_PM, ...RDF_PM,
 
 ];
 
@@ -178,7 +146,7 @@ function compute_normals(vertices, normals) {
         normals[i+2] = normals[i+5] = normals[i+8] = normal[2];
     }
 }
-compute_normals(cube_vertices_PM, cube_normals);
+compute_normals(cube_vertices, cube_normals);
 
 var sphere_vertices = [];
 var sphere_colors = [];
