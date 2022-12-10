@@ -151,6 +151,18 @@ function displayAboutSlide(params) {
     }));
 }
 
+function showAnswersButtonFunction(showAnswersButton, arr){
+    if (showAnswersButton.id == "hidden"){
+        arr.forEach(c => c.classList.remove("d-none"));
+        showAnswersButton.id = "shown";
+        showAnswersButton.innerHTML = "Hide Answers";
+    } else {
+        arr.forEach(c => c.classList.add("d-none"));
+        showAnswersButton.id = "hidden";
+        showAnswersButton.innerHTML = "Show Answers";
+    }
+}
+
 function displayOpenQuestionSlide(params) {
     document.getElementById("content").className = cardClasses;
     let question = "Tell me your most profound thoughts";
@@ -161,17 +173,7 @@ function displayOpenQuestionSlide(params) {
         let resetButton = document.querySelector("button[data-action='reset']");
         let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
         let arr = [answerContainer, resetButton, sendAnswersButton];
-        showAnswersButton.addEventListener("click", () => {
-            if (showAnswersButton.id == "hidden"){
-                arr.forEach(c => c.classList.remove("d-none"));
-                showAnswersButton.id = "shown";
-                showAnswersButton.innerHTML = "Hide Answers";
-            } else {
-                arr.forEach(c => c.classList.add("d-none"));
-                showAnswersButton.id = "hidden";
-                showAnswersButton.innerHTML = "Show Answers";
-            }
-        })
+        showAnswersButton.addEventListener("click", () => showAnswersButtonFunction(showAnswersButton, arr));
         resetButton.addEventListener("click", () => {
             answerContainer.innerHTML = "";     // Remove all child nodes
             arr.forEach(c => c.classList.add("d-none"));

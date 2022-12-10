@@ -94,43 +94,23 @@ function emitAnswersToStudents(results, isAnswer = true) {
     socket.emit('teacher_showResults', msg);
 }
 
-
-        let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
-        if (answer_container == null || msg.answer == "" || msg.answer == "\n") return;
-        let found = false;
-        for (let i = 0; i < answer_container.childElementCount; i++) {
-            let ans = answer_container.children[i].querySelector(".answerText");
-            if (msg.answer == ans.textContent) {
-                let count = +answer_container.children[i].querySelector(".answerCount").textContent;
-                answer_container.children[i].querySelector(".answerCount").textContent = "" + (count + 1);
-                found = true;
-            }
-        }
-        if (!found) {
-            addOpenQuestionNode(answer_container, msg.answer, "1");
-        }
-
-        [...answer_container.children]
-            .sort((a, b) => parseInt(a.querySelector(".answerCount").textContent) < parseInt(b.querySelector(".answerCount").textContent) ? 1 : -1)
-                .forEach(node => answer_container.appendChild(node));
-
 function manageAnswer(answer, student){
     console.log(slides[currentSlideNumber].type);
     switch(slides[currentSlideNumber].type){
         case "question_open":
             let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
-            if (answer_container == null || msg.answer == "" || msg.answer == "\n") return;
+            if (answer_container == null || answer == "" || answer == "\n") return;
             let found = false;
             for (let i = 0; i < answer_container.childElementCount; i++) {
                 let ans = answer_container.children[i].querySelector(".answerText");
-                if (msg.answer == ans.textContent) {
+                if (answer == ans.textContent) {
                     let count = +answer_container.children[i].querySelector(".answerCount").textContent;
                     answer_container.children[i].querySelector(".answerCount").textContent = "" + (count + 1);
                     found = true;
                 }
             }
             if (!found) {
-                addOpenQuestionNode(answer_container, msg.answer, "1");
+                addOpenQuestionNode(answer_container, answer, "1");
             }
 
             [...answer_container.children]
