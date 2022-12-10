@@ -2,6 +2,8 @@
 let currentSlideNumber;
 let slide_mutex = false;
 var isFollowing = true;
+var showParametrizationAnswer = false;
+var sentParametrizationAnswer = false;
 
 function init(){
     currentSlideNumber = 0;

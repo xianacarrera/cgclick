@@ -89,6 +89,8 @@ function boxDragEnd(e) {   // Note that this always fires after stopping the dra
 
 function displaySlideParametrization(params) {
     document.getElementById("content").className = cardClasses;
+    params.sentAnswer = sentParametrizationAnswer
+    params.showAnswer = showParametrizationAnswer
     document.getElementById("content").innerHTML = ejs.views_slide_parametrization(params);
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
     document.querySelectorAll(".drop-box.card").forEach(box => {
