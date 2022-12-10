@@ -4,9 +4,12 @@ function initSocket() {
     socket = io();
     login()
     addConnectionListeners();
+    if(isTeacher) addTeacherListeners();
 }
 
-function addConnectionListeners() {
+let studentData = {};
+
+function addConnectionListeners(){
     socket.on('connect', () => {
         console.log("Connected");
     });
@@ -65,6 +68,15 @@ function addConnectionListeners() {
         displaySlide(msg.results);
         slide_mutex = false;
     });
+}
+
+function addTeacherListeners(){
+    socket.on('teacher_update', (data) => {
+        console.log(data);
+        studentData = data;
+        let pathname = new URL(window.location.href).pathname;
+        document.getElementById("statusbar").innerHTML = ejs.views_includes_statusbar({id, pathname, "students": studentData});
+    })
 }
 
 function emitChangeSlide(index) {
