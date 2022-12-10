@@ -27,6 +27,7 @@ function addConnectionListeners(){
         currentSlideNumber = state.slide;
         currentTeacherSlideNumber = state.slide;
         showParametrizationAnswer = state.showParametrizationAnswer;
+        listOfParametrizationAnswers = state.studentParametrizationAnswers;
         console.log(state)
         displaySlide();
         slide_mutex = false;
@@ -57,6 +58,21 @@ function addConnectionListeners(){
             .forEach(node => answer_container.appendChild(node));
 
         enableButtons();
+    })
+
+    socket.on('teacher_refresh', (state) => {
+        if (!isTeacher) {
+            return;
+        }
+        console.log("Update", state);
+        leaveSlide();
+        currentSlideNumber = state.slide;
+        currentTeacherSlideNumber = state.slide;
+        showParametrizationAnswer = state.showParametrizationAnswer;
+        listOfParametrizationAnswers = state.studentParametrizationAnswers;
+        console.log(state)
+        displaySlide();
+        slide_mutex = false;  
     })
 
     socket.on('teacher_showResults', (msg) => {

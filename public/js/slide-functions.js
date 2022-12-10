@@ -85,7 +85,7 @@ function displaySlideParametrization(params) {
     document.getElementById("content").className = cardClasses;
     params.sentAnswer = sentParametrizationAnswer
     params.showAnswer = showParametrizationAnswer
-    console.log(params)
+    params.answers = listOfParametrizationAnswers
     document.getElementById("content").innerHTML = ejs.views_slide_parametrization(params);
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
     document.querySelectorAll(".drop-box.card").forEach(box => {
@@ -106,6 +106,14 @@ function displaySlideParametrization(params) {
         }
         // Student section. should send answer to teacher.
         sentParametrizationAnswer = true;
+        socket.emit('student_sendParametrizationAnswer', {
+            bits: [
+                document.getElementById('drop-box1').innerHTML.trim() == "Torus",
+                document.getElementById('drop-box2').innerHTML.trim() == "Klein bottle",
+                document.getElementById('drop-box2').innerHTML.trim() == "Sphere"
+            ],
+            id
+        })
     })
 
     MathJax.typeset();

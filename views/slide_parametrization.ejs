@@ -2,20 +2,14 @@
 
 <div class="d-flex flex-row flex-nowrap justify-content-between">
     <div class="custom-spacing drop-targets d-flex flex-column justify-content-evenly mx-2 p-2" >
-        <div class="drop-box card p-3" draggable="true" id="drop-box1">
-            <div class="object-draggable-name card-title">
-                <p>Sphere</p>
-            </div>
+        <div class="drop-box card p-3 object-draggable-name card-title" draggable="true" id="drop-box1">
+            Sphere
         </div>
-        <div class="drop-box card p-3" draggable="true" id="drop-box2">
-            <div class="object-draggable-name card-title">
-                <p>Torus</p>
-            </div>
+        <div class="drop-box card p-3 object-draggable-name card-title" draggable="true" id="drop-box2">
+                Torus
         </div>
-        <div class="drop-box card p-3"  draggable="true" id="drop-box3">
-            <div class="object-draggable-name card-title">
-                <p>Klein bottle</p>
-            </div>
+        <div class="drop-box card p-3 object-draggable-name card-title"  draggable="true" id="drop-box3">
+            Klein bottle
         </div>
     </div>
     <div class="custom-spacing btn-group-lg btn-group d-flex flex-column justify-content-evenly p-4 mx-2" data-toggle="buttons">
@@ -61,27 +55,35 @@
     </div>
 </div>
 <% } else { %>
-    <div class="d-flex flex-row flex-nowrap justify-content-between">
-        <div class="custom-spacing drop-targets d-flex flex-column justify-content-evenly mx-2 p-2" >
+    <div class="d-flex flex-row flex-nowrap justify-content-between" >
+        <div class="custom-spacing drop-targets d-flex flex-column justify-content-evenly mx-2 p-2">
             <div class="drop-box card p-3" draggable="false" id="drop-box2">
                 <div class="object-draggable-name card-title">
-                    <p>
                         Torus
-                    </p>
+                        <p style="font-size: 7px;"><% if (isTeacher) {  %>
+                            Correct Answers: <%= answers[0][0] %>
+                            Wrong Answers: <%= answers[0][1] %>
+                        <% } %></p>
                 </div>
             </div>
             <div class="drop-box card p-3"  draggable="false" id="drop-box3">
                 <div class="object-draggable-name card-title">
-                    <p>
                         Klein bottle
-                    </p>
+                        <p style="font-size: 7px;">
+                        <% if (isTeacher) {  %>
+                            Correct Answers: <%= answers[1][0] %>
+                            Wrong Answers: <%= answers[1][1] %>
+                        <% } %></p>
                 </div>
             </div>
             <div class="drop-box card p-3" draggable="false" id="drop-box1">
                 <div class="object-draggable-name card-title">
-                    <p>
                         Sphere
-                    </p>
+                        <p style="font-size: 7px;">
+                        <% if (isTeacher) {  %>
+                            Correct Answers: <%= answers[2][0] %>
+                            Wrong Answers: <%= answers[2][1] %>
+                        <% } %></p>
                 </div>
             </div>
         </div>

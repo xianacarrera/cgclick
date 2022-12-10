@@ -4,6 +4,7 @@ let slide_mutex = false;
 var isFollowing = true;
 var showParametrizationAnswer = false;
 var sentParametrizationAnswer = false;
+var listOfParametrizationAnswers = [[0, 0], [0, 0], [0, 0]]
 
 function init(){
     currentSlideNumber = 0;

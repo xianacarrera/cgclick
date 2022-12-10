@@ -40,6 +40,9 @@ class WebSocketHandler {
         socket.on('teacher_showResults', (msg) => this.on_show_results(msg.id, msg.results));
         // retransmit the aggregation of student answers for parametrisation slides.
         socket.on('teacher_showParemetrizationAnswers', (msg) => this.on_show_paremetrization_answers(msg.id));
+
+        socket.on('student_sendParametrizationAnswer', (msg) => this.on_new_parametrization_answer(msg));
+
     }
 
     /**
@@ -115,6 +118,12 @@ class WebSocketHandler {
 
     on_show_results(roomId, results){
         this.states[roomId].broadcast('teacher_showResults', {results});
+    }
+
+    on_new_parametrization_answer(answer){
+        let id = answer.id;
+        this.states[id].addParametrizationBits(answer.bits)
+        this.states[id].broadcast('teacher_refresh', this.states[id].stateObject(id))
     }
 
     on_show_paremetrization_answers(roomId, results){
