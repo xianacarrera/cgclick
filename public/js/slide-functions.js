@@ -9,12 +9,6 @@ function displaySlideOpenQuestion() {
 let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
 let noClasses = "";
 
-function displaySlideTriangleCube(params) {
-    document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_triangle_cube(params);
-    start_slide_triangle_cube(params);
-}
-
 // The element starts to be dragged
 function boxDragStart(e) {
     // Data is transferred between dragstart and drop events using dataTransfer
