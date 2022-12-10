@@ -58,6 +58,21 @@ slideDefinitions = {
             target_alpha: 2,
             target_beta: 2,
             target_gamma: 2,
+            alpha: {
+                startIndex: 0.5,
+                endIndex: 3,
+                step: 0.5,
+            },
+            beta: {
+                startIndex: 0.5,
+                endIndex: 3,
+                step: 0.5,
+            },
+            gamma: {
+                startIndex: 0.5,
+                endIndex: 5,
+                step: 0.5,
+            },
         },
         evaluation: "teacher",
         double_canvas: true,

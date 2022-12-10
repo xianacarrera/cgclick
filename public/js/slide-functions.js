@@ -1,11 +1,3 @@
-/*
-function displaySlideOpenQuestion() {
-    let question = "How are you?";
-    document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_open_question({ question });
-}
-*/
-
 let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
 let noClasses = "";
 
@@ -157,17 +149,6 @@ function displaySlideMidpoint() {
     addMidpointListeners();
 }
 
-function displaySlideImageParameters(params) {
-    document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params);
-    ip_start(
-        { azimuthal: -70, polar: 60 },                           // Directional light
-        { x: -200, y: 150, z: -40, intensity: 30 },              // Point light
-        { azimuthal: -45, polar: 60, distance: 150, fov: 45 },   // Camera
-        { gamma: params.target_gamma, tone_mapping_alpha: params.target_alpha, tone_mapping_beta: params.target_beta }
-    );
-}
-
 function displaySlideCompleteParametrization(params){
     document.getElementById("content").className = cardClasses;
     document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization(params);
@@ -192,6 +173,18 @@ function displayAboutSlide(params) {
     }));
 }
 
+function showAnswersButtonFunction(showAnswersButton, arr){
+    if (showAnswersButton.id == "hidden"){
+        arr.forEach(c => c.classList.remove("d-none"));
+        showAnswersButton.id = "shown";
+        showAnswersButton.innerHTML = "Hide Answers";
+    } else {
+        arr.forEach(c => c.classList.add("d-none"));
+        showAnswersButton.id = "hidden";
+        showAnswersButton.innerHTML = "Show Answers";
+    }
+}
+
 function displayOpenQuestionSlide(params) {
     document.getElementById("content").className = cardClasses;
     let question = "Tell me your most profound thoughts";
@@ -202,23 +195,13 @@ function displayOpenQuestionSlide(params) {
         let resetButton = document.querySelector("button[data-action='reset']");
         let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
         let arr = [answerContainer, resetButton, sendAnswersButton];
-        showAnswersButton.addEventListener("click", () => {
-            if (showAnswersButton.id == "hidden"){
-                arr.forEach(c => c.classList.remove("d-none"));
-                showAnswersButton.id = "shown";
-                showAnswersButton.innerHTML = "Hide Answers";
-            } else {
-                arr.forEach(c => c.classList.add("d-none"));
-                showAnswersButton.id = "hidden";
-                showAnswersButton.innerHTML = "Show Answers";
-            }
-        })
+        showAnswersButton.addEventListener("click", () => showAnswersButtonFunction(showAnswersButton, arr));
         resetButton.addEventListener("click", () => {
             answerContainer.innerHTML = "";     // Remove all child nodes
             arr.forEach(c => c.classList.add("d-none"));
             showAnswersButton.id = "hidden";
             showAnswersButton.innerHTML = "Show Answers";
-            enableOpenAnswerButtons(false);
+            enableOnAnswerButtons(false);
 
             emitAnswersToStudents({question, slide: currentSlideNumber}, false)
         });
@@ -275,7 +258,7 @@ function addOpenQuestionNode(answer_container, text, count){
     answer_container.appendChild(new_item);
 }
 
-function enableOpenAnswerButtons(enable) {
+function enableOnAnswerButtons(enable) {
     document.querySelectorAll(".enabled-on-answer").forEach(e => {
         if (enable) {
             e.classList.remove("disabled");
