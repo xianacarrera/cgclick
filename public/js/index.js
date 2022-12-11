@@ -46,6 +46,10 @@ function leaveSlide() {
 
     // Update HTML classes in navbar
     document.querySelector(`a[href="${currentURL.pathname}/${currentSlideNumber}"]`).classList.remove("active");
+
+    // Update descriptions
+    document.getElementById("description-before").innerHTML = "";
+    document.getElementById("description-after").innerHTML = "";
 }
 
 function displaySlide(model) {
@@ -55,9 +59,15 @@ function displaySlide(model) {
 
     // Update heading and descriptions
     document.getElementById("title").innerHTML = slides[currentSlideNumber].title || slides[currentSlideNumber].name || "";
-    document.getElementById("description-before").innerHTML = slides[currentSlideNumber].descriptionBefore || "";
-    document.getElementById("description-after").innerHTML = slides[currentSlideNumber].descriptionAfter || "";
     displayEval(slideDefinitions[slides[currentSlideNumber].type].evaluation || "no_eval");
+
+    if (slides[currentSlideNumber].descriptionBefore) {
+        document.getElementById("description-before").innerHTML = ejs.views_includes_description_card({text: slides[currentSlideNumber].descriptionBefore});
+    }
+    
+    if (slides[currentSlideNumber].descriptionAfter) {
+        document.getElementById("description-after").innerHTML = ejs.views_includes_description_card({text: slides[currentSlideNumber].descriptionAfter});
+    }
 
     // Display the new slide and execute necessary init code
     let params = mergeParams();
