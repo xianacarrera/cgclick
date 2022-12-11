@@ -177,7 +177,8 @@ function drawCharts(reload) {
 function generateRandomColors(n) {
     let colors = [];
     while (colors.length < n) {
-        colors.push(`rgb(${rand(0, 255)}, ${rand(0, 255)}, ${rand(0, 255)})`);
+        // colors.push(`hsl(${rand(0, 359)}, 100%, 50%)`);
+        colors.push(`rgb(13, 110, 253)`);
     }
     return colors;
 }

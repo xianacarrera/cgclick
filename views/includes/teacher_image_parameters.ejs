@@ -8,20 +8,16 @@
             <div>
                 <section>
 
-                    <h5>\( \alpha \) success rate</h5>
-                    <div style="background-color: lightgrey;">
-                        <div class="<% if (alpha_p > 75) { %>bg-success<% } else if (alpha_p > 50) { %>bg-warning<% } else { %>bg-danger<% } %> text-center text-nowrap"
-                            style="width:<%= alpha_p %>%">
-                            <%= alpha_p %> %
-                        </div>
+                    <h5>\( \alpha \) success rate: <%= alpha_p %> %</h5>
+                    <div class="progress" style="background-color: lightgrey;">
+                        <div class="progress-bar progress-bar-striped <% if (alpha_p > 75) { %>bg-success<% } else if (alpha_p > 50) { %>bg-warning<% } else { %>bg-danger<% } %> text-center text-nowrap"
+                            style="width:<%= alpha_p %>%"></div>
                     </div>
 
-                    <h5 class="mt-3">\( \frac{\beta}{\gamma} \) success rate</h5>
-                    <div style="background-color: lightgrey;">
-                        <div class="<% if (beta_gamma_p > 75) { %>bg-success<% } else if (beta_gamma_p > 50) { %>bg-warning<% } else { %>bg-danger<% } %> text-center text-nowrap"
-                            style="width:<%= beta_gamma_p %>%">
-                            <%= beta_gamma_p %> %
-                        </div>
+                    <h5 class="mt-3">\( \frac{\beta}{\gamma} \) success rate: <%= beta_gamma_p %> %</h5>
+                    <div class="progress" style="background-color: lightgrey;">
+                        <div class="progress-bar progress-bar-striped <% if (beta_gamma_p > 75) { %>bg-success<% } else if (beta_gamma_p > 50) { %>bg-warning<% } else { %>bg-danger<% } %> text-center text-nowrap"
+                            style="width:<%= beta_gamma_p %>%"></div>
                     </div>
 
                 </section>
@@ -39,7 +35,7 @@
 <div class="d-flex flex-column align-items-start m-3">
         <button id="hidden" data-action="show-images-answers" class="btn btn-primary mb-3 p-2 disabled enabled-on-answer" disabled="true">Show answers</button>
     <% if (showButtons) { %>
-        <button data-action="reset" class="btn btn-outline-danger mb-3 p-2 disabled enabled-on-answer" disabled="true">Reset</button>
-        <button data-action="send-answers" class="btn btn-outline-primary mb-3 p-2 disabled enabled-on-answer" disabled="true">Send answers</button>
+        <button data-action="reset" class="btn btn-outline-danger mb-3 p-2 disabled enabled-on-answer" disabled="true">Reset answers</button>
+        <button data-action="send-answers" class="btn btn-outline-primary mb-3 p-2 disabled enabled-on-answer" disabled="true">Send answers to students</button>
     <% } %>
 </div>
