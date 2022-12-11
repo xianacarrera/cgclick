@@ -122,7 +122,7 @@ function showShape() {
 
 function displaySlideMidpoint() {
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_midpoint({});
+    document.getElementById("content").innerHTML = ejs.views_slide_midpoint({correctCount: submittedStudentMidpoint});
     startMidpoint();
     addMidpointListeners();
 }

@@ -8,6 +8,8 @@ function initSocket() {
 }
 
 let studentData = {};
+let submittedStudentMidpoint = 0;
+let didStudentSubmitMidpoint = {}
 
 function addConnectionListeners(){
     socket.on('connect', () => {
@@ -98,6 +100,7 @@ function emitAnswersToStudents(results, isAnswer = true) {
 }
 
 function manageAnswer(answer, student){
+    console.log(studentData)
     console.log(slides[currentSlideNumber].type);
     switch(slides[currentSlideNumber].type){
         case "question_open":
@@ -137,6 +140,16 @@ function manageAnswer(answer, student){
             addListenerShowAnswersImageParameters();
 
             break;
+        case "question_midpoint":
+
+            submittedStudentMidpoint++
+            // Update count
+            let target = document.getElementById('correctness')
+            if (target && !didStudentSubmitMidpoint.hasOwnProperty(studentData.studentId)) {
+                target.innerHTML = submittedStudentMidpoint
+            }
+            didStudentSubmitMidpoint[studentData.studentId] = true
+            
     }
 }
 

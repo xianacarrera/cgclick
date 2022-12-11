@@ -11,9 +11,11 @@ function addMidpointListeners() {
 }
 
 function doneListener(event) {
-    validateAnswer();
-
     let btn = event.currentTarget;
+    if (validateAnswer() && !isTeacher) {
+        emitAnswerToTeacher({studentId: socket.id})
+    }
+
     btn.innerHTML = "Reset";
     btn.classList.remove("btn-primary");
     btn.classList.add("btn-secondary");
@@ -139,19 +141,21 @@ function computeMidpointSolution(startTile) {
 
 function validateAnswer() {
     let tiles = document.querySelectorAll(".midpoint");
+    let isCorrect = true;
     tiles.forEach((tile, index) => {
         if (tile.classList.contains("tile-selected")) {
             if (!midpoint_solution.has(index)) {
+                isCorrect = false;
                 tile.classList.add("bg-danger");       // Red (the tile was selected but it shouldn't have been)
             } else {
                 tile.classList.add("bg-success");      // Green (the tile was selected and it is part of the solution)
             }
         } else if (midpoint_solution.has(index)) {
+            isCorrect = false;
             tile.classList.add("bg-warning");          // Yellow (the tile was not selected but it should have been)
         }
         // The start and end tiles remain blue
     });
-
 
     tiles.forEach(tile => {
         tile.style.backgroundColor = "white";       // Reset the background color
@@ -159,4 +163,5 @@ function validateAnswer() {
         tile.classList.remove("tile");              // Remove the tile class so that it stops being clickable
         tile.removeEventListener("click", tileListener);    // Remove the tile listener
     });
+    return isCorrect
 }

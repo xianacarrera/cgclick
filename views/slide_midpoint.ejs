@@ -90,3 +90,6 @@
 <div id="controls" class="m-3">
     <bustyle="height: 120px; width: 120px;" tton class="btn btn-primary" id="btn_midpoint">Done</button>
 </div>
+<% if (isTeacher) { %>
+    Students that completed the task at least once: <p id="correctness"> <%= correctCount %></p>
+<% } %>
