@@ -8,11 +8,12 @@ function init(){
     initSocket();
     let pathname = new URL(window.location.href).pathname;
     document.getElementById("navbar").innerHTML = ejs.views_includes_navbar({slides, currentSlideNumber, id, pathname});
-    document.getElementById("statusbar").innerHTML = ejs.views_includes_statusbar({id, pathname});
+    document.getElementById("statusbar").innerHTML = ejs.views_includes_statusbar({id, pathname, "students": studentData});
     if (!isTeacher) {
         document.getElementById('follow').addEventListener('change', () => {
             isFollowing = document.getElementById('follow').checked
             if (isFollowing) login(readonly = true)
+            socket.emit("student_follow", {id, "val": isFollowing});
         })
     }
     addEventListeners();
@@ -74,6 +75,9 @@ function mergeParams() {
 }
 
 function parseStringParams(params) {
+
+    // Canvas size
+
     if (params.canvas_size == "tiny") {
         params.canvas_width = 150;
         params.canvas_height = 150;
@@ -94,6 +98,17 @@ function parseStringParams(params) {
     if (params.canvas_size != "exact" && slideDefinitions[slides[currentSlideNumber].type].double_canvas) {
         params.canvas_width *= 2;
     }
+
+    // Scene
+
+    if (params.available_scenes) {
+        params.available_scenes.forEach((s, i) => {
+            if (!params.available_scenes_descriptions[i]) {
+                params.available_scenes_descriptions[i] = slideDefinitions.playground_phong_model.sceneDescriptions[s];
+            }
+        });
+    }
+
     return params;
 }
 
