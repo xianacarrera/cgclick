@@ -79,17 +79,21 @@ function displaySlideImageParameters(params) {
     );
 }
 
-function addListenerShowAnswersImageParameters() {
+function getImageHiddenShownArray(){
     let answers_div = document.getElementById("student_answers_div_image");
     let resetButton = document.querySelector("button[data-action='reset']");
     let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
-    let arr = [answers_div, resetButton, sendAnswersButton];
+    return [answers_div, resetButton, sendAnswersButton];
+}
+
+function addListenerShowAnswersImageParameters() {
+    let arr = getImageHiddenShownArray();
 
     let showAnswersButton = document.querySelector("button[data-action='show-images-answers']");
     showAnswersButton.addEventListener("click", () => { showAnswersButtonFunction(showAnswersButton, arr) });
 
 
-    resetButton.addEventListener("click", () => {
+    arr[1].addEventListener("click", () => {
         arr.forEach(c => c.classList.add("d-none"));
         showAnswersButton.id = "hidden";
         showAnswersButton.innerHTML = "Show Answers";
@@ -97,7 +101,7 @@ function addListenerShowAnswersImageParameters() {
 
         emitAnswersToStudents({ slide: currentSlideNumber }, false)
     });
-    sendAnswersButton.addEventListener("click", () => {
+    arr[2].addEventListener("click", () => {
         let model = {
             results: {
                 x_values_alpha,
@@ -199,7 +203,12 @@ function updateImageParametersGraphs(showButtons = true, reload = true, new_alph
     }
     console.log(new_alpha_p)
     console.log(new_beta_gamma_p)
+
+    let storedid = document.querySelector("button[data-action='show-images-answers']").id;
     document.getElementById("graphs_results").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons });
+    if (isTeacher && storedid === "shown"){
+        showAnswersButtonFunction(document.querySelector("button[data-action='show-images-answers']"), getImageHiddenShownArray());
+    }
     drawCharts(reload);
     MathJax.typeset();
 }
