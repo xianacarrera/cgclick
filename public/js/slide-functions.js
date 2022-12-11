@@ -6,7 +6,8 @@ function displaySlideOpenQuestion() {
 }
 */
 
-let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
+// let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
+let cardClasses = "card d-inline-flex flex-row flex-wrap justify-content-start align-items-start p-1 bg-light";
 let noClasses = "";
 
 function displaySlideTriangleCube(params) {
