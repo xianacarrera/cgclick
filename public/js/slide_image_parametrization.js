@@ -56,7 +56,7 @@ function displaySlideImageParameters(params) {
             [alpha_p, beta_gamma_p] = [params.model.results.alpha_p, params.model.results.beta_gamma_p];
             updateImageParametersGraphs(false, false, params.model.results.alpha_p, params.model.results.beta_gamma_p);
             document.querySelector("button[data-action='show-images-answers']").classList.add("d-none");
-            document.getElementById("phong-done-btn").classList.add("d-none");
+            // document.getElementById("phong-done-btn").classList.add("d-none");
             document.getElementById("student_answers_div_image").classList.remove("d-none");
         }, 100);
 
@@ -96,7 +96,7 @@ function addListenerShowAnswersImageParameters() {
     arr[1].addEventListener("click", () => {
         arr.forEach(c => c.classList.add("d-none"));
         showAnswersButton.id = "hidden";
-        showAnswersButton.innerHTML = "Show Answers";
+        showAnswersButton.innerHTML = "Show answers";
         enableOnAnswerButtons(false);
 
         emitAnswersToStudents({ slide: currentSlideNumber }, false)
@@ -181,7 +181,8 @@ function drawCharts(reload) {
 function generateRandomColors(n) {
     let colors = [];
     while (colors.length < n) {
-        colors.push(`rgb(${rand(0, 255)}, ${rand(0, 255)}, ${rand(0, 255)})`);
+        // colors.push(`hsl(${rand(0, 359)}, 100%, 50%)`);
+        colors.push(`rgb(13, 110, 253)`);
     }
     return colors;
 }
@@ -205,7 +206,7 @@ function updateImageParametersGraphs(showButtons = true, reload = true, new_alph
     console.log(new_beta_gamma_p)
 
     let storedid = document.querySelector("button[data-action='show-images-answers']").id;
-    document.getElementById("graphs_results").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons });
+    document.getElementById("teacher-controls").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons });
     if (isTeacher && storedid === "shown"){
         showAnswersButtonFunction(document.querySelector("button[data-action='show-images-answers']"), getImageHiddenShownArray());
     }
