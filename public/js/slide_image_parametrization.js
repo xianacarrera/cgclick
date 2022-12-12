@@ -83,7 +83,7 @@ function addListenerShowAnswersImageParameters() {
     let answers_div = document.getElementById("student_answers_div_image");
     let resetButton = document.querySelector("button[data-action='reset']");
     let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
-    let arr = [answers_div, resetButton, sendAnswersButton];
+    let arr = [answers_div, resetButton, /*sendAnswersButton*/];
 
     let showAnswersButton = document.querySelector("button[data-action='show-images-answers']");
     showAnswersButton.addEventListener("click", () => { showAnswersButtonFunction(showAnswersButton, arr) });
@@ -92,11 +92,12 @@ function addListenerShowAnswersImageParameters() {
     resetButton.addEventListener("click", () => {
         arr.forEach(c => c.classList.add("d-none"));
         showAnswersButton.id = "hidden";
-        showAnswersButton.innerHTML = "Show Answers";
+        showAnswersButton.innerHTML = "Show answers";
         enableOnAnswerButtons(false);
 
         emitAnswersToStudents({ slide: currentSlideNumber }, false)
     });
+    /*
     sendAnswersButton.addEventListener("click", () => {
         let model = {
             results: {
@@ -119,6 +120,7 @@ function addListenerShowAnswersImageParameters() {
         };
         emitAnswersToStudents(model);
     })
+    */
 }
 
 function drawCharts(reload) {
