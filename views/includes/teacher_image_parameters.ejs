@@ -1,4 +1,4 @@
-<div id="graphs_results" class="card m-3" style="min-width: 300px;">
+<div id="graphs_results" class="card m-3" style="min-width: 300px; min-height: 200px;">
 
     <div class="card-header">Students' answers</div>
 
@@ -34,22 +34,22 @@
 
 <div class="d-flex flex-column align-items-start m-3">
     <button id="hidden" data-action="show-images-answers" class="btn btn-primary mb-3 p-2 disabled enabled-on-answer" disabled="true">Show answers</button>
-    <button data-action="see-solution" class="btn btn-danger mb-3 p-2">See solution</button>
     <% if (showButtons) { %>
-        <button data-action="send-answers" class="btn btn-outline-primary mb-3 p-2 disabled enabled-on-answer" disabled="true">Send answers to students</button>
+        <button data-action="see-solution" class="btn btn-danger mb-3 p-2">See solution</button>
+        <button data-action="send-answers" class="btn btn-outline-primary mb-3 p-2 disabled enabled-on-answer d-none" disabled="true">Send answers to students</button>
     <% } %>
 </div>
 
-<div id="solution" class="d-none">
+<div id="solution" class="d-none mx-3">
     <div class="card m-3">
         <div class="card-header">Solution</div>
         <div class="card-body">
-            <div class="d-flex flex-row">
-                <div class="d-flex flex-column align-items-center">
-                    <h5>\( \alpha \) = <%= alpha_solution %></h5>
+            <div class="d-flex flex-column">
+                <div class="d-flex flex-column align-items-center m-2">
+                    <h5>\( \alpha \) = <%= target_alpha %></h5>
                 </div>
-                <div class="d-flex flex-column align-items-center">
-                    <h5>\( \frac{\beta}{\gamma} \) = <%= beta_gamma_solution %></h5>
+                <div class="d-flex flex-column align-items-center m-2">
+                    <h5>\( \frac{\beta}{\gamma} \) = <%= target_beta_gamma %></h5>
                 </div>
             </div>
         </div>
