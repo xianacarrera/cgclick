@@ -81,9 +81,9 @@ function displaySlideImageParameters(params) {
 
 function getImageHiddenShownArray(){
     let answers_div = document.getElementById("student_answers_div_image");
-    let resetButton = document.querySelector("button[data-action='reset']");
+    let seeSolutionButton = document.querySelector("button[data-action='see-solution']");
     let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
-    return [answers_div, resetButton, sendAnswersButton];
+    return [answers_div, seeSolutionButton, sendAnswersButton];
 }
 
 function addListenerShowAnswersImageParameters() {
@@ -93,15 +93,10 @@ function addListenerShowAnswersImageParameters() {
     showAnswersButton.addEventListener("click", () => { showAnswersButtonFunction(showAnswersButton, arr) });
 
 
-    arr[1].addEventListener("click", () => {
-        arr.forEach(c => c.classList.add("d-none"));
-        showAnswersButton.id = "hidden";
-        showAnswersButton.innerHTML = "Show answers";
-        enableOnAnswerButtons(false);
+    arr[1].addEventListener("click", () => {              // See solution
 
-        emitAnswersToStudents({ slide: currentSlideNumber }, false)
     });
-    arr[2].addEventListener("click", () => {
+    arr[2].addEventListener("click", () => {             // Send answers
         let model = {
             results: {
                 x_values_alpha,
