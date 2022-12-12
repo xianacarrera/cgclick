@@ -99,10 +99,10 @@ slideDefinitions = {
     question_open: {
         displayFunction: displayOpenQuestionSlide,
         leaveFunction: () => {},
-        evaluation: "teacher",
-        answer_container: "answer-list",
         defaultParams: {
             showButtons: true,
-        }
+        },
+        evaluation: "teacher",
+        answer_container: "answer-list",
     }
 }
