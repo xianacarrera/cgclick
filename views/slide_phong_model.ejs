@@ -9,12 +9,33 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
     start_slide_phong_model();
 -->
 
-<canvas id="webgl-canvas" class="m-3" width="500" height="500"></canvas>
+<canvas id="webgl-canvas" class="m-3" width="<%= canvas_width %>" height="<%= canvas_height %>"></canvas>
 
-<div id="controls" class="m-3">
+<div id="controls" class="m-3 mt-0">
+
+    <div class="mt-3 input-group">
+        <label class="input-group-text" for="scene">Scene</label>
+        <% if (available_scenes.length == 1) { %>
+            <select class="form-select" id="scene" disabled>
+        <% } else { %>
+            <select class="form-select" id="scene">
+        <% } %>
+
+            <% available_scenes.forEach((s, i) => { %>
+                <% if (i == 0) { %>
+                    <option value="<%= s %>" selected><%= available_scenes_descriptions[i] %></option>
+                <% } else { %>
+                    <option value="<%= s %>"><%= available_scenes_descriptions[i] %></option>
+                <% } %>
+            <% }); %>
+
+            </select>
+    </div>
+
     <% if (slider_camera_angles || slider_camera_distance || slider_camera_fov) { %>
-        <h4>Camera:</h4>
+        <h4 class="mt-3">Camera</h4>
     <% } %>
+
     <% if (slider_camera_angles) { %>
         <div class="slidecontainer">
             Azimuthal angle:
@@ -29,6 +50,7 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <input type="range" min="1" max="180" value="60" id="camera_polar_angle" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value + '°'">
         </div>
     <% } %>
+
     <% if (slider_camera_distance) { %>
         <div class="slidecontainer">
             Distance:
@@ -37,6 +59,7 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <input type="range" min="20" max="200" value="100" id="camera_distance" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value">
         </div>
     <% } %>
+
     <% if (slider_camera_fov) { %>
         <div class="slidecontainer">
             Field of view:
@@ -45,13 +68,14 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <input type="range" min="10" max="150" value="45" id="camera_fov" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value + '°'">
         </div>
     <% } %>
+
     <% if (slider_lights) { %>
-        <h4>Light:</h4>
+        <h4 class="mt-3">Light</h4>
         <div class="slidecontainer">
             Azimuthal angle:
-            <output>200°</output>
+            <output>225°</output>
             <br/>
-            <input type="range" min="0" max="360" value="200" id="light_azimuthal_angle" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value + '°'">
+            <input type="range" min="0" max="360" value="225" id="light_azimuthal_angle" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value + '°'">
         </div>
         <div class="slidecontainer">
             Polar angle:
@@ -60,29 +84,11 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <input type="range" min="1" max="180" value="60" id="light_polar_angle" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value + '°'">
         </div>
     <% } %>
-    <% if (slider_face_culling) { %>
-        <h4>Face Culling:</h4>
-        <fieldset>
-            <input type="radio" id="culling_on" name="culling" value="culling_on">
-            <label for="culling_on">on</label>
 
-            <input type="radio" id="culling_off" name="culling" value="culling_off" checked>
-            <label for="culling_off">off</label>
-        </fieldset>
-    <% } %>
-    <% if (slider_depth_test) { %>
-        <h4>Depth Test:</h4>
-        <fieldset>
-            <input type="radio" id="depth_test_on" name="depth_test" value="depth_test_on" checked>
-            <label for="depth_test_on">on</label>
-
-            <input type="radio" id="depth_test_off" name="depth_test" value="depth_test_off">
-            <label for="depth_test_off">off</label>
-        </fieldset>
-    <% } %>
     <% if (slider_gamma || slider_tone_mapping) { %>
-        <h4>Tone mapping:</h4>
+        <h4 class="mt-3">Tone mapping</h4>
     <% } %>
+
     <% if (slider_tone_mapping) { %>
         <div class="slidecontainer">
             Alpha:
@@ -97,6 +103,7 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <input type="range" min="0.5" max="3" step="0.1" value="1" id="beta" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value">
         </div>
     <% } %>
+
     <% if (slider_gamma) { %>
         <div class="slidecontainer">
             Gamma correction:
@@ -105,4 +112,23 @@ For Software Atelier 3: The Web project we modified it to make it more customiza
             <input type="range" min="1" max="5" step="0.1" value="2" id="gamma_correction" class="form-range" oninput="this.previousElementSibling.previousElementSibling.value = this.value">
         </div>
     <% } %>
+
+    <% if (slider_face_culling || slider_depth_test) { %>
+        <h4 class="mt-3">WebGL Features</h4>
+    <% } %>
+
+    <% if (slider_face_culling) { %>
+        <fieldset class="form-check form-switch">
+            <input type="checkbox" id="culling" class="form-check-input" name="culling">
+            <label class="ps-1 form-check-label" for="culling">Face Culling</label>
+        </fieldset>
+    <% } %>
+
+    <% if (slider_depth_test) { %>
+        <fieldset class="form-check form-switch">
+            <input type="checkbox" id="depth_test" class="form-check-input" name="depth_test" checked>
+            <label class="ps-1 form-check-label" for="depth_test">Depth Test</label>
+        </fieldset>
+    <% } %>
+
 </div>

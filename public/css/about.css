@@ -14,14 +14,10 @@ img {
     align-self: center;
 }
 
-.teacher {
-    color: green;
-}
-
-.student {
-    color: red;
-}
-
 .form-range {
     width: 300px;
+}
+
+span.badge {
+    font-size: 15px;
 }

@@ -1,0 +1,19 @@
+<div>
+
+    <p class="m-0">Room PIN: <span class="badge rounded-pill bg-secondary"><%= id %></span></p>
+    
+    <% if (isTeacher) { %> 
+        <% console.log(students) %> 
+        <p class="m-0 mt-1">Connected as <span class="badge rounded-pill bg-danger">Teacher</span></p>
+        <p class="m-0 mt-1"><span id="connected_counter" class="badge rounded-pill bg-primary"><%= students["students"] %></span> connected students</p>
+        <p class="m-0 mt-1"><span id="following_counter" class="badge rounded-pill bg-info"><%= students["following"] %></span> following students</p>
+        <p class="m-0 mt-1"><span id="submits_counter" class="badge rounded-pill bg-success">?</span> students answered</p>
+    <% } else { %> 
+        <p class="m-0 mt-1">Connected as <span class="badge rounded-pill bg-primary">Student</span></p>
+        <div class="m-0 mt-1 form-check form-switch">
+            <input id="follow" class="form-check-input" type="checkbox" checked/>
+            <label class="ps-1 form-check-label" for="follow">Follow the teacher</label>
+        </div>
+    <% } %>
+
+</div>

@@ -15,32 +15,24 @@ function start_slide_phong_model(params) {
 	is_depth_test_on = true;
 
 	if (params.slider_face_culling) {
-		let culling_button_on = document.getElementById("culling_on");
-		culling_button_on.addEventListener("change", (e) => {
-			if (culling_button_on.checked) {
+		let culling_checkbox = document.getElementById("culling");
+		culling_checkbox.addEventListener("change", (e) => {
+			if (culling_checkbox.checked) {
 				is_culling_on = true;
 			}
-		});
-
-		let culling_button_off = document.getElementById("culling_off");
-		culling_button_off.addEventListener("change", (e) => {
-			if (culling_button_off.checked) {
+			else {
 				is_culling_on = false;
 			}
 		});
 	}
 
 	if (params.slider_depth_test) {
-		let depth_test_button_on = document.getElementById("depth_test_on");
-		depth_test_button_on.addEventListener("change", (e) => {
-			if (depth_test_button_on.checked) {
+		let depth_test_checkbox = document.getElementById("depth_test");
+		depth_test_checkbox.addEventListener("change", (e) => {
+			if (depth_test_checkbox.checked) {
 				is_depth_test_on = true;
 			}
-		});
-
-		let depth_test_button_off = document.getElementById("depth_test_off");
-		depth_test_button_off.addEventListener("change", (e) => {
-			if (depth_test_button_off.checked) {
+			else {
 				is_depth_test_on = false;
 			}
 		});

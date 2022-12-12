@@ -1,7 +1,10 @@
-<section>
-    <h2><%= question %></h2>
-    <form id="student_answer" method="POST" action="/question/open">
-        <textarea name="answer" type="text" placeholder="Type your answer here..."></textarea>
-        <input type="submit" value="Done">
+<div class="m-3 d-flex flex-row">
+    <form id="student_open_question" method="POST" action="/question/open">
+        <div class="d-flex flex-row">
+            <textarea name="answer" class="form-control" type="text" placeholder="Type your answer here..." required></textarea>
+            <div id="controls" class="d-flex flex-column align-items-start m-3 mt-0">
+                <input type="submit" value="Done" class="btn btn-success mb-3 p-2">
+            </div>
+        </div>
     </form>
-</section>
+</div>

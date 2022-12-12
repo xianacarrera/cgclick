@@ -1,0 +1,18 @@
+<div class="m-3 d-flex flex-row">
+    
+    <div class="card" style="width: fit-content;">
+        <div class="card-header">Students' answers</div>
+        <div class="card-body">
+            <div id="answer-list" class="d-none"></div>
+        </div>
+    </div>
+
+    <div id="controls" class="d-flex flex-column align-items-start m-3 mt-0">
+            <button id="hidden" data-action="show-answers" class="btn btn-primary mb-3 p-2 disabled enabled-on-answer" disabled="true">Show answers</button>
+        <% if (showButtons) { %>
+            <button data-action="reset" class="btn btn-outline-danger mb-3 p-2 disabled enabled-on-answer d-none" disabled="true">Reset answers</button>
+            <button data-action="send-answers" class="btn btn-outline-primary mb-3 p-2 disabled enabled-on-answer d-none" disabled="true">Send answers to students</button>
+        <% } %>
+    </div>
+
+</div>

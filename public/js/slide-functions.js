@@ -1,19 +1,6 @@
-/*
-function displaySlideOpenQuestion() {
-    let question = "How are you?";
-    document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_open_question({ question });
-}
-*/
-
-let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
+// let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
+let cardClasses = "card d-inline-flex flex-row flex-wrap justify-content-start align-items-start p-1 mb-2 bg-light";
 let noClasses = "";
-
-function displaySlideTriangleCube(params) {
-    document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_triangle_cube(params);
-    start_slide_triangle_cube(params);
-}
 
 // The element starts to be dragged
 function boxDragStart(e) {
@@ -67,9 +54,9 @@ function boxDrop(e) {
     // Get the id of the option
     let optionId = e.dataTransfer.getData("text/plain");
     let option = document.getElementById(optionId);
-    
-    e.preventDefault();  
-    
+
+    e.preventDefault();
+
     // Swap the option with the target    
     [e.target.textContent, option.textContent] = [option.textContent, e.target.textContent];
 
@@ -87,9 +74,9 @@ function boxDragEnd(e) {   // Note that this always fires after stopping the dra
     e.target.addEventListener("dragleave", boxDragLeave);
 }
 
-function displaySlideParametrization() {
+function displaySlideParametrization(params) {
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_parametrization({});
+    document.getElementById("content").innerHTML = ejs.views_slide_parametrization(params);
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
     document.querySelectorAll(".drop-box.card").forEach(box => {
         box.addEventListener("dragstart", boxDragStart);
@@ -110,9 +97,9 @@ function displaySlidePhongModel(params) {
     start_slide_phong_model(params);
 }
 
-function displaySlideShaders(){
+function displaySlideShaders(params){
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_custom_shaders({});
+    document.getElementById("content").innerHTML = ejs.views_slide_custom_shaders(params);
     hljs.highlightAll();
     start_slide_custom_shaders();
     document.getElementById("btn-submit-shaders").addEventListener("click", () => {
@@ -141,22 +128,9 @@ function displaySlideMidpoint() {
     addMidpointListeners();
 }
 
-function displaySlideImageParameters() {
+function displaySlideCompleteParametrization(params){
     document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_image_parameters({});
-    ip_start(
-        { azimuthal: -70, polar: 60 },                           // Directional light
-        { x: -200, y: 150, z: -40, intensity: 30 },              // Point light
-        { azimuthal: -45, polar: 60, distance: 150, fov: 45 },   // Camera
-        { gamma: 2, tone_mapping_alpha: 1, tone_mapping_beta: 1 }
-    );
-
-    // The student provides a right answer if alpha is 1 and beta / gamma is 1/2
-}
-
-function displaySlideCompleteParametrization(){
-    document.getElementById("content").className = cardClasses;
-    document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization({});
+    document.getElementById("content").innerHTML = ejs.views_slide_complete_parametrization(params);
     threeAPI.initScene();
     threeAPI.clear();
     addCompleteParametrizationListeners();
@@ -176,6 +150,103 @@ function displayAboutSlide(params) {
             }
         });
     }));
+}
+
+function showAnswersButtonFunction(showAnswersButton, arr){
+    if (showAnswersButton.id == "hidden"){
+        arr.forEach(c => c.classList.remove("d-none"));
+        showAnswersButton.id = "shown";
+        showAnswersButton.innerHTML = "Hide answers";
+    } else {
+        arr.forEach(c => c.classList.add("d-none"));
+        showAnswersButton.id = "hidden";
+        showAnswersButton.innerHTML = "Show answers";
+    }
+}
+
+function displayOpenQuestionSlide(params) {
+    document.getElementById("content").className = cardClasses;
+    let question = document.querySelector("#description-before p").textContent;
+    if (isTeacher) {
+        document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params);
+        let answerContainer = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+        let showAnswersButton = document.querySelector("button[data-action='show-answers']");
+        let resetButton = document.querySelector("button[data-action='reset']");
+        let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
+        let arr = [answerContainer, resetButton, sendAnswersButton];
+        showAnswersButton.addEventListener("click", () => showAnswersButtonFunction(showAnswersButton, arr));
+        resetButton.addEventListener("click", () => {
+            answerContainer.innerHTML = "";     // Remove all child nodes
+            arr.forEach(c => c.classList.add("d-none"));
+            showAnswersButton.id = "hidden";
+            showAnswersButton.innerHTML = "Show Answers";
+            enableOnAnswerButtons(false);
+
+            emitAnswersToStudents({question, slide: currentSlideNumber}, false)
+        });
+        sendAnswersButton.addEventListener("click", () => {
+            let results = [];
+            for (let i = 0; i < answerContainer.childElementCount; i++){
+                results.push({
+                    text: answerContainer.children[i].querySelector(".answerText").textContent,
+                    count: answerContainer.children[i].querySelector(".answerCount").textContent
+                })
+            }
+            let model = {
+                question, 
+                results,
+                slide: currentSlideNumber
+            }
+            emitAnswersToStudents(model);
+        })
+    } else if (params?.model?.isAnswer) {        // The teacher is showing the answers to the students
+        params.model.showButtons = false;
+        document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params.model);
+        document.querySelector("button[data-action='show-answers']").classList.add("d-none");
+        let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
+        answer_container.classList.remove("d-none");
+        for (let i = 0; i < params.model.results.length; i++) {     // Skip the first element (it's empty)
+            if (params.model.results[i].text.trim() == "" || params.model.results[i].text.trim() == "\n") continue;
+            addOpenQuestionNode(answer_container, params.model.results[i].text, params.model.results[i].count);
+        }
+
+    } else {
+        document.getElementById("content").innerHTML = ejs.views_slide_open_question();
+        document.getElementById("student_open_question").addEventListener("submit", (e) => {
+            e.preventDefault();
+            let answer = document.getElementById("student_open_question").querySelector("textarea").value;
+            console.log(answer);
+            emitAnswerToTeacher(answer);
+        })
+    }
+}
+
+function addOpenQuestionNode(answer_container, text, count){
+    let new_item = document.createElement("p");
+    let new_count = document.createElement("span");
+    new_count.className = "answerCount me-2 badge rounded-pill bg-primary";
+    new_count.appendChild(document.createTextNode(count));
+    
+    let new_text = document.createElement("span");
+    new_text.classList.add("answerText");
+    new_text.appendChild(document.createTextNode(text));
+    
+    new_item.appendChild(new_count);
+    new_item.appendChild(new_text);
+
+    answer_container.appendChild(new_item);
+}
+
+function enableOnAnswerButtons(enable) {
+    document.querySelectorAll(".enabled-on-answer").forEach(e => {
+        if (enable) {
+            e.classList.remove("disabled");
+            e.disabled = false;
+        } else {
+            e.classList.add("disabled");
+            e.disabled = true;
+        }
+    })
 }
 
 

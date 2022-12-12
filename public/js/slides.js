@@ -1,73 +1,62 @@
 const slides = [
     {
-        name: "Culling",
+        name: "Open Question",
+        title: "Open Question",
+        descriptionBefore: "Tell me your thoughts",
+        type: "question_open",
+    },
+    {
+        name: "Face Culling",
         title: "Face Culling",
         descriptionBefore: "Watch what happens when you turn off face culling and look at the triangle from behind.",
         descriptionAfter: "Cool, right?",
-        type: "playground_triangle_cube",
+        type: "playground_phong_model",
         params: {
+            canvas_size: "small",
+            available_scenes: ["triangle", "cube"],
+            slider_camera_angles: true,
             slider_face_culling: true,
         },
     },
     {
-        name: "Depth",
-        title: "Depth Test",
+        name: "Depth Test",
+        title: "Face Culling vs. Depth Test",
         descriptionBefore: "Now try both face culling AND depth test!",
-        type: "playground_triangle_cube",
+        type: "playground_phong_model",
         params: {
+            available_scenes: ["triangle", "cube"],
+            available_scenes_descriptions: ["Rainbow prism", "1-by-1 Rubik's cube"],
+            slider_camera_angles: true,
             slider_face_culling: true,
             slider_depth_test: true,
         },
     },
     {
-        name: "Shape Parametrization",
-        title: "Shape Parametrization",
-        type: "question_parametrization",
-    },
-    {
-        name: "Gamma",
-        title: "Gamma Correction",
+        name: "Alpha, Beta, Gamma",
+        title: "Gamma Correction and Tone Mapping",
         type: "playground_phong_model",
         params: {
+            canvas_size: "large",
+            available_scenes: ["complex", "cube"],
             slider_gamma: true,
-        },
-    },
-    {
-        name: "Tone Mapping",
-        title: "Tone Mapping",
-        type: "playground_phong_model",
-        params: {
             slider_tone_mapping: true,
         },
     },
     {
-        name: "Field Of View",
+        name: "Distance vs. FOV",
         title: "Field Of View",
         descriptionAfter: "Do you see how the ratio of sides of the cube doesn't change?",
         type: "playground_phong_model",
         params: {
-            slider_camera_fov: true,
-        },
-    },
-    {
-        name: "Moving camera",
-        title: "Moving the camera around",
-        type: "playground_phong_model",
-        params: {
+            available_scenes: ["complex"],
             slider_camera_angles: true,
             slider_camera_distance: true,
-        },
-    },
-    {
-        name: "Moving light",
-        title: "Moving the light around",
-        type: "playground_phong_model",
-        params: {
+            slider_camera_fov: true,
             slider_lights: true,
         },
     },
     {
-        name: "Phong",
+        name: "Full Phong",
         title: "Phong Model Parameters",
         type: "playground_phong_model",
         params: {
@@ -82,10 +71,18 @@ const slides = [
         },
     },
     {
+        name: "Shape Parametrization",
+        title: "Shape Parametrization",
+        type: "question_parametrization",
+    },
+    {
         name: "Shaders",
         title: "Shaders",
         descriptionBefore: "Try to complete the vertex and fragment shaders to display a scene!",
         type: "playground_shaders",
+        params: {
+            canvas_size: "small",
+        },
     },
     {
         name: "Midpoint",
@@ -93,9 +90,14 @@ const slides = [
         type: "question_midpoint",
     },
     {
-        name: "Image Comparison",
-        title: "Comparison of Gamma Correction and Tone Mapping",
+        name: "Match the images",
+        title: "Gamma Correction and Tone Mapping",
         type: "question_image_parameters",
+        params: {
+            target_alpha: 1.5,
+            target_beta: 1.5,
+            target_gamma: 2.5,
+        },
     },
     {
         name: "Complete Parametrization",

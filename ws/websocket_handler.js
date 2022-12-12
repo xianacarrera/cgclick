@@ -1,5 +1,7 @@
 const { State } = require("../model/state");
 
+const { StudentCounter } = require("../model/students");
+
 /**
  * WebsocketHandler handles all incoming connections.
  */
@@ -11,6 +13,7 @@ class WebSocketHandler {
     constructor() {
         // A JSON object acts like an hashmap so we can have different states assigned to different ids
         this.states = {}
+        this.students = {};
     }
 
     /**
@@ -18,14 +21,23 @@ class WebSocketHandler {
     * @param {Socket} socket client socket.
     */
     on_connect(socket) {
+        console.log("conect",socket.id);
+        socket.on("disconnect", () => this.on_disconnect(socket));
         // Participants must login with the ID, disregarding whether it is a teacher or not.
-        socket.on("generic_login", (login_id) => this.on_login(socket, login_id.id));
+        socket.on("generic_login", (login_id) => this.on_login(socket, login_id.id, login_id.readonly));
         // changeSlide topic should be called whenever slide are sent
         socket.on('teacher_changeSlide', (new_slide) => this.on_change_slide(new_slide));
         // create will create a new session
         socket.on('teacher_createRoom', (room) => this.on_create_room(socket, room.id));
         // check if a student room exist
         socket.on('student_roomExist', (room) => this.on_room_exist(socket, room.id));
+        // when a student follows/unfollows the course
+        socket.on('student_follow', (follow) => this.on_follow(socket, follow.id, follow.val));
+
+        // retransmit an answer from a student to the teacher
+        socket.on('student_answer', (msg) => this.on_open_answer(msg.id, {answer: msg.answer, slide: msg.slide, student: msg.student}));
+        // retransmit the aggregation of student answers from the teacher to the students
+        socket.on('teacher_showResults', (msg) => this.on_show_results(msg.id, msg.results));
     }
 
     /**
@@ -45,6 +57,7 @@ class WebSocketHandler {
     */
     on_create_room(socket, id) {
         this.states[id] = new State(0); // Start from first slide.
+        this.students[id] = new StudentCounter();
         socket.emit("generic_create_done", {}); // Just send this when we are done.
     }
 
@@ -54,6 +67,7 @@ class WebSocketHandler {
     * @param {String} id the id of the room we want to join.
     */
     on_room_exist(socket, id) {
+        this.states[id].broadcast("teacher_update", this.students[id].getData());
         socket.emit("generic_check_done", {status: this.states.hasOwnProperty(id)}); // Just send this when we are done.
     }
 
@@ -62,12 +76,23 @@ class WebSocketHandler {
     * @param {Socket} socket client socket.
     * @param {String} id the id of the room we want to join.
     */
-    on_login(socket, id) {
+    on_login(socket, id, readonly) {
+        console.log("login",socket.id);
+        console.log(this.students[id].students.map(a => a.id));
         // Create new room if it does not exist.
         if (!this.states.hasOwnProperty(id)) {
             this.states[id] = new State(0); // Start from first slide
         }
-        this.states[id].addSocket(socket)
+        if (this.states[id].sockets.length == 0){       // The room could exist but be empty
+            // Needs to be done here and not on create room because the id of the teacher's socket changes
+            this.states[id].teacherSocketId = socket.id;
+        }
+        if (!readonly) {
+            this.states[id].addSocket(socket)
+            this.students[id].students.push(socket);
+            this.students[id].following.push(socket);
+        }
+        this.states[id].broadcast("teacher_update", this.students[id].getData());
         socket.emit("generic_update", this.states[id].stateObject())
     }
 
@@ -82,12 +107,61 @@ class WebSocketHandler {
         this.states[id].broadcast('generic_update', state_obj)
     }
 
+    on_open_answer(id, msg){
+        this.io.to(this.states[id].teacherSocketId).emit("student_answer", msg);
+    }
+
+    on_show_results(roomId, results){
+        this.states[roomId].broadcast('teacher_showResults', {results});
+    }
+
+    setIO(io_instance){
+        this.io = io_instance;
+    }
+
     /**
     * Return the states in the handler.
     * @return {Object} states.
     */
     getStates() {
         return this.states;
+    }
+
+    on_follow(socket, id, follow) {
+        console.log("follow",socket.id);
+        if(follow){
+            this.students[id].following.push(socket);
+        }
+        else{
+            const index = this.students[id].following.indexOf(socket);
+            if(index > -1) this.students[id].following.splice(index, 1);
+        }
+        this.states[id].broadcast("teacher_update", this.students[id].getData());
+    }
+
+    on_disconnect(socket) {
+        console.log("disconnect",socket.id);
+        let id = this.find_room(socket);
+        if(id){
+            const index = this.students[id].students.indexOf(socket);
+            if(index > -1) this.students[id].students.splice(index, 1);
+            const index2 = this.students[id].following.indexOf(socket);
+            if(index2 > -1) this.students[id].following.splice(index2, 1);
+            this.states[id].broadcast("teacher_update", this.students[id].getData());
+        }
+    }
+
+    // helper function to find the room a connection is in
+    // knowing only the socket
+    find_room(socket){
+        for (const id in this.states) {
+            if (Object.hasOwnProperty.call(this.states, id)) {
+                const state = this.states[id];
+                if (state.sockets.some( s => s == socket))
+                    return id;
+            }
+        }
+        return false;
     }
 }
 
