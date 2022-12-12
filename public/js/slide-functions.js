@@ -1,6 +1,12 @@
 let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
 let noClasses = "";
 
+let parameterizationState = [
+    "Sphere",
+    "Torus",
+    "Klein bottle"
+]
+
 // The element starts to be dragged
 function boxDragStart(e) {
     // Data is transferred between dragstart and drop events using dataTransfer
@@ -88,6 +94,7 @@ function displaySlideParametrization(params) {
         box.addEventListener("drop", boxDrop);
         box.addEventListener("dragend", boxDragEnd);
     });
+    Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = !sentParametrizationAnswer)
     document.getElementById('param-btn').addEventListener('click', () => {
         document.getElementById('param-btn').disabled = true;
         sentParametrizationAnswer = true;
@@ -96,18 +103,51 @@ function displaySlideParametrization(params) {
             socket.emit('teacher_showParemetrizationAnswers', {id})
             return
         }
+        Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
+        parameterizationState = [
+            document.getElementById('drop-box1').innerHTML.trim(),
+            document.getElementById('drop-box2').innerHTML.trim(),
+            document.getElementById('drop-box3').innerHTML.trim()
+        ]
         // Student section. should send answer to teacher.
-        sentParametrizationAnswer = true;
         socket.emit('student_sendParametrizationAnswer', {
             bits: [
                 document.getElementById('drop-box1').innerHTML.trim() == "Torus",
                 document.getElementById('drop-box2').innerHTML.trim() == "Klein bottle",
-                document.getElementById('drop-box2').innerHTML.trim() == "Sphere"
+                document.getElementById('drop-box3').innerHTML.trim() == "Sphere"
             ],
             id
         })
     })
-
+    if (isTeacher) {
+        let showBtn = document.getElementById('show-btn')
+        showBtn.addEventListener('click', () => {
+            if (showBtn.innerHTML == "Hide Answers") {
+                showBtn.innerHTML = "Show Answers"
+                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+                // Hide answers
+            } else {
+                showBtn.innerHTML = "Hide Answers"
+                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "black")
+            }
+        })
+    } else {
+        let drop1 = document.getElementById('drop-box1')
+        let drop2 = document.getElementById('drop-box2')
+        let drop3 = document.getElementById('drop-box3')
+        drop1.innerHTML = parameterizationState[0]
+        drop2.innerHTML = parameterizationState[1]
+        drop3.innerHTML = parameterizationState[2]
+        if (sentParametrizationAnswer) {
+            if (drop1.innerHTML == "Torus") drop1.style.backgroundColor = "green";
+            else drop1.style.backgroundColor = "yellow";
+            if (drop2.innerHTML == "Klein bottle") drop2.style.backgroundColor = "green";
+            else drop2.style.backgroundColor = "yellow";
+            if (drop3.innerHTML == "Sphere") drop3.style.backgroundColor = "green";
+            else drop3.style.backgroundColor = "yellow";
+        }
+    }
+    
     MathJax.typeset();
     showShape();
 }

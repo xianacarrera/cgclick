@@ -60,7 +60,7 @@
             <div class="drop-box card p-3" draggable="false" id="drop-box2">
                 <div class="object-draggable-name card-title">
                         Torus
-                        <p style="font-size: 7px;"><% if (isTeacher) {  %>
+                        <p style="font-size: 7px;" class="answer-stats"><% if (isTeacher) {  %>
                             Correct Answers: <%= answers[0][0] %>
                             Wrong Answers: <%= answers[0][1] %>
                         <% } %></p>
@@ -69,7 +69,7 @@
             <div class="drop-box card p-3"  draggable="false" id="drop-box3">
                 <div class="object-draggable-name card-title">
                         Klein bottle
-                        <p style="font-size: 7px;">
+                        <p style="font-size: 7px;" class="answer-stats">
                         <% if (isTeacher) {  %>
                             Correct Answers: <%= answers[1][0] %>
                             Wrong Answers: <%= answers[1][1] %>
@@ -79,7 +79,7 @@
             <div class="drop-box card p-3" draggable="false" id="drop-box1">
                 <div class="object-draggable-name card-title">
                         Sphere
-                        <p style="font-size: 7px;">
+                        <p style="font-size: 7px;" class="answer-stats">
                         <% if (isTeacher) {  %>
                             Correct Answers: <%= answers[2][0] %>
                             Wrong Answers: <%= answers[2][1] %>
@@ -126,8 +126,11 @@
         <div class="d-flex flex-column justify-content-center mx-2 my-4">
             <!-- Automatically set margin left and right to center -->
             <canvas id="threejs-canvas" width="<%= canvas_width %>" height="<%= canvas_height %>"></canvas>
+           <% if(isTeacher) { %>
+                <button id="show-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary">Hide Answers</button>
+                <%  } %>
             <% if(isTeacher && !showAnswer) { %>
-                <button id="param-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary">Show answers</button>
+                <button id="param-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary">Send answers</button>
             <% } else { %>
                 <button id="param-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary" disabled>Answers shown</button>
             <% } %>
