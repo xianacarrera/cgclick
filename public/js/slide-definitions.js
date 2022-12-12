@@ -22,7 +22,7 @@ slideDefinitions = {
             slider_gamma: false,
             slider_tone_mapping: false,
         },
-        evaluation: "teacher",
+        evaluation: "no_eval",
     },
     playground_shaders: {
         displayFunction: displaySlideShaders,
@@ -32,6 +32,7 @@ slideDefinitions = {
             canvas_width: 300,
             canvas_height: 300,
         },
+        evaluation: "no_eval",
     },
     question_parametrization: {
         displayFunction: displaySlideParametrization,
@@ -85,7 +86,7 @@ slideDefinitions = {
             canvas_width: 500,
             canvas_height: 240,
         },
-        evaluation: "teacher",
+        evaluation: "no_eval",
     },
     slide_about: {
         displayFunction: displayAboutSlide,
