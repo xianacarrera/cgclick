@@ -15,7 +15,12 @@ const generateId = () => {
 
 const createNewRoom = () => {
     let id = generateId();
-    socket.on('generic_create_done', () => window.location.href = `/pin/${id}`)
+    socket.on('generic_create_done', () => {
+        window.location.href = `/pin/${id}`;
+        // Store the socket id of the teacher in localStorage so that it's possible to rejoin the room again
+        // after leaving the page
+        localStorage.setItem('teacherSignature', socket.id);
+    })
     socket.emit('teacher_createRoom', {id});
     socket.on('student_openAnswer', (msg) => {
         console.log("Received open answer from the student: " + msg.answer);
