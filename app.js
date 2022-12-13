@@ -49,8 +49,24 @@ app.get("/pin/:id", (request, response) => {
     response.end()
     return
   }
-  response.render("main", {id, isTeacher: states[id].sockets.length === 0})
+  response.render("main", {id, isTeacher: states[id].sockets.length === 0 })
 })
+
+app.post("/access", (request, response) => {
+  let signature = request.body.signature;
+  if (!request.accepts(json)){
+    response.status(406).end();     // Not acceptable
+    return;
+  }
+
+  states.forEach(id => {
+    if (states[id].signature === signature) {
+      response.render("main", {id, isTeacher: true})
+      return
+    }
+  });
+  response.render("main", {id, isTeacher: states[id].sockets.length === 0 })
+});
 
 //default fallback handlers
 // catch 404 and forward to error handler
