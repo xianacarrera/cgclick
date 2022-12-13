@@ -12,6 +12,7 @@ let studentData = {};
 function addConnectionListeners(){
     socket.on('connect', () => {
         console.log("Connected");
+        localStorage.setItem("teacherSignature", socket.id);
     });
 
     socket.on('disconnect', () => {

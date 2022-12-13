@@ -91,6 +91,7 @@ class WebSocketHandler {
         if (this.states[id].sockets.length == 0){       // The room could exist but be empty
             // Needs to be done here and not on create room because the id of the teacher's socket changes
             this.states[id].teacherSocketId = socket.id;
+            console.log("Teacher ID: " + this.states[id].teacherSocketId);
         }
         if (!readonly) {
             this.states[id].addSocket(socket)
