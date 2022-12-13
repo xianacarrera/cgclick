@@ -43,6 +43,7 @@ class WebSocketHandler {
 
         socket.on('student_sendParametrizationAnswer', (msg) => this.on_new_parametrization_answer(msg));
 
+        socket.on("teacher_updateTeacherSocket", (msg) => this.on_update_teacher_socket(msg.id, socket));
     }
 
     /**
@@ -54,6 +55,13 @@ class WebSocketHandler {
         this.states[slide.id].slide = slide.slide;
         this.on_update(slide.id, this.states[slide.id].stateObject());
     }
+
+    on_update_teacher_socket(id, socket){
+        if (!this.states.hasOwnProperty(id)) return;
+        this.states[id].teacherSocketId = socket.id;
+        if (!this.states[id].sockets.includes(socket))
+            this.states[id].addSocket(socket);
+    };
 
     /**
     * Handles room creation.

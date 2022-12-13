@@ -2,7 +2,7 @@ let socket;
 
 function initSocket() {
     socket = io();
-    login(isTeacher)            // If the user is a teacher, only read
+    login()           
     addConnectionListeners();
     if(isTeacher) addTeacherListeners();
 }

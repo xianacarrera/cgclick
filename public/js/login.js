@@ -6,8 +6,10 @@ const start = () => {
     fetchAPI.access().then(res => {
         if (res.status === 203) return;
 
-        res.text().then(html => {
-            console.log(html);
+        res.json().then(model => {
+            console.log("hey" + model.isTeacher);
+            //document.querySelector("body").innerHTML = ejs.views_main(model);
+            //socket.emit("teacher_updateTeacherSocket", {id: model.id});
         });
     });
 }

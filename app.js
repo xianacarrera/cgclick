@@ -57,7 +57,7 @@ app.post("/access", (request, response) => {
   if (signature){
     states.forEach(id => {
       if (states[id].signature === signature) {
-        response.render("main", {id, isTeacher: true})
+        response.json({id, isTeacher: true});
         return
       }
     });
