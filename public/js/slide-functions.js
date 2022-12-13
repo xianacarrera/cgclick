@@ -149,7 +149,7 @@ function displaySlideParametrization(params) {
             if (drop3.innerHTML == "Sphere") drop3.style.backgroundColor = "green";
             else drop3.style.backgroundColor = "red";
             document.getElementById('param-btn').innerHTML = "Answers Shown"
-            
+            Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
         }
     }
     
