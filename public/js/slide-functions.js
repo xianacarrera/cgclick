@@ -142,12 +142,22 @@ function displaySlideParametrization(params) {
         drop2.innerHTML = parameterizationState[1]
         drop3.innerHTML = parameterizationState[2]
         if (sentParametrizationAnswer) {
+            console.log(parameterizationState)
             if (drop1.innerHTML == "Torus") drop1.style.backgroundColor = "green";
-            else drop1.style.backgroundColor = "red";
+            else {
+                drop1.style.backgroundColor = "red";
+                drop1.innerHTML += " (Torus)"
+            }
             if (drop2.innerHTML == "Klein bottle") drop2.style.backgroundColor = "green";
-            else drop2.style.backgroundColor = "red";
+            else {
+                drop2.style.backgroundColor = "red";
+                drop2.innerHTML += " (Klein)"
+            }
             if (drop3.innerHTML == "Sphere") drop3.style.backgroundColor = "green";
-            else drop3.style.backgroundColor = "red";
+            else {
+                drop3.style.backgroundColor = "red";
+                drop3.innerHTML += " (Sphere)"
+            }
             document.getElementById('param-btn').innerHTML = "Answers Shown"
             Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
         }
