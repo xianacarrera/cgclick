@@ -71,14 +71,14 @@
 
 <body class="m-3" onload="init()">
 
-    <div class="d-flex">
+    <div>
 
-        <div class="col-2 border-end border-2 border-primary pe-3 d-flex flex-column" style="flex: 1 0 200px; height: 96vh;">
+        <div class="position-fixed border-end border-2 border-primary pe-3 d-flex flex-column" style="flex: 1 0 200px; width: 15vw; min-width: 210px; height: 96vh;">
             <div id="navbar" class="flex-grow-1 flex-shrink-1 overflow-auto"></div>
             <div id="statusbar" class="pt-2 border-top border-2 border-secondary"></div>
         </div>
 
-        <div class="col-10 ps-3" style="flex: 1 1 auto;">
+        <div class="ps-3" style="margin-left: max(15vw, 210px);">
             <i id="question_type" class="fa fa-question-circle position-absolute top-0 end-0 m-3" style="font-size: 32pt;" data-toggle="tooltip" data-placement="left" data-bs-toggle="tooltip" data-bs-placement="left" title="Evaluation info"></i>
             <h1 id="title" class="mb-4"></h1>
             <div id="help"></div>
