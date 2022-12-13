@@ -18,6 +18,6 @@ img {
     width: 300px;
 }
 
-#statusbar p span {
+span.badge {
     font-size: 15px;
 }

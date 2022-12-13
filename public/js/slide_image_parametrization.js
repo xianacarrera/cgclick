@@ -20,6 +20,8 @@ function displaySlideImageParameters(params) {
     params.alpha_p = 0;
     params.beta_gamma_p = 0;
     params.isTeacher = isTeacher;
+    // params.target_alpha is already set in params, but we need to divide beta by gamma to obtain the correct ratio
+    params.target_beta_gamma = params.target_beta / params.target_gamma;
     memory_students = {};
     [canvas_size, canvas_width, canvas_height, alpha, beta, gamma] = [params.canvas_size, params.canvas_width, params.canvas_height, params.alpha, params.beta, params.gamma];
 
@@ -30,7 +32,7 @@ function displaySlideImageParameters(params) {
         x_values_alpha = [];
         x_values_beta_gamma = [];
         target_alpha = params.target_alpha;
-        target_beta_gamma = params.target_beta / params.target_gamma;
+        target_beta_gamma = params.target_beta / (params.target_gamma || 1);    // Avoid division by 0
         for (let i = params.alpha.startIndex; i <= params.alpha.endIndex; i += params.alpha.step) {
             image_parameters_answers.alpha[i] = 0;
             x_values_alpha.push(i);
@@ -56,7 +58,7 @@ function displaySlideImageParameters(params) {
             [alpha_p, beta_gamma_p] = [params.model.results.alpha_p, params.model.results.beta_gamma_p];
             updateImageParametersGraphs(false, false, params.model.results.alpha_p, params.model.results.beta_gamma_p);
             document.querySelector("button[data-action='show-images-answers']").classList.add("d-none");
-            document.getElementById("phong-done-btn").classList.add("d-none");
+            // document.getElementById("phong-done-btn").classList.add("d-none");
             document.getElementById("student_answers_div_image").classList.remove("d-none");
         }, 100);
 
@@ -79,25 +81,28 @@ function displaySlideImageParameters(params) {
     );
 }
 
-function addListenerShowAnswersImageParameters() {
+function getImageHiddenShownArray(){
     let answers_div = document.getElementById("student_answers_div_image");
-    let resetButton = document.querySelector("button[data-action='reset']");
     let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
-    let arr = [answers_div, resetButton, sendAnswersButton];
+    return [answers_div, sendAnswersButton];
+}
+
+function addListenerShowAnswersImageParameters() {
+    let arr = getImageHiddenShownArray();
 
     let showAnswersButton = document.querySelector("button[data-action='show-images-answers']");
     showAnswersButton.addEventListener("click", () => { showAnswersButtonFunction(showAnswersButton, arr) });
 
 
-    resetButton.addEventListener("click", () => {
-        arr.forEach(c => c.classList.add("d-none"));
-        showAnswersButton.id = "hidden";
-        showAnswersButton.innerHTML = "Show Answers";
-        enableOnAnswerButtons(false);
-
-        emitAnswersToStudents({ slide: currentSlideNumber }, false)
+    document.querySelector("button[data-action='see-solution']").addEventListener("click", () => {              // See solution
+        let div_solutions = document.getElementById("solution");
+        if (div_solutions.classList.contains("d-none")){
+            div_solutions.classList.remove("d-none");
+        } else {
+            div_solutions.classList.add("d-none");
+        }
     });
-    sendAnswersButton.addEventListener("click", () => {
+    arr[1].addEventListener("click", () => {             // Send answers
         let model = {
             results: {
                 x_values_alpha,
@@ -113,7 +118,7 @@ function addListenerShowAnswersImageParameters() {
                 slide: currentSlideNumber,
                 canvas_size,
                 canvas_width,
-                canvas_height,
+                canvas_height
             },
             slide: currentSlideNumber
         };
@@ -177,7 +182,8 @@ function drawCharts(reload) {
 function generateRandomColors(n) {
     let colors = [];
     while (colors.length < n) {
-        colors.push(`rgb(${rand(0, 255)}, ${rand(0, 255)}, ${rand(0, 255)})`);
+        // colors.push(`hsl(${rand(0, 359)}, 100%, 50%)`);
+        colors.push(`rgb(13, 110, 253)`);
     }
     return colors;
 }
@@ -199,7 +205,18 @@ function updateImageParametersGraphs(showButtons = true, reload = true, new_alph
     }
     console.log(new_alpha_p)
     console.log(new_beta_gamma_p)
-    document.getElementById("graphs_results").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons });
+
+    let storedid = document.querySelector("button[data-action='show-images-answers']").id;
+    document.getElementById("teacher-controls").innerHTML = ejs.views_includes_teacher_image_parameters({ 
+        alpha_p, beta_gamma_p, showButtons, 
+        target_alpha,
+        target_beta_gamma       // Avoid division by 0
+    });
+    if (isTeacher && storedid === "shown"){
+        let arr = getImageHiddenShownArray();
+        arr.pop();
+        showAnswersButtonFunction(document.querySelector("button[data-action='show-images-answers']"), arr);
+    }
     drawCharts(reload);
     MathJax.typeset();
 }

@@ -1,4 +1,5 @@
-let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
+// let cardClasses = "d-inline-flex flex-wrap justify-content-start align-items-start p-1 border border-2 border-primary rounded-3 bg-light";
+let cardClasses = "card d-inline-flex flex-row flex-wrap justify-content-start align-items-start p-1 mb-2 bg-light";
 let noClasses = "";
 
 let parameterizationState = [
@@ -219,17 +220,17 @@ function showAnswersButtonFunction(showAnswersButton, arr){
     if (showAnswersButton.id == "hidden"){
         arr.forEach(c => c.classList.remove("d-none"));
         showAnswersButton.id = "shown";
-        showAnswersButton.innerHTML = "Hide Answers";
+        showAnswersButton.innerHTML = "Hide answers";
     } else {
         arr.forEach(c => c.classList.add("d-none"));
         showAnswersButton.id = "hidden";
-        showAnswersButton.innerHTML = "Show Answers";
+        showAnswersButton.innerHTML = "Show answers";
     }
 }
 
 function displayOpenQuestionSlide(params) {
     document.getElementById("content").className = cardClasses;
-    let question = "Tell me your most profound thoughts";
+    let question = document.querySelector("#description-before p").textContent;
     if (isTeacher) {
         document.getElementById("content").innerHTML = ejs.views_teacher_open_answers(params);
         let answerContainer = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
@@ -274,7 +275,7 @@ function displayOpenQuestionSlide(params) {
         }
 
     } else {
-        document.getElementById("content").innerHTML = ejs.views_slide_open_question({ question });
+        document.getElementById("content").innerHTML = ejs.views_slide_open_question();
         document.getElementById("student_open_question").addEventListener("submit", (e) => {
             e.preventDefault();
             let answer = document.getElementById("student_open_question").querySelector("textarea").value;
@@ -285,12 +286,12 @@ function displayOpenQuestionSlide(params) {
 }
 
 function addOpenQuestionNode(answer_container, text, count){
-    let new_item = document.createElement("li");
-    let new_count = document.createElement("p");
-    new_count.classList.add("answerCount");
+    let new_item = document.createElement("p");
+    let new_count = document.createElement("span");
+    new_count.className = "answerCount me-2 badge rounded-pill bg-primary";
     new_count.appendChild(document.createTextNode(count));
     
-    let new_text = document.createElement("p");
+    let new_text = document.createElement("span");
     new_text.classList.add("answerText");
     new_text.appendChild(document.createTextNode(text));
     
