@@ -54,18 +54,15 @@ app.get("/pin/:id", (request, response) => {
 
 app.post("/access", (request, response) => {
   let signature = request.body.signature;
-  if (!request.accepts(json)){
-    response.status(406).end();     // Not acceptable
-    return;
+  if (signature){
+    states.forEach(id => {
+      if (states[id].signature === signature) {
+        response.render("main", {id, isTeacher: true})
+        return
+      }
+    });
   }
-
-  states.forEach(id => {
-    if (states[id].signature === signature) {
-      response.render("main", {id, isTeacher: true})
-      return
-    }
-  });
-  response.render("main", {id, isTeacher: states[id].sockets.length === 0 })
+  response.sendStatus(203);       // Non-Authoritative Information
 });
 
 //default fallback handlers

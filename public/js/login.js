@@ -2,6 +2,16 @@ const idLength = 9
 
 var socket = io();
 
+const start = () => {
+    fetchAPI.access().then(res => {
+        if (res.status === 203) return;
+
+        res.text().then(html => {
+            console.log(html);
+        });
+    });
+}
+
 // generateId creates a new session id.
 const generateId = () => {
     let result           = '';
@@ -13,15 +23,14 @@ const generateId = () => {
     return result;
 }
 
+const initRoom = (roomId) => {
+    window.location.href = `/pin/${roomId}`;
+}
+
 const createNewRoom = () => {
     let id = generateId();
-    socket.on('generic_create_done', () => {
-        window.location.href = `/pin/${id}`;
-    })
+    socket.on('generic_create_done', () => initRoom(id))
     socket.emit('teacher_createRoom', {id});
-    socket.on('student_openAnswer', (msg) => {
-        console.log("Received open answer from the student: " + msg.answer);
-    })
 }
 
 const joinRoom = () => {
