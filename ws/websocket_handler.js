@@ -173,6 +173,9 @@ class WebSocketHandler {
             const index2 = this.students[id].following.indexOf(socket);
             if(index2 > -1) this.students[id].following.splice(index2, 1);
             this.states[id].broadcast("teacher_update", this.students[id].getData());
+            if (this.states[id].teacherSocketId == socket.id){
+                this.states[id].disconnectedTeacher = true;
+            }
         }
     }
 

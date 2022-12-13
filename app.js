@@ -44,7 +44,7 @@ app.set('view engine', 'ejs');
 app.get("/pin/:id", (request, response) => {
   let id = request.params.id
   let states = websocket_handler.getStates()
-  if (!states.hasOwnProperty(id)) {
+  if (!states.hasOwnProperty(id) || states[id].disconnectedTeacher ) {
     response.writeHead(302, {'Location': '/'})
     response.end()
     return
@@ -54,9 +54,10 @@ app.get("/pin/:id", (request, response) => {
 
 app.post("/access", (request, response) => {
   let signature = request.body.signature;
+  console.log("I'm heeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrrrrreeeeeeeeeeeeeeee")
   if (signature){
     states.forEach(id => {
-      if (states[id].signature === signature) {
+      if (states[id].teacherSocketId === signature) {
         response.json({id, isTeacher: true});
         return
       }
