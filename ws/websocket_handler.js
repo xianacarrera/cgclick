@@ -164,7 +164,13 @@ class WebSocketHandler {
             const index2 = this.students[id].following.indexOf(socket);
             if(index2 > -1) this.students[id].following.splice(index2, 1);
             this.states[id].broadcast("teacher_update", this.students[id].getData());
+            if (this.students[id].students.length == 0) {
+                delete this.students[id]
+                delete this.states[id]
+                console.log("Room destroyed")
+            }
         }
+        
     }
 
     // helper function to find the room a connection is in
