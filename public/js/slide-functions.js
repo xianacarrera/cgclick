@@ -2,6 +2,13 @@
 let cardClasses = "card d-inline-flex flex-row flex-wrap justify-content-start align-items-start p-1 mb-2 bg-light";
 let noClasses = "";
 
+let parameterizationState = [
+    "Sphere",
+    "Torus",
+    "Klein bottle"
+]
+let teacherDisplay = false
+
 // The element starts to be dragged
 function boxDragStart(e) {
     // Data is transferred between dragstart and drop events using dataTransfer
@@ -76,6 +83,9 @@ function boxDragEnd(e) {   // Note that this always fires after stopping the dra
 
 function displaySlideParametrization(params) {
     document.getElementById("content").className = cardClasses;
+    params.sentAnswer = sentParametrizationAnswer
+    params.showAnswer = showParametrizationAnswer
+    params.answers = listOfParametrizationAnswers
     document.getElementById("content").innerHTML = ejs.views_slide_parametrization(params);
     document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
     document.querySelectorAll(".drop-box.card").forEach(box => {
@@ -86,7 +96,95 @@ function displaySlideParametrization(params) {
         box.addEventListener("drop", boxDrop);
         box.addEventListener("dragend", boxDragEnd);
     });
-
+    Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = !sentParametrizationAnswer)
+    document.getElementById('param-btn').addEventListener('click', () => {
+        document.getElementById('param-btn').disabled = true;
+        sentParametrizationAnswer = true;
+        // Do stuff here with websockets
+        if (isTeacher) {
+            socket.emit('teacher_showParemetrizationAnswers', {id})
+            return
+        }
+        Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
+        parameterizationState = [
+            document.getElementById('drop-box1').innerHTML.trim(),
+            document.getElementById('drop-box2').innerHTML.trim(),
+            document.getElementById('drop-box3').innerHTML.trim()
+        ]
+        // Student section. should send answer to teacher.
+        socket.emit('student_sendParametrizationAnswer', {
+            bits: [
+                document.getElementById('drop-box1').innerHTML.trim() == "Torus",
+                document.getElementById('drop-box2').innerHTML.trim() == "Klein bottle",
+                document.getElementById('drop-box3').innerHTML.trim() == "Sphere"
+            ],
+            id
+        })
+    })
+    if (isTeacher) {
+        Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
+        Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+        let showBtn = document.getElementById('show-btn')
+        console.log(teacherDisplay)
+        if (teacherDisplay) {
+            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "black")
+            showBtn.innerHTML = "Hide Answers"
+        } else {
+            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+            showBtn.innerHTML = "Show Answers"
+        }
+        showBtn.addEventListener('click', () => {
+            teacherDisplay = !teacherDisplay
+            if (showBtn.innerHTML == "Hide Answers") {
+                showBtn.innerHTML = "Show Answers"
+                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+                // Hide answers
+            } else {
+                showBtn.innerHTML = "Hide Answers"
+                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "black")
+            }
+        })
+    } else {
+        if (!sentParametrizationAnswer && showParametrizationAnswer) {
+            parameterizationState = [
+                "Torus",
+                "Klein Bottle",
+                "Sphere"
+            ]
+        }
+        let drop1 = document.getElementById('drop-box1')
+        let drop2 = document.getElementById('drop-box2')
+        let drop3 = document.getElementById('drop-box3')
+        drop1.innerHTML = parameterizationState[0]
+        drop2.innerHTML = parameterizationState[1]
+        drop3.innerHTML = parameterizationState[2]
+        if (showParametrizationAnswer) {
+            document.getElementById('param-btn').disabled = true
+            document.getElementById('param-btn').innerHTML = "Answers Shown"
+            Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
+        }
+        if (sentParametrizationAnswer) {
+            console.log(parameterizationState)
+            if (drop1.innerHTML == "Torus") drop1.style.backgroundColor = "green";
+            else {
+                drop1.style.backgroundColor = "red";
+                drop1.innerHTML += " (Torus)"
+            }
+            if (drop2.innerHTML == "Klein bottle") drop2.style.backgroundColor = "green";
+            else {
+                drop2.style.backgroundColor = "red";
+                drop2.innerHTML += " (Klein)"
+            }
+            if (drop3.innerHTML == "Sphere") drop3.style.backgroundColor = "green";
+            else {
+                drop3.style.backgroundColor = "red";
+                drop3.innerHTML += " (Sphere)"
+            }
+            document.getElementById('param-btn').innerHTML = "Answers Shown"
+            Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
+        }
+    }
+    
     MathJax.typeset();
     showShape();
 }

@@ -19,13 +19,17 @@ function addConnectionListeners(){
     });
 
     socket.on('generic_update', (state) => {
-        if (!isFollowing) {
+        showParametrizationAnswer = state.showParametrizationAnswer;
+        listOfParametrizationAnswers = state.studentParametrizationAnswers;
+        if (!isFollowing && !(showParametrizationAnswer != state.showParametrizationAnswer && slides[currentSlideNumber].type == "question_parametrization")) {
             return;
         }
         console.log("Update", state);
         leaveSlide();
         currentSlideNumber = state.slide;
+        console.log(currentSlideNumber)
         currentTeacherSlideNumber = state.slide;
+        console.log(state)
         displaySlide();
         slide_mutex = false;
     });
@@ -40,6 +44,21 @@ function addConnectionListeners(){
         manageAnswer(msg.answer, msg.student);
 
         enableOnAnswerButtons(true);
+    })
+
+    socket.on('teacher_refresh', (state) => {
+        if (!isTeacher) {
+            return;
+        }
+        console.log("Update", state);
+        leaveSlide();
+        currentSlideNumber = state.slide;
+        currentTeacherSlideNumber = state.slide;
+        showParametrizationAnswer = state.showParametrizationAnswer;
+        listOfParametrizationAnswers = state.studentParametrizationAnswers;
+        console.log(state)
+        displaySlide();
+        slide_mutex = false;  
     })
 
     socket.on('teacher_showResults', (msg) => {
