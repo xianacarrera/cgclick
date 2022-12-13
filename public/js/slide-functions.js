@@ -135,6 +135,13 @@ function displaySlideParametrization(params) {
             }
         })
     } else {
+        if (!sentParametrizationAnswer && showParametrizationAnswer) {
+            parameterizationState = [
+                "Torus",
+                "Klein Bottle",
+                "Sphere"
+            ]
+        }
         let drop1 = document.getElementById('drop-box1')
         let drop2 = document.getElementById('drop-box2')
         let drop3 = document.getElementById('drop-box3')
