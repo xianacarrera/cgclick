@@ -19,12 +19,13 @@ function addConnectionListeners(){
     });
 
     socket.on('generic_update', (state) => {
-        if (!isFollowing) {
+        if (!isFollowing && !(showParametrizationAnswer != state.showParametrizationAnswer && slides[currentSlideNumber].type == "question_parametrization")) {
             return;
         }
         console.log("Update", state);
         leaveSlide();
         currentSlideNumber = state.slide;
+        console.log(currentSlideNumber)
         currentTeacherSlideNumber = state.slide;
         showParametrizationAnswer = state.showParametrizationAnswer;
         listOfParametrizationAnswers = state.studentParametrizationAnswers;

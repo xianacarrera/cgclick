@@ -120,6 +120,8 @@ function displaySlideParametrization(params) {
         })
     })
     if (isTeacher) {
+        Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
+        Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
         let showBtn = document.getElementById('show-btn')
         showBtn.addEventListener('click', () => {
             if (showBtn.innerHTML == "Hide Answers") {
@@ -140,11 +142,11 @@ function displaySlideParametrization(params) {
         drop3.innerHTML = parameterizationState[2]
         if (sentParametrizationAnswer) {
             if (drop1.innerHTML == "Torus") drop1.style.backgroundColor = "green";
-            else drop1.style.backgroundColor = "yellow";
+            else drop1.style.backgroundColor = "red";
             if (drop2.innerHTML == "Klein bottle") drop2.style.backgroundColor = "green";
-            else drop2.style.backgroundColor = "yellow";
+            else drop2.style.backgroundColor = "red";
             if (drop3.innerHTML == "Sphere") drop3.style.backgroundColor = "green";
-            else drop3.style.backgroundColor = "yellow";
+            else drop3.style.backgroundColor = "red";
         }
     }
     
