@@ -148,6 +148,8 @@ function displaySlideParametrization(params) {
             else drop2.style.backgroundColor = "red";
             if (drop3.innerHTML == "Sphere") drop3.style.backgroundColor = "green";
             else drop3.style.backgroundColor = "red";
+            document.getElementById('param-btn').innerHTML = "Answers Shown"
+            
         }
     }
     
