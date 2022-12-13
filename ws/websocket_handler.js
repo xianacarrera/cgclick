@@ -61,6 +61,7 @@ class WebSocketHandler {
     * @param {String} id the id of the room we want to join.
     */
     on_create_room(socket, id) {
+        if (this.states.hasOwnProperty(id)) return
         this.states[id] = new State(0); // Start from first slide.
         this.students[id] = new StudentCounter();
         socket.emit("generic_create_done", {}); // Just send this when we are done.
