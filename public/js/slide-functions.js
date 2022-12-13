@@ -7,6 +7,7 @@ let parameterizationState = [
     "Torus",
     "Klein bottle"
 ]
+let teacherDisplay = false
 
 // The element starts to be dragged
 function boxDragStart(e) {
@@ -124,7 +125,16 @@ function displaySlideParametrization(params) {
         Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
         Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
         let showBtn = document.getElementById('show-btn')
+        console.log(teacherDisplay)
+        if (teacherDisplay) {
+            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "black")
+            showBtn.innerHTML = "Hide Answers"
+        } else {
+            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+            showBtn.innerHTML = "Show Answers"
+        }
         showBtn.addEventListener('click', () => {
+            teacherDisplay = !teacherDisplay
             if (showBtn.innerHTML == "Hide Answers") {
                 showBtn.innerHTML = "Show Answers"
                 Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
