@@ -141,6 +141,11 @@ function displaySlideParametrization(params) {
         drop1.innerHTML = parameterizationState[0]
         drop2.innerHTML = parameterizationState[1]
         drop3.innerHTML = parameterizationState[2]
+        if (showParametrizationAnswer) {
+            document.getElementById('param-btn').disabled = true
+            document.getElementById('param-btn').innerHTML = "Answers Shown"
+            Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
+        }
         if (sentParametrizationAnswer) {
             console.log(parameterizationState)
             if (drop1.innerHTML == "Torus") drop1.style.backgroundColor = "green";
