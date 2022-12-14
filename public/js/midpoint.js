@@ -2,16 +2,32 @@ let midpoint_solution;
 let user_selected_tiles;
 let start_tile;
 
+function updateCorrectMidpoint() {
+    if (!isTeacher) {
+        document.getElementById("correct-midpoint").innerHTML = `Successfull attempts: ${studentTotalCorrectMidpoint}/${studentTotalDoneMidpoint}`;
+    } else {
+        document.getElementById("correct-midpoint").innerHTML = `Students who got it right: ${goodStudentsMidpoint}`;
+    }
+}
+
 function addMidpointListeners() {
     document.querySelectorAll(".tile").forEach(tile => {
         tile.addEventListener("click", tileListener);
     });
 
     document.getElementById("btn_midpoint").addEventListener("click", doneListener);
+    updateCorrectMidpoint();
 }
 
 function doneListener(event) {
-    validateAnswer();
+    studentTotalDoneMidpoint++;
+    if (validateAnswer() && !isTeacher) {
+        if (studentTotalCorrectMidpoint == 0) {
+            emitAnswerToTeacher({})
+        }
+        studentTotalCorrectMidpoint++;
+    }
+    updateCorrectMidpoint()
 
     let btn = event.currentTarget;
     btn.innerHTML = "Reset";
@@ -139,14 +155,17 @@ function computeMidpointSolution(startTile) {
 
 function validateAnswer() {
     let tiles = document.querySelectorAll(".midpoint");
+    let status = true;
     tiles.forEach((tile, index) => {
         if (tile.classList.contains("tile-selected")) {
             if (!midpoint_solution.has(index)) {
+                status = false;
                 tile.classList.add("bg-danger");       // Red (the tile was selected but it shouldn't have been)
             } else {
                 tile.classList.add("bg-success");      // Green (the tile was selected and it is part of the solution)
             }
         } else if (midpoint_solution.has(index)) {
+            status = false;
             tile.classList.add("bg-warning");          // Yellow (the tile was not selected but it should have been)
         }
         // The start and end tiles remain blue
@@ -159,4 +178,5 @@ function validateAnswer() {
         tile.classList.remove("tile");              // Remove the tile class so that it stops being clickable
         tile.removeEventListener("click", tileListener);    // Remove the tile listener
     });
+    return status;
 }

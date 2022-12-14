@@ -5,6 +5,10 @@ var isFollowing = true;
 var showParametrizationAnswer = false;
 var sentParametrizationAnswer = false;
 var listOfParametrizationAnswers = [[0, 0], [0, 0], [0, 0]]
+// Midpoint stuff
+var studentTotalCorrectMidpoint = 0;
+var studentTotalDoneMidpoint = 0;
+var goodStudentsMidpoint = 0;
 
 function init(){
     currentSlideNumber = 0;
@@ -173,5 +177,4 @@ function addEventListeners(){
         link.addEventListener("click", link_listener);
     });
 }
-
 
