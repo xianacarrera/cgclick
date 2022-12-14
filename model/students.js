@@ -11,7 +11,7 @@ class StudentCounter{
         return {
             "students": this.students.length-1,
             "following": this.following.length-1,
-            "submits": this.submits.length-1,
+            "submits": this.submits.length,
         }
     }
     

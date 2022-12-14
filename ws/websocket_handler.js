@@ -35,13 +35,13 @@ class WebSocketHandler {
         socket.on('student_follow', (follow) => this.on_follow(socket, follow.id, follow.val));
 
         // retransmit an answer from a student to the teacher
-        socket.on('student_answer', (msg) => this.on_open_answer(msg.id, {answer: msg.answer, slide: msg.slide, student: msg.student}));
+        socket.on('student_answer', (msg) => this.on_open_answer(socket, msg.id, {answer: msg.answer, slide: msg.slide, student: msg.student}));
         // retransmit the aggregation of student answers from the teacher to the students
         socket.on('teacher_showResults', (msg) => this.on_show_results(msg.id, msg.results));
         // retransmit the aggregation of student answers for parametrisation slides.
         socket.on('teacher_showParemetrizationAnswers', (msg) => this.on_show_paremetrization_answers(msg.id));
 
-        socket.on('student_sendParametrizationAnswer', (msg) => this.on_new_parametrization_answer(msg));
+        socket.on('student_sendParametrizationAnswer', (msg) => this.on_new_parametrization_answer(socket, msg));
 
     }
 
@@ -53,6 +53,8 @@ class WebSocketHandler {
     on_change_slide(slide) {
         this.states[slide.id].slide = slide.slide;
         this.on_update(slide.id, this.states[slide.id].stateObject());
+        this.students[id].submits = [];
+        this.states[id].broadcast("teacher_update", this.students[id].getData());
     }
 
     /**
@@ -83,7 +85,6 @@ class WebSocketHandler {
     */
     on_login(socket, id, readonly) {
         console.log("login",socket.id);
-        console.log(this.students[id].students.map(a => a.id));
         // Create new room if it does not exist.
         if (!this.states.hasOwnProperty(id)) {
             this.states[id] = new State(0); // Start from first slide
@@ -99,6 +100,7 @@ class WebSocketHandler {
         }
         this.states[id].broadcast("teacher_update", this.students[id].getData());
         socket.emit("generic_update", this.states[id].stateObject())
+        console.log(this.students[id].students.map(a => a.id));
     }
 
     /**
@@ -112,18 +114,26 @@ class WebSocketHandler {
         this.states[id].broadcast('generic_update', state_obj)
     }
 
-    on_open_answer(id, msg){
+    on_open_answer(socket, id, msg){
+        if(!this.students[id].submits.some(s => s == socket)) this.students[id].submits.push(socket);
         this.io.to(this.states[id].teacherSocketId).emit("student_answer", msg);
+        this.states[id].broadcast("teacher_update", this.students[id].getData());
     }
 
-    on_show_results(roomId, results){
-        this.states[roomId].broadcast('teacher_showResults', {results});
+    on_show_results(id, results){
+        if(!results.isAnswer){ //reset
+            this.students[id].submits = [];
+            this.states[id].broadcast("teacher_update", this.students[id].getData());
+        }
+        this.states[id].broadcast('teacher_showResults', {results});
     }
 
-    on_new_parametrization_answer(answer){
+    on_new_parametrization_answer(socket, answer){
         let id = answer.id;
+        if(!this.students[id].submits.some(s => s == socket)) this.students[id].submits.push(socket);
         this.states[id].addParametrizationBits(answer.bits)
         this.states[id].broadcast('teacher_refresh', this.states[id].stateObject(id))
+        this.states[id].broadcast("teacher_update", this.students[id].getData());
     }
 
     on_show_paremetrization_answers(roomId, results){
@@ -163,6 +173,8 @@ class WebSocketHandler {
             if(index > -1) this.students[id].students.splice(index, 1);
             const index2 = this.students[id].following.indexOf(socket);
             if(index2 > -1) this.students[id].following.splice(index2, 1);
+            const index3 = this.students[id].submits.indexOf(socket);   //?
+            if(index3 > -1) this.students[id].submits.splice(index, 1); //?
             this.states[id].broadcast("teacher_update", this.students[id].getData());
             if (this.students[id].students.length == 0) {
                 delete this.students[id]
