@@ -15,7 +15,13 @@ const generateId = () => {
 
 const createNewRoom = () => {
     let id = generateId();
-    socket.on('generic_create_done', () => window.location.href = `/pin/${id}`)
+    socket.on('generic_create_done', (good) => {
+        if (good.good) {
+            window.location.href = `/pin/${id}`
+        } else {
+            alert('Room exist already try again')
+        }
+    })
     socket.emit('teacher_createRoom', {id});
     socket.on('student_openAnswer', (msg) => {
         console.log("Received open answer from the student: " + msg.answer);
