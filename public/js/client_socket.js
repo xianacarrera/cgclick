@@ -155,6 +155,10 @@ function manageAnswer(answer, student){
             addListenerShowAnswersImageParameters();
 
             break;
+        case "question_midpoint":
+            goodStudentsMidpoint++;
+            updateCorrectMidpoint();
+            break;
     }
 }
 
