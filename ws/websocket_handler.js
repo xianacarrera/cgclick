@@ -74,7 +74,6 @@ class WebSocketHandler {
     * @param {String} id the id of the room we want to join.
     */
     on_room_exist(socket, id) {
-        this.states[id].broadcast("teacher_update", this.students[id].getData());
         socket.emit("generic_check_done", {status: this.states.hasOwnProperty(id)}); // Just send this when we are done.
     }
 
