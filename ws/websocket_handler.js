@@ -175,7 +175,13 @@ class WebSocketHandler {
             if (this.states[id].teacherSocketId == socket.id){
                 this.states[id].disconnectedTeacher = true;
             }
+            if (this.students[id].students.length == 0) {
+                delete this.students[id]
+                delete this.states[id]
+                console.log("Room destroyed")
+            }
         }
+        
     }
 
     // helper function to find the room a connection is in
