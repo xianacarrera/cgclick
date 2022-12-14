@@ -10,7 +10,7 @@ const generateId = () => {
     for ( var i = 0; i < idLength; i++ ) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return result;
+    return "LOL";
 }
 
 const createNewRoom = () => {
@@ -19,7 +19,7 @@ const createNewRoom = () => {
         if (good.good) {
             window.location.href = `/pin/${id}`
         } else {
-            alert('Room exist already try again')
+            socket.emit('teacher_createRoom', {id: generateId()});
         }
     })
     socket.emit('teacher_createRoom', {id});
