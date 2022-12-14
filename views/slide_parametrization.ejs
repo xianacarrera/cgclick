@@ -2,20 +2,20 @@
 
 <div class="d-flex flex-row flex-nowrap justify-content-between">
     <div class="custom-spacing drop-targets d-flex flex-column justify-content-evenly mx-2 p-2" >
-        <div class="drop-box card p-3 object-draggable-name card-title" draggable="true" id="drop-box1">
+        <div class="drop-box card p-3 object-draggable-name card-title justify-content-center align-items-center text-center" draggable="true" id="drop-box1">
             Sphere
         </div>
-        <div class="drop-box card p-3 object-draggable-name card-title" draggable="true" id="drop-box2">
-                Torus
+        <div class="drop-box card p-3 object-draggable-name card-title justify-content-center align-items-center text-center" draggable="true" id="drop-box2">
+            Torus
         </div>
-        <div class="drop-box card p-3 object-draggable-name card-title"  draggable="true" id="drop-box3">
+        <div class="drop-box card p-3 object-draggable-name card-title justify-content-center align-items-center text-center"  draggable="true" id="drop-box3">
             Klein bottle
         </div>
     </div>
     <div class="custom-spacing btn-group-lg btn-group d-flex flex-column justify-content-evenly p-4 mx-2" data-toggle="buttons">
         <div class="my-2 form-group row align-items-center">
             <!-- mx-2 specifies both margin left and right -->
-            <label class="btn btn-primary p-2">
+            <label class="btn btn-outline-primary p-2">
                 <input type="radio" class="btn-check" name="param_options" value="0" id="option1" autocomplete="off" />
                 <p class="mt-2 mx-2">
                     \(x = (R_1 + R_2 \cos(v)) cos(u)\)<br />
@@ -26,7 +26,7 @@
             </label>
         </div>
         <div class="my-2 form-group row align-items-center">
-            <label class="btn btn-primary p-2">
+            <label class="btn btn-outline-primary p-2">
                 <input type="radio" class="btn-check" name="param_options" value="1" id="option2" autocomplete="off" />
                 <p class="mt-2 mx-2">
                     \(x = r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \cos(v) \)<br />
@@ -37,7 +37,7 @@
             </label>
         </div>
         <div class="my-2 form-group row align-items-center">
-            <label class="btn btn-primary p-2">
+            <label class="btn btn-outline-primary p-2">
                 <input type="radio" class="btn-check" name="param_options" value="2" id="option3" autocomplete="off" />
                 <p class="mt-2 mx-2">
                     \(x = \rho \cos(\theta) \sin(\phi) \)<br />
@@ -51,13 +51,15 @@
     <div class="d-flex flex-column justify-content-center mx-2 my-4">
         <!-- Automatically set margin left and right to center -->
         <canvas id="threejs-canvas" width="<%= canvas_width %>" height="<%= canvas_height %>"></canvas>
-        <button id="param-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary" <% if(sentAnswer) { %> disabled <% } %>>Done</button>
+        <button id="param-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-success" <% if(sentAnswer) { %> disabled <% } %>>Done</button>
     </div>
 </div>
+
 <% } else { %>
+    
     <div class="d-flex flex-row flex-nowrap justify-content-between" >
         <div class="custom-spacing drop-targets d-flex flex-column justify-content-evenly mx-2 p-2">
-            <div class="drop-box card p-3" draggable="false" id="drop-box2">
+            <div class="drop-box card p-3 justify-content-center align-items-center text-center" draggable="false" id="drop-box2">
                 <div class="object-draggable-name card-title">
                         Torus
                         <p style="font-size: 7px;" class="answer-stats"><% if (isTeacher) {  %>
@@ -66,7 +68,7 @@
                         <% } %></p>
                 </div>
             </div>
-            <div class="drop-box card p-3"  draggable="false" id="drop-box3">
+            <div class="drop-box card p-3 justify-content-center align-items-center text-center"  draggable="false" id="drop-box3">
                 <div class="object-draggable-name card-title">
                         Klein bottle
                         <p style="font-size: 7px;" class="answer-stats">
@@ -76,7 +78,7 @@
                         <% } %></p>
                 </div>
             </div>
-            <div class="drop-box card p-3" draggable="false" id="drop-box1">
+            <div class="drop-box card p-3 justify-content-center align-items-center text-center" draggable="false" id="drop-box1">
                 <div class="object-draggable-name card-title">
                         Sphere
                         <p style="font-size: 7px;" class="answer-stats">
@@ -90,7 +92,7 @@
         <div class="custom-spacing btn-group-lg btn-group d-flex flex-column justify-content-evenly p-4 mx-2" data-toggle="buttons">
             <div class="my-2 form-group row align-items-center">
                 <!-- mx-2 specifies both margin left and right -->
-                <label class="btn btn-primary p-2">
+                <label class="btn btn-outline-primary p-2">
                     <input type="radio" class="btn-check" name="param_options" value="0" id="option1" autocomplete="off" />
                     <p class="mt-2 mx-2">
                         \(x = (R_1 + R_2 \cos(v)) cos(u)\)<br />
@@ -101,7 +103,7 @@
                 </label>
             </div>
             <div class="my-2 form-group row align-items-center">
-                <label class="btn btn-primary p-2">
+                <label class="btn btn-outline-primary p-2">
                     <input type="radio" class="btn-check" name="param_options" value="1" id="option2" autocomplete="off" />
                     <p class="mt-2 mx-2">
                         \(x = r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \cos(v) \)<br />
@@ -112,7 +114,7 @@
                 </label>
             </div>
             <div class="my-2 form-group row align-items-center">
-                <label class="btn btn-primary p-2">
+                <label class="btn btn-outline-primary p-2">
                     <input type="radio" class="btn-check" name="param_options" value="2" id="option3" autocomplete="off" />
                     <p class="mt-2 mx-2">
                         \(x = \rho \cos(\theta) \sin(\phi) \)<br />
