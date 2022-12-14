@@ -87,7 +87,9 @@ function displaySlideParametrization(params) {
     params.showAnswer = showParametrizationAnswer
     params.answers = listOfParametrizationAnswers
     document.getElementById("content").innerHTML = ejs.views_slide_parametrization(params);
-    document.querySelectorAll("input[name='param_options']").forEach(input => input.addEventListener("change", showShape));
+    document.querySelectorAll("input[name='param_options']").forEach(input => {
+        input.addEventListener("change", showShape);
+    });
     document.querySelectorAll(".drop-box.card").forEach(box => {
         box.addEventListener("dragstart", boxDragStart);
         box.addEventListener("dragenter", boxDragEnter);
@@ -123,25 +125,25 @@ function displaySlideParametrization(params) {
     })
     if (isTeacher) {
         Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
-        Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+        Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.classList.add("d-none"))
         let showBtn = document.getElementById('show-btn')
         console.log(teacherDisplay)
         if (teacherDisplay) {
-            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "black")
+            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.classList.remove("d-none"))
             showBtn.innerHTML = "Hide Answers"
         } else {
-            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.classList.add("d-none"))
             showBtn.innerHTML = "Show Answers"
         }
         showBtn.addEventListener('click', () => {
             teacherDisplay = !teacherDisplay
             if (showBtn.innerHTML == "Hide Answers") {
                 showBtn.innerHTML = "Show Answers"
-                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.classList.add("d-none"))
                 // Hide answers
             } else {
                 showBtn.innerHTML = "Hide Answers"
-                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "black")
+                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.classList.remove("d-none"))
             }
         })
     } else {
@@ -160,27 +162,39 @@ function displaySlideParametrization(params) {
         drop3.innerHTML = parameterizationState[2]
         if (showParametrizationAnswer) {
             document.getElementById('param-btn').disabled = true
-            document.getElementById('param-btn').innerHTML = "Answers Shown"
+            // document.getElementById('param-btn').innerHTML = "Answers shown"
             Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
         }
         if (sentParametrizationAnswer) {
             console.log(parameterizationState)
-            if (drop1.innerHTML == "Torus") drop1.style.backgroundColor = "green";
-            else {
-                drop1.style.backgroundColor = "red";
-                drop1.innerHTML += " (Torus)"
+            if (drop1.innerHTML == "Torus") {
+                drop1.classList.add("border-success");
+                drop1.classList.add("text-success");
             }
-            if (drop2.innerHTML == "Klein bottle") drop2.style.backgroundColor = "green";
             else {
-                drop2.style.backgroundColor = "red";
-                drop2.innerHTML += " (Klein)"
+                drop1.classList.add("border-danger");
+                drop1.classList.add("text-danger");
+                drop1.innerHTML += " (correct: Torus)"
             }
-            if (drop3.innerHTML == "Sphere") drop3.style.backgroundColor = "green";
+            if (drop2.innerHTML == "Klein bottle") {
+                drop2.classList.add("border-success");
+                drop2.classList.add("text-success");
+            } 
             else {
-                drop3.style.backgroundColor = "red";
-                drop3.innerHTML += " (Sphere)"
+                drop2.classList.add("border-danger");
+                drop2.classList.add("text-danger");
+                drop2.innerHTML += " (correct: Klein bottle)"
             }
-            document.getElementById('param-btn').innerHTML = "Answers Shown"
+            if (drop3.innerHTML == "Sphere") {
+                drop3.classList.add("border-success");
+                drop3.classList.add("text-success");
+            }
+            else {
+                drop3.classList.add("border-danger");
+                drop3.classList.add("text-danger");
+                drop3.innerHTML += " (correct: Sphere)"
+            }
+            // document.getElementById('param-btn').innerHTML = "Answers shown"
             Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
         }
     }
@@ -209,8 +223,12 @@ function displaySlideShaders(params){
 
 function showShape() {
     threeAPI.initScene();
+    document.querySelectorAll("input[name='param_options']").forEach(input => {
+        input.parentElement.classList.remove("active");
+    });
     let checkedOption = document.querySelector("input[name='param_options']:checked");
     if (checkedOption) {
+        checkedOption.parentElement.classList.add("active");
         let shapeIndex = checkedOption.value;
         threeAPI.createParametricGeometry(threeAPI.presetGeometries[shapeIndex]);
         threeAPI.animate();
