@@ -74,6 +74,9 @@ const slides = [
         name: "Shape Parametrization",
         title: "Shape Parametrization",
         type: "question_parametrization",
+        params: {
+            canvas_size: "small",
+        },
     },
     {
         name: "Shaders",

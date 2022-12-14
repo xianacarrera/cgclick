@@ -21,3 +21,12 @@ img {
 span.badge {
     font-size: 15px;
 }
+
+#parametrization-table {
+    border-collapse: separate;
+    border-spacing: 1em;
+}
+
+#parametrization-table tr td:first-child {
+    width: 510px;
+}
