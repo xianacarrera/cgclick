@@ -53,8 +53,8 @@ class WebSocketHandler {
     on_change_slide(slide) {
         this.states[slide.id].slide = slide.slide;
         this.on_update(slide.id, this.states[slide.id].stateObject());
-        this.students[id].submits = [];
-        this.states[id].broadcast("teacher_update", this.students[id].getData());
+        this.students[slide.id].submits = [];
+        this.states[slide.id].broadcast("teacher_update", this.students[slide.id].getData());
     }
 
     /**
