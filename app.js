@@ -62,7 +62,7 @@ app.post("/access", (request, response) => {
     let found = false;
     states.forEach(entry => {
       const [id, state] = entry;
-      if (state.teacherSocketId === signature) {
+      if (state.teacherSocketId === signature && state.disconnectedTeacher) {
         found = id;
         state.allowTeacher = true;
       }
