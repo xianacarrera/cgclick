@@ -7,9 +7,9 @@ const start = () => {
         if (res.status === 203) return;
 
         res.json().then(model => {
-            console.log("hey" + model.isTeacher);
-            //document.querySelector("body").innerHTML = ejs.views_main(model);
-            //socket.emit("teacher_updateTeacherSocket", {id: model.id});
+            //console.log("hey" + model.isTeacher);
+            document.querySelector("body").innerHTML = ejs.views_main(model);
+            socket.emit("teacher_updateTeacherSocket", {id: model.id});
         });
     });
 }

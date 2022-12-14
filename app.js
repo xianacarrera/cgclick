@@ -55,13 +55,20 @@ app.get("/pin/:id", (request, response) => {
 app.post("/access", (request, response) => {
   let signature = request.body.signature;
   console.log("I'm heeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrrrrreeeeeeeeeeeeeeee")
+  console.log("passed signature is " + signature);
   if (signature){
-    states.forEach(id => {
-      if (states[id].teacherSocketId === signature) {
-        response.json({id, isTeacher: true});
-        return
+    let states = Object.entries(websocket_handler.getStates());
+    let found = false;
+    states.forEach(entry => {
+      const [id, state] = entry;
+      if (state.teacherSocketId === signature) {
+        found = id;
       }
     });
+    if (found !== false) {
+      response.json({id: found, isTeacher: true}).end();
+      return;
+    }
   }
   response.sendStatus(203);       // Non-Authoritative Information
 });
