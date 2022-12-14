@@ -14,6 +14,7 @@ class State {
         this.showParametrizationAnswer = false;
         this.sockets = [] // Keep track of the rooms
         this.parametrizationCorrectnessBitmap = [[], [], []] // List of list of bits(booleans) with correct/incorrect states
+        this.disconnectedTeacher = false;
     }
 
     /**

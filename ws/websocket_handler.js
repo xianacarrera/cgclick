@@ -42,7 +42,6 @@ class WebSocketHandler {
         socket.on('teacher_showParemetrizationAnswers', (msg) => this.on_show_paremetrization_answers(msg.id));
 
         socket.on('student_sendParametrizationAnswer', (msg) => this.on_new_parametrization_answer(msg));
-
     }
 
     /**
@@ -54,6 +53,13 @@ class WebSocketHandler {
         this.states[slide.id].slide = slide.slide;
         this.on_update(slide.id, this.states[slide.id].stateObject());
     }
+
+    on_update_teacher_socket(id, socket){
+        if (!this.states.hasOwnProperty(id)) return;
+        this.states[id].teacherSocketId = socket.id;
+        if (!this.states[id].sockets.includes(socket))
+            this.states[id].addSocket(socket);
+    };
 
     /**
     * Handles room creation.
@@ -88,9 +94,11 @@ class WebSocketHandler {
         if (!this.states.hasOwnProperty(id)) {
             this.states[id] = new State(0); // Start from first slide
         }
-        if (this.states[id].sockets.length == 0){       // The room could exist but be empty
+        if (this.states[id].sockets.length == 0 || this.states[id].disconnectedTeacher ){       // The room could exist but be empty
             // Needs to be done here and not on create room because the id of the teacher's socket changes
             this.states[id].teacherSocketId = socket.id;
+            this.states[id].disconnectedTeacher = false;
+            console.log("Teacher ID: " + this.states[id].teacherSocketId);
         }
         if (!readonly) {
             this.states[id].addSocket(socket)
@@ -164,6 +172,9 @@ class WebSocketHandler {
             const index2 = this.students[id].following.indexOf(socket);
             if(index2 > -1) this.students[id].following.splice(index2, 1);
             this.states[id].broadcast("teacher_update", this.students[id].getData());
+            if (this.states[id].teacherSocketId == socket.id){
+                this.states[id].disconnectedTeacher = true;
+            }
             if (this.students[id].students.length == 0) {
                 delete this.students[id]
                 delete this.states[id]

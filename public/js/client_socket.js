@@ -1,8 +1,6 @@
-let socket;
-
 function initSocket() {
     socket = io();
-    login()
+    login()           
     addConnectionListeners();
     if(isTeacher) addTeacherListeners();
 }
@@ -12,6 +10,7 @@ let studentData = {};
 function addConnectionListeners(){
     socket.on('connect', () => {
         console.log("Connected");
+        if (isTeacher) localStorage.setItem("teacherSignature", socket.id);
     });
 
     socket.on('disconnect', () => {
