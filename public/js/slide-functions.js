@@ -125,25 +125,25 @@ function displaySlideParametrization(params) {
     })
     if (isTeacher) {
         Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
-        Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+        Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.classList.add("d-none"))
         let showBtn = document.getElementById('show-btn')
         console.log(teacherDisplay)
         if (teacherDisplay) {
-            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "black")
+            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.classList.remove("d-none"))
             showBtn.innerHTML = "Hide Answers"
         } else {
-            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+            Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.classList.add("d-none"))
             showBtn.innerHTML = "Show Answers"
         }
         showBtn.addEventListener('click', () => {
             teacherDisplay = !teacherDisplay
             if (showBtn.innerHTML == "Hide Answers") {
                 showBtn.innerHTML = "Show Answers"
-                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "white")
+                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.classList.add("d-none"))
                 // Hide answers
             } else {
                 showBtn.innerHTML = "Hide Answers"
-                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.style.color = "black")
+                Array.from(document.getElementsByClassName('card-title')).forEach((e) => e.classList.remove("d-none"))
             }
         })
     } else {

@@ -84,42 +84,14 @@
 
 <% } else { %>
 
-    <div class="d-flex flex-row flex-nowrap justify-content-between" >
-        <div class="custom-spacing drop-targets d-flex flex-column justify-content-evenly mx-2 p-2">
-            <div class="drop-box card p-3 justify-content-center align-items-center text-center" draggable="false" id="drop-box2">
-                <div class="object-draggable-name card-title">
-                        Torus
-                        <p style="font-size: 7px;" class="answer-stats"><% if (isTeacher) {  %>
-                            Correct Answers: <%= answers[0][0] %>
-                            Wrong Answers: <%= answers[0][1] %>
-                        <% } %></p>
-                </div>
-            </div>
-            <div class="drop-box card p-3 justify-content-center align-items-center text-center"  draggable="false" id="drop-box3">
-                <div class="object-draggable-name card-title">
-                        Klein bottle
-                        <p style="font-size: 7px;" class="answer-stats">
-                        <% if (isTeacher) {  %>
-                            Correct Answers: <%= answers[1][0] %>
-                            Wrong Answers: <%= answers[1][1] %>
-                        <% } %></p>
-                </div>
-            </div>
-            <div class="drop-box card p-3 justify-content-center align-items-center text-center" draggable="false" id="drop-box1">
-                <div class="object-draggable-name card-title">
-                        Sphere
-                        <p style="font-size: 7px;" class="answer-stats">
-                        <% if (isTeacher) {  %>
-                            Correct Answers: <%= answers[2][0] %>
-                            Wrong Answers: <%= answers[2][1] %>
-                        <% } %></p>
-                </div>
-            </div>
-        </div>
-        <div class="custom-spacing btn-group-lg btn-group d-flex flex-column justify-content-evenly p-4 mx-2" data-toggle="buttons">
-            <div class="my-2 form-group row align-items-center">
+<canvas id="threejs-canvas" class="m-3" width="<%= canvas_width %>" height="<%= canvas_height %>"></canvas>
+
+<table id="parametrization-table">
+    <tr>
+        <td data-toggle="buttons">
+            <div class="form-group align-items-center">
                 <!-- mx-2 specifies both margin left and right -->
-                <label class="btn btn-outline-primary p-2">
+                <label class="w-100 btn btn-outline-primary p-2">
                     <input type="radio" class="btn-check" name="param_options" value="0" id="option1" autocomplete="off" />
                     <p class="mt-2 mx-2">
                         \(x = (R_1 + R_2 \cos(v)) cos(u)\)<br />
@@ -129,8 +101,26 @@
                     </p>
                 </label>
             </div>
-            <div class="my-2 form-group row align-items-center">
-                <label class="btn btn-outline-primary p-2">
+        </td>
+        <td class="align-middle">
+            =
+        </td>
+        <td class="drop-targets">
+            <div class="teacher-card drop-box card justify-content-center align-items-center text-center" draggable="false" id="drop-box1">
+                <div class="p-2 object-draggable-name card-title">
+                    <p>Torus</p>
+                    <p class="m-0">
+                        <span class="me-2 badge rounded-pill bg-success"><%= answers[0][0] %></span>
+                        <span class="badge rounded-pill bg-danger"><%= answers[0][1] %></span>
+                    </p>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td data-toggle="buttons">
+            <div class="form-group align-items-center">
+                <label class="w-100 btn btn-outline-primary p-2">
                     <input type="radio" class="btn-check" name="param_options" value="1" id="option2" autocomplete="off" />
                     <p class="mt-2 mx-2">
                         \(x = r + \cos(v / 2) * \sin(u) - \sin(v / 2) * \sin(2 * u)) * \cos(v) \)<br />
@@ -140,8 +130,26 @@
                     </p>
                 </label>
             </div>
-            <div class="my-2 form-group row align-items-center">
-                <label class="btn btn-outline-primary p-2">
+        </td>
+        <td class="align-middle">
+            =
+        </td>
+        <td class="drop-targets">
+            <div class="teacher-card drop-box card justify-content-center align-items-center text-center" draggable="false" id="drop-box2">
+                <div class="object-draggable-name card-title">
+                    <p>Klein bottle</p>
+                    <p class="m-0">
+                        <span class="me-2 badge rounded-pill bg-success"><%= answers[1][0] %></span>
+                        <span class="badge rounded-pill bg-danger"><%= answers[1][1] %></span>
+                    </p>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td data-toggle="buttons">
+            <div class="form-group align-items-center">
+                <label class="w-100 btn btn-outline-primary p-2">
                     <input type="radio" class="btn-check" name="param_options" value="2" id="option3" autocomplete="off" />
                     <p class="mt-2 mx-2">
                         \(x = \rho \cos(\theta) \sin(\phi) \)<br />
@@ -151,18 +159,40 @@
                     </p>
                 </label>
             </div>
-        </div>
-        <div class="d-flex flex-column justify-content-center mx-2 my-4">
-            <!-- Automatically set margin left and right to center -->
-            <canvas id="threejs-canvas" width="<%= canvas_width %>" height="<%= canvas_height %>"></canvas>
-           <% if(isTeacher) { %>
-                <button id="show-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-primary">Show Answers</button>
-                <%  } %>
-            <% if(isTeacher && !showAnswer) { %>
-                <button id="param-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-outline-primary">Send answers</button>
+        </td>
+        <td class="align-middle">
+            =
+        </td>
+        <td class="drop-targets">
+            <div class="teacher-card drop-box card justify-content-center align-items-center text-center" draggable="false" id="drop-box3">
+                <div class="object-draggable-name card-title">
+                    <p>Sphere</p>
+                    <p class="m-0">
+                        <span class="me-2 badge rounded-pill bg-success"><%= answers[2][0] %></span>
+                        <span class="badge rounded-pill bg-danger"><%= answers[2][1] %></span>
+                    </p>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>
+            <button id="show-btn" class="btn btn-primary drop-box">Show Answers</button>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>
+            <% if(!showAnswer) { %>
+                <button id="param-btn" class="btn btn-outline-primary drop-box">Send answers</button>
             <% } else { %>
-                <button id="param-btn" style="max-width: 120px; align-self: flex-end; margin-top: 10px; margin-right: 40px;" class="btn btn-outline-primary" disabled>Answers sent</button>
+                <button id="param-btn" class="btn btn-outline-primary drop-box" disabled>Answers sent</button>
             <% } %>
-        </div>
-    </div>
+        </td>
+    </tr>
+</table>
+        
 <% } %>
