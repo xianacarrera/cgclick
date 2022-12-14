@@ -8,7 +8,12 @@ const start = () => {
 
         res.json().then(model => {
             //console.log("hey" + model.isTeacher);
+            id = model.id;
+            isTeacher = model.isTeacher;
             document.querySelector("body").innerHTML = ejs.views_main(model);
+            setTimeout(() => {
+                init();
+            }, 200);
             socket.emit("teacher_updateTeacherSocket", {id: model.id});
         });
     });
