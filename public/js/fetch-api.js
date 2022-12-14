@@ -10,7 +10,7 @@ fetchAPI = function() {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({signature})
+            body: JSON.stringify({signature, socketId: socket.id})
         });
         return res;
     }

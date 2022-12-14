@@ -44,18 +44,19 @@ app.set('view engine', 'ejs');
 app.get("/pin/:id", (request, response) => {
   let id = request.params.id
   let states = websocket_handler.getStates()
-  if (!states.hasOwnProperty(id) || states[id].disconnectedTeacher ) {
+  if (!states.hasOwnProperty(id) || (states[id].disconnectedTeacher && !states[id].allowTeacher)) {
     response.writeHead(302, {'Location': '/'})
     response.end()
     return
   }
-  response.render("main", {id, isTeacher: states[id].sockets.length === 0 })
+  let allowTeacher = states[id].allowTeacher;
+  states[id].allowTeacher = false;
+  response.render("main", {id, isTeacher: states[id].sockets.length === 0 || allowTeacher})
 })
 
 app.post("/access", (request, response) => {
   let signature = request.body.signature;
-  console.log("I'm heeeeeeeeeeeeerrrrrrrrrrrrrrrrrrrrrrrrreeeeeeeeeeeeeeee")
-  console.log("passed signature is " + signature);
+
   if (signature){
     let states = Object.entries(websocket_handler.getStates());
     let found = false;
@@ -63,13 +64,15 @@ app.post("/access", (request, response) => {
       const [id, state] = entry;
       if (state.teacherSocketId === signature) {
         found = id;
+        state.allowTeacher = true;
       }
     });
     if (found !== false) {
-      response.json({id: found, isTeacher: true}).end();
+      response.json({id: found}).end();
       return;
     }
   }
+  
   response.sendStatus(203);       // Non-Authoritative Information
 });
 

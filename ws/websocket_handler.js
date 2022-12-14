@@ -42,8 +42,6 @@ class WebSocketHandler {
         socket.on('teacher_showParemetrizationAnswers', (msg) => this.on_show_paremetrization_answers(msg.id));
 
         socket.on('student_sendParametrizationAnswer', (msg) => this.on_new_parametrization_answer(msg));
-
-        socket.on("teacher_updateTeacherSocket", (msg) => this.on_update_teacher_socket(msg.id, socket));
     }
 
     /**
@@ -96,9 +94,10 @@ class WebSocketHandler {
         if (!this.states.hasOwnProperty(id)) {
             this.states[id] = new State(0); // Start from first slide
         }
-        if (this.states[id].sockets.length == 0){       // The room could exist but be empty
+        if (this.states[id].sockets.length == 0 || this.states[id].disconnectedTeacher ){       // The room could exist but be empty
             // Needs to be done here and not on create room because the id of the teacher's socket changes
             this.states[id].teacherSocketId = socket.id;
+            this.states[id].disconnectedTeacher = false;
             console.log("Teacher ID: " + this.states[id].teacherSocketId);
         }
         if (!readonly) {
