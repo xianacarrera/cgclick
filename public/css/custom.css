@@ -1,0 +1,60 @@
+/* CUSTOM CSS */
+
+/* All range sliders */
+.form-range {
+    width: 300px;
+}
+
+/* All pill badges */
+span.badge {
+    font-size: 15px;
+}
+
+/* CUSTOM COLORS */
+
+/* Midpoint slide */
+.bg-light-green {
+    background-color: rgb(169, 228, 164);
+}
+
+/* IMAGE PARAMETRIZATION SLIDE */
+
+#parametrization-table {
+    border-collapse: separate;
+    border-spacing: 1em;
+}
+
+#parametrization-table tr td:first-child {
+    width: 510px;
+}
+
+#parametrization-table .teacher-card {
+    height: 138px;
+}
+
+.drop-box *{
+    /* Avoid dropLeave to be fired when hovering over children */
+    pointer-events: none;
+}
+
+.drop-box {
+    width: 100px;
+}
+
+/* ABOUT SLIDE */
+
+img {
+    position: relative;
+    top: 0vh;
+    max-width: 20vw;
+    max-height: 20vh;
+    margin-right: 3em;
+    transition: all 0.5s;
+}
+
+.clicked_image {
+    top: 20vh;
+    max-width: 70vw;
+    max-height: 70vh;
+    align-self: center;
+}

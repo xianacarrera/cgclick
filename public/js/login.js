@@ -2,6 +2,14 @@ const idLength = 9
 
 var socket = io();
 
+const start = () => {
+    fetchAPI.access().then(res => {
+        if (res.status === 203) return;
+
+        res.json().then(msg => initRoom(msg.id));
+    });
+}
+
 // generateId creates a new session id.
 const generateId = () => {
     let result           = '';
@@ -13,13 +21,14 @@ const generateId = () => {
     return result;
 }
 
+const initRoom = (roomId) => {
+    window.location.href = `/pin/${roomId}`;
+}
+
 const createNewRoom = () => {
     let id = generateId();
-    socket.on('generic_create_done', () => window.location.href = `/pin/${id}`)
+    socket.on('generic_create_done', () => initRoom(id))
     socket.emit('teacher_createRoom', {id});
-    socket.on('student_openAnswer', (msg) => {
-        console.log("Received open answer from the student: " + msg.answer);
-    })
 }
 
 const joinRoom = () => {
@@ -41,3 +50,4 @@ document.getElementById('id').addEventListener('input', function (evt) {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
         document.getElementById("joinBtn").disabled = id.length == 0 || specialChars.test(id);    
 });
+

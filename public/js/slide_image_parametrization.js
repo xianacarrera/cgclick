@@ -9,8 +9,8 @@ let y_values_alpha;
 let bar_colors_alpha;
 
 
-let x_values_beta_gamma;
-let y_values_beta_gamma;
+let x_values_beta_gamma = [];
+let y_values_beta_gamma = []; 
 let bar_colors_beta_gamma;
 
 
@@ -52,10 +52,13 @@ function displaySlideImageParameters(params) {
         // Needs to be set here and adjusted in the graphs function
         document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params.model.results);
         console.log(params.model);
+        [x_values_alpha, y_values_alpha, bar_colors_alpha] = [params.model.results.x_values_alpha, params.model.results.y_values_alpha, params.model.results.bar_colors_alpha];
+        [alpha_p, beta_gamma_p] = [params.model.results.alpha_p, params.model.results.beta_gamma_p];
+        x_values_beta_gamma = params.model.results.x_values_beta_gamma;   
+        y_values_beta_gamma = params.model.results.y_values_beta_gamma;
+        bar_colors_beta_gamma = params.model.results.bar_colors_beta_gamma;
+
         setTimeout(() => {
-            [x_values_alpha, y_values_alpha, bar_colors_alpha] = [params.model.results.x_values_alpha, params.model.results.y_values_alpha, params.model.results.bar_colors_alpha];
-            [x_values_beta_gamma, y_values_beta_gamma, bar_colors_beta_gamma] = [params.model.results.x_values_beta_gamma, params.model.results.y_values_beta_gamma, params.model.results.bar_colors_beta_gamma]
-            [alpha_p, beta_gamma_p] = [params.model.results.alpha_p, params.model.results.beta_gamma_p];
             updateImageParametersGraphs(false, false, params.model.results.alpha_p, params.model.results.beta_gamma_p);
             document.querySelector("button[data-action='show-images-answers']").classList.add("d-none");
             // document.getElementById("phong-done-btn").classList.add("d-none");
@@ -203,8 +206,6 @@ function updateImageParametersGraphs(showButtons = true, reload = true, new_alph
         alpha_p = new_alpha_p;
         beta_gamma_p = new_beta_gamma_p;
     }
-    console.log(new_alpha_p)
-    console.log(new_beta_gamma_p)
 
     let storedid = document.querySelector("button[data-action='show-images-answers']").id;
     document.getElementById("teacher-controls").innerHTML = ejs.views_includes_teacher_image_parameters({ 
@@ -214,7 +215,6 @@ function updateImageParametersGraphs(showButtons = true, reload = true, new_alph
     });
     if (isTeacher && storedid === "shown"){
         let arr = getImageHiddenShownArray();
-        arr.pop();
         showAnswersButtonFunction(document.querySelector("button[data-action='show-images-answers']"), arr);
     }
     drawCharts(reload);
