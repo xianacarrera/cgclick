@@ -4,9 +4,9 @@ let start_tile;
 
 function updateCorrectMidpoint() {
     if (!isTeacher) {
-        document.getElementById("correct-midpoint").innerHTML = `Successfull attempts: ${studentTotalCorrectMidpoint}/${studentTotalDoneMidpoint}`;
+        document.getElementById("correct-midpoint").innerHTML = `<span class="badge rounded-pill bg-success">${studentTotalCorrectMidpoint} / ${studentTotalDoneMidpoint}</span> attempts correct`;
     } else {
-        document.getElementById("correct-midpoint").innerHTML = `Students who got it right: ${goodStudentsMidpoint}`;
+        document.getElementById("correct-midpoint").innerHTML = `<span class="badge rounded-pill bg-success">${goodStudentsMidpoint}</span> students answered correctly at least once`;
     }
 }
 
@@ -31,8 +31,8 @@ function doneListener(event) {
 
     let btn = event.currentTarget;
     btn.innerHTML = "Reset";
-    btn.classList.remove("btn-primary");
-    btn.classList.add("btn-secondary");
+    btn.classList.remove("btn-success");
+    btn.classList.add("btn-outline-danger");
     btn.removeEventListener("click", doneListener);
     btn.addEventListener("click", resetListener);
 }
@@ -41,20 +41,21 @@ function resetListener(event) {
     let tiles = document.querySelectorAll(".midpoint");
     tiles.forEach(tile => {
         // Remove the color classes that were added when cheking the solution. If they were not present, the remove method does nothing
-        tile.classList.remove("bg-warning");
+        tile.classList.remove("bg-secondary");    
         tile.classList.remove("bg-success");
-        tile.classList.remove("bg-danger");       
+        tile.classList.remove("bg-light-green");
+        tile.classList.remove("bg-danger");   
         tile.classList.add("tile");        // No effect if the class was already present
     });
     tiles[4].classList.remove("tile");          // The final tile is not clickable
 
-    // Remove the primary background color from the previous start tile
-    start_tile.classList.remove("bg-primary");
+    // Remove the dark background color from the previous start tile
+    start_tile.classList.remove("bg-dark");
 
     let btn = event.currentTarget;
     btn.innerHTML = "Done";
-    btn.classList.remove("btn-secondary");
-    btn.classList.add("btn-primary");
+    btn.classList.remove("btn-outline-danger");
+    btn.classList.add("btn-success");
     btn.removeEventListener("click", resetListener);
     btn.addEventListener("click", doneListener);
 
@@ -65,12 +66,14 @@ function resetListener(event) {
 function tileListener(event) {
     let tile = event.currentTarget;
     if (tile.classList.contains("tile-selected")) {
-        tile.style.backgroundColor = "white";
+        // tile.style.backgroundColor = "white";
         tile.classList.remove("tile-selected");
+        tile.classList.remove("bg-secondary");
         user_selected_tiles.delete(tile.id);
     } else {
-        tile.style.backgroundColor = "violet";
+        // tile.style.backgroundColor = "violet";
         tile.classList.add("tile-selected");
+        tile.classList.add("bg-secondary");
         user_selected_tiles.add(tile.id);
     }
 }
@@ -81,7 +84,7 @@ function startMidpoint() {
     let tiles = document.querySelectorAll(".tile");
     let randomIndex = Math.floor(Math.random() * tiles.length);
     start_tile = tiles[randomIndex];
-    start_tile.classList.add("bg-primary");        // Primary background color
+    start_tile.classList.add("bg-dark");
     start_tile.classList.remove("tile");           // Remove tile class so that it stops being clickabl
 
     computeMidpointSolution(randomIndex);       
@@ -166,14 +169,13 @@ function validateAnswer() {
             }
         } else if (midpoint_solution.has(index)) {
             status = false;
-            tile.classList.add("bg-warning");          // Yellow (the tile was not selected but it should have been)
+            tile.classList.add("bg-light-green");          // Light green (the tile was not selected but it should have been)
         }
         // The start and end tiles remain blue
     });
 
 
     tiles.forEach(tile => {
-        tile.style.backgroundColor = "white";       // Reset the background color
         tile.classList.remove("tile-selected");     // Reset the tile-selected class
         tile.classList.remove("tile");              // Remove the tile class so that it stops being clickable
         tile.removeEventListener("click", tileListener);    // Remove the tile listener
