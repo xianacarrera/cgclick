@@ -122,6 +122,7 @@ function displaySlideParametrization(params) {
             ],
             id
         })
+        emitSubmit();
     })
     if (isTeacher) {
         Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
