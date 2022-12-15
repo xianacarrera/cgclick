@@ -104,6 +104,14 @@ function emitAnswerToTeacher(answer) {
     });
 }
 
+function emitSubmit() {
+    if (isTeacher) return;
+    if (currentSlideNumber != currentTeacherSlideNumber) return;
+    socket.emit('student_submit', {
+        id             // Room id
+    });
+}
+
 function emitAnswersToStudents(results, isAnswer = true) {
     results.isAnswer = isAnswer;
     let msg = {

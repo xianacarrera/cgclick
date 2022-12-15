@@ -122,6 +122,7 @@ function displaySlideParametrization(params) {
             ],
             id
         })
+        emitSubmit();
     })
     if (isTeacher) {
         Array.from(document.getElementsByClassName('drop-box')).forEach((e) => e.draggable = false)
@@ -333,6 +334,7 @@ function displayOpenQuestionSlide(params) {
             let answer = document.getElementById("student_open_question").querySelector("textarea").value;
             console.log(answer);
             emitAnswerToTeacher(answer);
+            emitSubmit();
         })
     }
 }

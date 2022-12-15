@@ -27,6 +27,7 @@ function doneListener(event) {
         }
         studentTotalCorrectMidpoint++;
     }
+    emitSubmit();
     updateCorrectMidpoint()
 
     let btn = event.currentTarget;
