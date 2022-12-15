@@ -34,3 +34,7 @@ span.badge {
 #parametrization-table .teacher-card {
     height: 138px;
 }
+
+.bg-light-green {
+    background-color: rgb(169, 228, 164);
+}
