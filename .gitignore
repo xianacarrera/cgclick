@@ -4,3 +4,4 @@ node_modules/
 .vscode
 .idea% 
 public/js/views.js
+yarn.lock
