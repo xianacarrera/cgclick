@@ -42,6 +42,7 @@ class WebSocketHandler {
         socket.on('teacher_showParemetrizationAnswers', (msg) => this.on_show_paremetrization_answers(msg.id));
 
         socket.on('student_sendParametrizationAnswer', (msg) => this.on_new_parametrization_answer(socket, msg));
+        socket.on('student_submit', (msg) => this.on_submit(socket, msg.id));
 
     }
 
@@ -123,9 +124,7 @@ class WebSocketHandler {
     }
 
     on_open_answer(socket, id, msg){
-        if(!this.students[id].submits.some(s => s == socket)) this.students[id].submits.push(socket);
         this.io.to(this.states[id].teacherSocketId).emit("student_answer", msg);
-        this.states[id].broadcast("teacher_update", this.students[id].getData());
     }
 
     on_show_results(id, results){
@@ -138,10 +137,8 @@ class WebSocketHandler {
 
     on_new_parametrization_answer(socket, answer){
         let id = answer.id;
-        if(!this.students[id].submits.some(s => s == socket)) this.students[id].submits.push(socket);
         this.states[id].addParametrizationBits(answer.bits)
         this.states[id].broadcast('teacher_refresh', this.states[id].stateObject(id))
-        this.states[id].broadcast("teacher_update", this.students[id].getData());
     }
 
     on_show_paremetrization_answers(roomId, results){
@@ -182,7 +179,7 @@ class WebSocketHandler {
             const index2 = this.students[id].following.indexOf(socket);
             if(index2 > -1) this.students[id].following.splice(index2, 1);
             const index3 = this.students[id].submits.indexOf(socket);   //?
-            if(index3 > -1) this.students[id].submits.splice(index, 1); //?
+            if(index3 > -1) this.students[id].submits.splice(index3, 1); //?
             this.states[id].broadcast("teacher_update", this.students[id].getData());
             if (this.states[id].teacherSocketId == socket.id){
                 this.states[id].disconnectedTeacher = true;
@@ -194,6 +191,11 @@ class WebSocketHandler {
             }
         }
         
+    }
+
+    on_submit(socket, id){
+        if(!this.students[id].submits.some(s => s == socket)) this.students[id].submits.push(socket);
+        this.states[id].broadcast("teacher_update", this.students[id].getData());
     }
 
     // helper function to find the room a connection is in

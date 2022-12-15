@@ -333,6 +333,7 @@ function displayOpenQuestionSlide(params) {
             let answer = document.getElementById("student_open_question").querySelector("textarea").value;
             console.log(answer);
             emitAnswerToTeacher(answer);
+            emitSubmit();
         })
     }
 }

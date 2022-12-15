@@ -72,6 +72,7 @@ function displaySlideImageParameters(params) {
             const gamma = document.getElementById("gamma_input").value;
             console.log(`` + alpha + ` ` + beta + ` ` + gamma);
             emitAnswerToTeacher({ alpha, beta, gamma, slide: currentSlideNumber });
+            emitSubmit();
         });
     }
 
