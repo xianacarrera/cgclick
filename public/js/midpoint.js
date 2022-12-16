@@ -23,7 +23,7 @@ function doneListener(event) {
     studentTotalDoneMidpoint++;
     if (validateAnswer() && !isTeacher) {
         if (studentTotalCorrectMidpoint == 0) {
-            emitAnswerToTeacher({})
+            emitAnswerToTeacher({midpoint: true}, true)
         }
         studentTotalCorrectMidpoint++;
     }
