@@ -1,3 +1,6 @@
+var slides = [];
+
+/*
 const slides = [
     {
         name: "Open Question",
@@ -130,3 +133,4 @@ const slides = [
         },
     },
 ]
+*/

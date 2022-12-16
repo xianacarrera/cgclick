@@ -1,0 +1,31 @@
+[
+    {
+        "name": "Open Question",
+        "title": "Open Question",
+        "descriptionBefore": "Tell me your thoughts",
+        "type": "question_open"
+    },
+    {
+        "name": "Shape Parametrization",
+        "title": "Shape Parametrization",
+        "type": "question_parametrization",
+        "params": {
+            "canvas_size": "small"
+        }
+    },
+    {
+        "name": "Midpoint",
+        "title": "Midpoint Algorithm Game",
+        "type": "question_midpoint"
+    },
+    {
+        "name": "Match the images",
+        "title": "Gamma Correction and Tone Mapping",
+        "type": "question_image_parameters",
+        "params": {
+            "target_alpha": 1.5,
+            "target_beta": 1.5,
+            "target_gamma": 2.5
+        }
+    }
+]

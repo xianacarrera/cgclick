@@ -3,10 +3,14 @@ const idLength = 9
 var socket = io();
 
 const start = () => {
+    initImport();
     fetchAPI.access().then(res => {
         if (res.status === 203) return;
 
-        res.json().then(msg => initRoom(msg.id));
+        res.json().then((msg) => {
+            socket.on('receive_slides', (msg2) => initRoom(msg.id, msg2.slides));
+            socket.emit('request_slides', {id: msg.id});
+        });
     });
 }
 
@@ -21,22 +25,31 @@ const generateId = () => {
     return result;
 }
 
-const initRoom = (roomId) => {
+const initRoom = (roomId, slides) => {
+    localStorage.setItem('received_slides', slides);
+    console.log("received_slides = ", localStorage.getItem('received_slides'));
     window.location.href = `/pin/${roomId}`;
 }
 
 const createNewRoom = () => {
     let id = generateId();
-    socket.on('generic_create_done', () => initRoom(id))
-    socket.emit('teacher_createRoom', {id});
+    console.log("createNewRoom(): local.Storage.getItem('slides') = ", localStorage.getItem("slides"));
+    socket.on('generic_create_done', () => {
+        initRoom(id, localStorage.getItem("slides"));
+        localStorage.removeItem('slides');;
+    });
+    socket.emit('teacher_createRoom', {id, slides: localStorage.getItem("slides")});
 }
 
 const joinRoom = () => {
     let id = document.getElementById('id').value.trim();
+    let slides_tmp;
 
     socket.on('generic_check_done', (obj_status) => {
         if (obj_status.status) {
-            window.location.href = `/pin/${id}`
+            localStorage.setItem('received_slides', obj_status.slides);
+            console.log("received_slides = ", localStorage.getItem('received_slides'));
+            window.location.href = `/pin/${id}`;
         } else {
             document.getElementById('id').value = "";
             document.getElementById('not-found-msg').style.display = 'block';
