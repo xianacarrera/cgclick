@@ -62,6 +62,7 @@ function addConnectionListeners(){
 
     socket.on('teacher_showResults', (msg) => {
         if (isTeacher) return;
+        if (currentSlideNumber != currentTeacherSlideNumber) return;
         console.log(msg);
         leaveSlide();
         currentSlideNumber = msg.results.slide;
