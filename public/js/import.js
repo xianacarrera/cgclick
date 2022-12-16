@@ -33,4 +33,5 @@ function readTextFile(file) {
 
 function selectSlides(slides) {
     localStorage.setItem('slides', JSON.stringify(slides));
+    console.log("selectSlides(): local.Storage.getItem('slides') = ", localStorage.getItem("slides"));
 }

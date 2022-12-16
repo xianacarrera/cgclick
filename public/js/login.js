@@ -22,22 +22,30 @@ const generateId = () => {
     return result;
 }
 
-const initRoom = (roomId) => {
+const initRoom = (roomId, slides) => {
+    localStorage.setItem('received_slides', slides);
+    console.log("received_slides = ", localStorage.getItem('received_slides'));
     window.location.href = `/pin/${roomId}`;
 }
 
 const createNewRoom = () => {
     let id = generateId();
-    socket.on('generic_create_done', () => initRoom(id))
+    console.log("createNewRoom(): local.Storage.getItem('slides') = ", localStorage.getItem("slides"));
+    socket.on('generic_create_done', () => {
+        initRoom(id, localStorage.getItem("slides"));
+        localStorage.removeItem('slides');;
+    });
     socket.emit('teacher_createRoom', {id, slides: localStorage.getItem("slides")});
 }
 
 const joinRoom = () => {
     let id = document.getElementById('id').value.trim();
+    let slides_tmp;
 
     socket.on('generic_check_done', (obj_status) => {
         if (obj_status.status) {
-            slides = obj_status.slides;
+            localStorage.setItem('received_slides', obj_status.slides);
+            console.log("received_slides = ", localStorage.getItem('received_slides'));
             window.location.href = `/pin/${id}`;
         } else {
             document.getElementById('id').value = "";
