@@ -29,7 +29,7 @@ const initRoom = (roomId) => {
 const createNewRoom = () => {
     let id = generateId();
     socket.on('generic_create_done', () => initRoom(id))
-    socket.emit('teacher_createRoom', {id});
+    socket.emit('teacher_createRoom', {id, slides: localStorage.getItem("slides")});
 }
 
 const joinRoom = () => {
@@ -37,7 +37,8 @@ const joinRoom = () => {
 
     socket.on('generic_check_done', (obj_status) => {
         if (obj_status.status) {
-            window.location.href = `/pin/${id}`
+            slides = obj_status.slides;
+            window.location.href = `/pin/${id}`;
         } else {
             document.getElementById('id').value = "";
             document.getElementById('not-found-msg').style.display = 'block';

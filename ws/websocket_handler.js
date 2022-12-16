@@ -28,7 +28,7 @@ class WebSocketHandler {
         // changeSlide topic should be called whenever slide are sent
         socket.on('teacher_changeSlide', (new_slide) => this.on_change_slide(new_slide));
         // create will create a new session
-        socket.on('teacher_createRoom', (room) => this.on_create_room(socket, room.id));
+        socket.on('teacher_createRoom', (room) => this.on_create_room(socket, room.id, room.slides));
         // check if a student room exist
         socket.on('student_roomExist', (room) => this.on_room_exist(socket, room.id));
         // when a student follows/unfollows the course
@@ -70,8 +70,8 @@ class WebSocketHandler {
     * @param {Socket} socket client socket.
     * @param {String} id the id of the room we want to join.
     */
-    on_create_room(socket, id) {
-        this.states[id] = new State(0); // Start from first slide.
+    on_create_room(socket, id, slides) {
+        this.states[id] = new State(0, slides); // Start from first slide.
         this.students[id] = new StudentCounter();
         socket.emit("generic_create_done", {}); // Just send this when we are done.
     }
@@ -82,7 +82,7 @@ class WebSocketHandler {
     * @param {String} id the id of the room we want to join.
     */
     on_room_exist(socket, id) {
-        socket.emit("generic_check_done", {status: this.states.hasOwnProperty(id)}); // Just send this when we are done.
+        socket.emit("generic_check_done", {status: this.states.hasOwnProperty(id), slides: this.states[id]?.slides}); // Just send this when we are done.
     }
 
     /**

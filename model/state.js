@@ -9,7 +9,8 @@ class State {
     * Initializes the state.
     * @param {Number} initial_slide slide number.
     */
-    constructor(initial_slide) {
+    constructor(initial_slide, slides) {
+        this.slides = slides;
         this.slide = initial_slide;
         this.showParametrizationAnswer = false;
         this.sockets = [] // Keep track of the rooms
