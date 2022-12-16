@@ -3,6 +3,7 @@ const idLength = 9
 var socket = io();
 
 const start = () => {
+    initImport();
     fetchAPI.access().then(res => {
         if (res.status === 203) return;
 

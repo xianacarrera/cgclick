@@ -11,6 +11,14 @@ var studentTotalDoneMidpoint = 0;
 var goodStudentsMidpoint = 0;
 
 function init(){
+    let slides_raw = localStorage.getItem("slides");
+    if (slides_raw == undefined || slides_raw == "undefined") {
+        document.getElementById("title").innerHTML = "This JSON is invalid or undefined";
+        let question_mark_element = document.getElementById("question_type");
+        question_mark_element.parentElement.removeChild(question_mark_element);
+        return;
+    }
+    slides = JSON.parse(slides_raw);
     currentSlideNumber = 0;
     initSocket();
     let pathname = new URL(window.location.href).pathname;
