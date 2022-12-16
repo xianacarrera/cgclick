@@ -44,6 +44,8 @@ class WebSocketHandler {
         socket.on('student_sendParametrizationAnswer', (msg) => this.on_new_parametrization_answer(socket, msg));
         socket.on('student_submit', (msg) => this.on_submit(socket, msg.id));
 
+        socket.on('request_slides', (msg) => this.on_request_slides(socket, msg.id));
+
     }
 
     /**
@@ -196,6 +198,10 @@ class WebSocketHandler {
     on_submit(socket, id){
         if(!this.students[id].submits.some(s => s == socket)) this.students[id].submits.push(socket);
         this.states[id].broadcast("teacher_update", this.students[id].getData());
+    }
+
+    on_request_slides(socket, id) {
+        socket.emit("receive_slides", {slides: this.states[id].slides});
     }
 
     // helper function to find the room a connection is in

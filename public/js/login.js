@@ -7,7 +7,10 @@ const start = () => {
     fetchAPI.access().then(res => {
         if (res.status === 203) return;
 
-        res.json().then(msg => initRoom(msg.id));
+        res.json().then((msg) => {
+            socket.on('receive_slides', (msg2) => initRoom(msg.id, msg2.slides));
+            socket.emit('request_slides', {id: msg.id});
+        });
     });
 }
 
