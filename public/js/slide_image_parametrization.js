@@ -216,6 +216,8 @@ function updateImageParametersGraphs(showButtons = true, reload = true, new_alph
     });
     if (isTeacher && storedid === "shown"){
         let arr = getImageHiddenShownArray();
+        let solution = document.getElementById("solution");
+        arr.push(solution);
         showAnswersButtonFunction(document.querySelector("button[data-action='show-images-answers']"), arr);
     }
     drawCharts(reload);
