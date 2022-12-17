@@ -209,6 +209,7 @@ function updateImageParametersGraphs(showButtons = true, reload = true, new_alph
     }
 
     let storedid = document.querySelector("button[data-action='show-images-answers']").id;
+    let noSolution = document.getElementById("solution").classList.contains("d-none");
     document.getElementById("teacher-controls").innerHTML = ejs.views_includes_teacher_image_parameters({ 
         alpha_p, beta_gamma_p, showButtons, 
         target_alpha,
@@ -216,9 +217,10 @@ function updateImageParametersGraphs(showButtons = true, reload = true, new_alph
     });
     if (isTeacher && storedid === "shown"){
         let arr = getImageHiddenShownArray();
-        let solution = document.getElementById("solution");
-        arr.push(solution);
         showAnswersButtonFunction(document.querySelector("button[data-action='show-images-answers']"), arr);
+    }
+    if (isTeacher && !noSolution){
+        document.getElementById("solution").classList.remove("d-none");
     }
     drawCharts(reload);
     MathJax.typeset();
