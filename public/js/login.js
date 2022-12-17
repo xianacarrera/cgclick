@@ -10,12 +10,13 @@ const start = () => {
 
         res.json().then((msg) => {
             reloadInfo = {id: msg.id}
-                
+            document.getElementById("div-reload-room").classList.remove("d-none");
+            document.getElementById("btn-reload-room").addEventListener("click", reloadRoom);
         });
     });
 }
 
-const reloadRoom = () => {
+function reloadRoom(){
     socket.on('receive_slides', (msg2) => initRoom(reloadInfo.id, msg2.slides));
     socket.emit('request_slides', {id: reloadInfo.id});
 }
