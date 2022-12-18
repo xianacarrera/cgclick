@@ -1,12 +1,107 @@
-<div class="d-flex h-auto">
-    <% if ( subslide == "idea") {%>
+<% if ( subslide == "idea") {%>
+    <div class="d-flex h-auto">
         <img src="/images/computer_graphics.png" alt="Computer graphics needs" class="img_left"/>
         <img src="/images/slides.png" alt="Slides ideas" class="img_right"/>
-    <%} else if (subslide == "story") {%>
+    </div>
+<%} else if (subslide == "story") {%>
+    <div class="d-flex h-auto">
         <img src="/images/user_case_1.png" alt="user_case_1" class="img_left"/>
         <img src="/images/user_case_2.png" alt="user_case_2" class="img_center"/> 
         <img src="/images/user_case_3.png" alt="user_case_3" class="img_right"/>    
-    <% } else if (subslide == "technology") {%>
-        <img src="/images/libraries.png" alt="Libraries" class="img_left"/>
-    <% } %>
-</div>
+    </div>
+<% } else if (subslide == "technology") {%>
+    <div class="container">
+        <div class="row justify-content-around">
+            <div class="column mx-3" style="width: 15rem;">
+                <div class="card p-2 m-3" style="width: 14rem; min-height: 380px;">
+                    <div class="d-flex align-items-center" style="min-height: 150px;">
+                        <img class="card-img-top m-1" src="/images/bootstrap.jpg" alt="Bootstrap logo">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Bootstrap</h5>
+                        <p class="card-text">CSS framework that offers a collection of reusable elements for the customization of web applications.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column mx-3"  style="width: 15rem;">
+                <div class="card p-2 m-3" style="width: 14rem; min-height: 380px;">
+                    <div class="d-flex align-items-center" style="min-height: 150px;">
+                        <img class="card-img-top m-1" src="/images/webgl.png" alt="WebGL logo">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">WebGL</h5>
+                        <p class="card-text">JavaScript API for rendering high-performance interactive 3D and 2D graphics within browsers.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column mx-3"  style="width: 15rem;">
+                <div class="card p-2 m-3" style="width: 14rem; min-height: 380px;">
+                    <div class="d-flex align-items-center" style="min-height: 150px;">
+                        <img class="card-img-top m-1" src="/images/threejs.png" alt="ThreeJS logo">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">ThreeJS</h5>
+                        <p class="card-text">JavaScript API built around WebGL that facilitates the creation and display of animated 3D graphics within browsers.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column mx-3"  style="width: 15rem;">
+                <div class="card p-2 m-3" style="width: 14rem; min-height: 380px;">
+                    <div class="d-flex align-items-center" style="min-height: 150px;">
+                        <img class="card-img-top m-1" src="/images/mathjax.png" alt="MathJax logo">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">MathJax</h5>
+                        <p class="card-text">JavaScript display engine for LaTeX, MathML and AsciiMath notation in browsers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-around">
+            <div class="column mx-3"  style="width: 15rem;">
+                <div class="card p-2 m-3" style="width: 14rem; min-height: 380px;">
+                    <div class="d-flex align-items-center" style="min-height: 150px;">
+                        <img class="card-img-top m-1" src="/images/chartjs.png" alt="Chart.js logo">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Chart.js</h5>
+                        <p class="card-text">JavaScript library for data visualization using different types of charts.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column mx-3"  style="width: 15rem;">
+                <div class="card p-2 m-3" style="width: 14rem; min-height: 380px;">
+                    <div class="d-flex align-items-center" style="min-height: 150px;">
+                        <img class="card-img-top m-1" src="/images/websocket.jpeg" alt="WebSocket logo">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">WebSocket</h5>
+                        <p class="card-text">JavaScript API that allowers for two-way interactive communication between the user's browsers and a server.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column mx-3"  style="width: 15rem;">
+                <div class="card p-2 m-3" style="width: 14rem; min-height: 380px;">
+                    <div class="d-flex align-items-center" style="min-height: 150px;">
+                        <img class="card-img-top m-1" src="/images/evaluatex.png" alt="Evaluatex logo">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Evaluatex</h5>
+                        <p class="card-text">LaTeX and AsciiMath evaluator for Javascript.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column mx-3"  style="width: 15rem;">
+                <div class="card p-2 m-3" style="width: 14rem; min-height: 380px;">
+                    <div class="d-flex align-items-center" style="min-height: 150px;">
+                        <img class="card-img-top m-1" src="/images/highlightjs.png" alt="HighlightJS logo">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">highlight.js</h5>
+                        <p class="card-text">Syntax highlighter for applying styles to a variety of programming languages within browsers.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% } %>
