@@ -1,0 +1,82 @@
+[
+    {
+        "name": "Phong's inventions",
+        "title": "Phong reflection model & Phong shading",
+        "descriptionBefore": "Vietnamese-born computer graphics researcher Bui Tuong Phong invented both of these very important techniques. His reflection model describes how much light a surface reflects based on the properties of said surface - the idea is to calculate three types of reflection (ambient, diffuse and specular) and then add them up. The Phong shading, on the other hand, is an algorithm which uses interpolation of geometry information to make polygonal surfaces look smoother.",
+        "type": "playground_phong_model",
+        "params": {
+            "slider_camera_angles": true,
+            "slider_camera_distance": true,
+            "slider_lights": true,
+            "slider_tone_mapping": true
+        }
+    },
+    {
+        "name": "WebGL",
+        "title": "WebGL features: face culling & depth test",
+        "descriptionBefore": "WebGL is a way to render 3D graphics in a web browser using JavaScript. Try to play with the different scenes and figure out what goes wrong when you turn WebGL's 'face culling' off. Then experiment with turning off the depth test.",
+        "type": "playground_phong_model",
+        "params": {
+            "available_scenes": ["triangle", "cube"],
+            "available_scenes_descriptions": ["2D triangle", "3D cube"],
+            "slider_camera_angles": true,
+            "slider_face_culling": true,
+            "slider_depth_test": true
+        }
+    },
+    {
+        "name": "Shaders",
+        "title": "Graphics pipeline: Vertex & Fragment shaders",
+        "descriptionBefore": "The vertex and fragment shaders are programmable steps in the graphics pipeline - the process of rendering a geometrical model onto a screen. The vertex shader is responsible for transformations in space, for example, and its code is executed for each vertex (important point) in the scene. The fragment shader's job is to figure out what color each pixel should have. You can directly edit both of these shaders, choose which values to pass to them and see the results.",
+        "type": "playground_shaders",
+        "params": {
+            "canvas_size": "small"
+        }
+    },
+    {
+        "name": "Parameterization I",
+        "title": "Describe a sphere",
+        "descriptionBefore": "Fill in the blank space in the parametric equations (in LaTeX syntax) to describe a sphere. You can watch what shape your equations are describing on the right.",
+        "type": "question_complete_parametrization"
+    },
+    {
+        "name": "Parameterization II",
+        "title": "Match the shapes",
+        "descriptionBefore": "Now that you know how different shapes are described by their parametric equations, try to match these three sets of equations with the correct shapes.",
+        "type": "question_parametrization",
+        "params": {
+            "canvas_size": "small"
+        }
+    },
+    {
+        "name": "Tone mapping",
+        "title": "Match the images",
+        "descriptionBefore": "Set the values of tone mapping and gamma correction parameters so that the image on the right looks as close as possible to the template on the left.",
+        "type": "question_image_parameters",
+        "params": {
+            "target_alpha": 1.0,
+            "target_beta": 1.5,
+            "target_gamma": 2.0
+        }
+    },
+    {
+        "name": "Midpoint algorithm",
+        "title": "Midpoint algorithm game",
+        "descriptionBefore": "Colour those pixels which would be coloured by the Midpoint algorithm when rendering a line between the two black pixels.",
+        "type": "question_midpoint"
+    },
+    {
+        "name": "Feedback",
+        "title": "Feedback time!",
+        "descriptionBefore": "So what do you think about cg.click? Got any feedback for us?",
+        "type": "question_open"
+    },
+    {
+        "name": "About cg.click",
+        "title": "The technology we used",
+        "type": "slide_about",
+        "params": {
+            "subslide": "technology"
+        }
+    }
+]
