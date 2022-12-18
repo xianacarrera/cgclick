@@ -1,6 +1,7 @@
 const idLength = 9
 
 var socket = io();
+var reloadInfo;
 
 const start = () => {
     initImport();
@@ -8,10 +9,16 @@ const start = () => {
         if (res.status === 203) return;
 
         res.json().then((msg) => {
-            socket.on('receive_slides', (msg2) => initRoom(msg.id, msg2.slides));
-            socket.emit('request_slides', {id: msg.id});
+            reloadInfo = {id: msg.id}
+            document.getElementById("div-reload-room").classList.remove("d-none");
+            document.getElementById("btn-reload-room").addEventListener("click", reloadRoom);
         });
     });
+}
+
+function reloadRoom(){
+    socket.on('receive_slides', (msg2) => initRoom(reloadInfo.id, msg2.slides));
+    socket.emit('request_slides', {id: reloadInfo.id});
 }
 
 // generateId creates a new session id.
