@@ -10,6 +10,12 @@ span.badge {
     font-size: 15px;
 }
 
+/* All accordion buttons */
+.accordion-button[aria-expanded="true"] {
+    color: black;
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
 /* CUSTOM COLORS */
 
 /* Midpoint slide */
