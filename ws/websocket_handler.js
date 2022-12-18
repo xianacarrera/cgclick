@@ -28,16 +28,24 @@ class WebSocketHandler {
         // changeSlide topic should be called whenever slide are sent
         socket.on('teacher_changeSlide', (new_slide) => this.on_change_slide(new_slide));
         // create will create a new session
-        socket.on('teacher_createRoom', (room) => this.on_create_room(socket, room.id));
+        socket.on('teacher_createRoom', (room) => this.on_create_room(socket, room.id, room.slides));
         // check if a student room exist
         socket.on('student_roomExist', (room) => this.on_room_exist(socket, room.id));
         // when a student follows/unfollows the course
         socket.on('student_follow', (follow) => this.on_follow(socket, follow.id, follow.val));
 
         // retransmit an answer from a student to the teacher
-        socket.on('student_answer', (msg) => this.on_open_answer(msg.id, {answer: msg.answer, slide: msg.slide, student: msg.student}));
+        socket.on('student_answer', (msg) => this.on_open_answer(socket, msg.id, {answer: msg.answer, slide: msg.slide, student: msg.student}));
         // retransmit the aggregation of student answers from the teacher to the students
         socket.on('teacher_showResults', (msg) => this.on_show_results(msg.id, msg.results));
+        // retransmit the aggregation of student answers for parametrisation slides.
+        socket.on('teacher_showParemetrizationAnswers', (msg) => this.on_show_paremetrization_answers(msg.id));
+
+        socket.on('student_sendParametrizationAnswer', (msg) => this.on_new_parametrization_answer(socket, msg));
+        socket.on('student_submit', (msg) => this.on_submit(socket, msg.id));
+
+        socket.on('request_slides', (msg) => this.on_request_slides(socket, msg.id));
+
     }
 
     /**
@@ -48,15 +56,24 @@ class WebSocketHandler {
     on_change_slide(slide) {
         this.states[slide.id].slide = slide.slide;
         this.on_update(slide.id, this.states[slide.id].stateObject());
+        this.students[slide.id].submits = [];
+        this.states[slide.id].broadcast("teacher_update", this.students[slide.id].getData());
     }
+
+    on_update_teacher_socket(id, socket){
+        if (!this.states.hasOwnProperty(id)) return;
+        this.states[id].teacherSocketId = socket.id;
+        if (!this.states[id].sockets.includes(socket))
+            this.states[id].addSocket(socket);
+    };
 
     /**
     * Handles room creation.
     * @param {Socket} socket client socket.
     * @param {String} id the id of the room we want to join.
     */
-    on_create_room(socket, id) {
-        this.states[id] = new State(0); // Start from first slide.
+    on_create_room(socket, id, slides) {
+        this.states[id] = new State(0, slides); // Start from first slide.
         this.students[id] = new StudentCounter();
         socket.emit("generic_create_done", {}); // Just send this when we are done.
     }
@@ -67,8 +84,7 @@ class WebSocketHandler {
     * @param {String} id the id of the room we want to join.
     */
     on_room_exist(socket, id) {
-        this.states[id].broadcast("teacher_update", this.students[id].getData());
-        socket.emit("generic_check_done", {status: this.states.hasOwnProperty(id)}); // Just send this when we are done.
+        socket.emit("generic_check_done", {status: this.states.hasOwnProperty(id), slides: this.states[id]?.slides}); // Just send this when we are done.
     }
 
     /**
@@ -78,14 +94,15 @@ class WebSocketHandler {
     */
     on_login(socket, id, readonly) {
         console.log("login",socket.id);
-        console.log(this.students[id].students.map(a => a.id));
         // Create new room if it does not exist.
         if (!this.states.hasOwnProperty(id)) {
             this.states[id] = new State(0); // Start from first slide
         }
-        if (this.states[id].sockets.length == 0){       // The room could exist but be empty
+        if (this.states[id].sockets.length == 0 || this.states[id].disconnectedTeacher ){       // The room could exist but be empty
             // Needs to be done here and not on create room because the id of the teacher's socket changes
             this.states[id].teacherSocketId = socket.id;
+            this.states[id].disconnectedTeacher = false;
+            console.log("Teacher ID: " + this.states[id].teacherSocketId);
         }
         if (!readonly) {
             this.states[id].addSocket(socket)
@@ -94,6 +111,7 @@ class WebSocketHandler {
         }
         this.states[id].broadcast("teacher_update", this.students[id].getData());
         socket.emit("generic_update", this.states[id].stateObject())
+        console.log(this.students[id].students.map(a => a.id));
     }
 
     /**
@@ -107,12 +125,27 @@ class WebSocketHandler {
         this.states[id].broadcast('generic_update', state_obj)
     }
 
-    on_open_answer(id, msg){
+    on_open_answer(socket, id, msg){
         this.io.to(this.states[id].teacherSocketId).emit("student_answer", msg);
     }
 
-    on_show_results(roomId, results){
-        this.states[roomId].broadcast('teacher_showResults', {results});
+    on_show_results(id, results){
+        if(!results.isAnswer){ //reset
+            this.students[id].submits = [];
+            this.states[id].broadcast("teacher_update", this.students[id].getData());
+        }
+        this.states[id].broadcast('teacher_showResults', {results});
+    }
+
+    on_new_parametrization_answer(socket, answer){
+        let id = answer.id;
+        this.states[id].addParametrizationBits(answer.bits)
+        this.states[id].broadcast('teacher_refresh', this.states[id].stateObject(id))
+    }
+
+    on_show_paremetrization_answers(roomId, results){
+        this.states[roomId].showParametrizationAnswer = true;
+        this.on_update(roomId, this.states[roomId].stateObject())
     }
 
     setIO(io_instance){
@@ -147,8 +180,28 @@ class WebSocketHandler {
             if(index > -1) this.students[id].students.splice(index, 1);
             const index2 = this.students[id].following.indexOf(socket);
             if(index2 > -1) this.students[id].following.splice(index2, 1);
+            const index3 = this.students[id].submits.indexOf(socket);   //?
+            if(index3 > -1) this.students[id].submits.splice(index3, 1); //?
             this.states[id].broadcast("teacher_update", this.students[id].getData());
+            if (this.states[id].teacherSocketId == socket.id){
+                this.states[id].disconnectedTeacher = true;
+            }
+            if (this.students[id].students.length == 0) {
+                delete this.students[id]
+                delete this.states[id]
+                console.log("Room destroyed")
+            }
         }
+        
+    }
+
+    on_submit(socket, id){
+        if(!this.students[id].submits.some(s => s == socket)) this.students[id].submits.push(socket);
+        this.states[id].broadcast("teacher_update", this.students[id].getData());
+    }
+
+    on_request_slides(socket, id) {
+        socket.emit("receive_slides", {slides: this.states[id].slides});
     }
 
     // helper function to find the room a connection is in

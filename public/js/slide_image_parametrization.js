@@ -9,8 +9,8 @@ let y_values_alpha;
 let bar_colors_alpha;
 
 
-let x_values_beta_gamma;
-let y_values_beta_gamma;
+let x_values_beta_gamma = [];
+let y_values_beta_gamma = []; 
 let bar_colors_beta_gamma;
 
 
@@ -20,6 +20,8 @@ function displaySlideImageParameters(params) {
     params.alpha_p = 0;
     params.beta_gamma_p = 0;
     params.isTeacher = isTeacher;
+    // params.target_alpha is already set in params, but we need to divide beta by gamma to obtain the correct ratio
+    params.target_beta_gamma = params.target_beta / params.target_gamma;
     memory_students = {};
     [canvas_size, canvas_width, canvas_height, alpha, beta, gamma] = [params.canvas_size, params.canvas_width, params.canvas_height, params.alpha, params.beta, params.gamma];
 
@@ -30,7 +32,7 @@ function displaySlideImageParameters(params) {
         x_values_alpha = [];
         x_values_beta_gamma = [];
         target_alpha = params.target_alpha;
-        target_beta_gamma = params.target_beta / params.target_gamma;
+        target_beta_gamma = params.target_beta / (params.target_gamma || 1);    // Avoid division by 0
         for (let i = params.alpha.startIndex; i <= params.alpha.endIndex; i += params.alpha.step) {
             image_parameters_answers.alpha[i] = 0;
             x_values_alpha.push(i);
@@ -50,10 +52,13 @@ function displaySlideImageParameters(params) {
         // Needs to be set here and adjusted in the graphs function
         document.getElementById("content").innerHTML = ejs.views_slide_image_parameters(params.model.results);
         console.log(params.model);
+        [x_values_alpha, y_values_alpha, bar_colors_alpha] = [params.model.results.x_values_alpha, params.model.results.y_values_alpha, params.model.results.bar_colors_alpha];
+        [alpha_p, beta_gamma_p] = [params.model.results.alpha_p, params.model.results.beta_gamma_p];
+        x_values_beta_gamma = params.model.results.x_values_beta_gamma;   
+        y_values_beta_gamma = params.model.results.y_values_beta_gamma;
+        bar_colors_beta_gamma = params.model.results.bar_colors_beta_gamma;
+
         setTimeout(() => {
-            [x_values_alpha, y_values_alpha, bar_colors_alpha] = [params.model.results.x_values_alpha, params.model.results.y_values_alpha, params.model.results.bar_colors_alpha];
-            [x_values_beta_gamma, y_values_beta_gamma, bar_colors_beta_gamma] = [params.model.results.x_values_beta_gamma, params.model.results.y_values_beta_gamma, params.model.results.bar_colors_beta_gamma]
-            [alpha_p, beta_gamma_p] = [params.model.results.alpha_p, params.model.results.beta_gamma_p];
             updateImageParametersGraphs(false, false, params.model.results.alpha_p, params.model.results.beta_gamma_p);
             document.querySelector("button[data-action='show-images-answers']").classList.add("d-none");
             // document.getElementById("phong-done-btn").classList.add("d-none");
@@ -67,6 +72,7 @@ function displaySlideImageParameters(params) {
             const gamma = document.getElementById("gamma_input").value;
             console.log(`` + alpha + ` ` + beta + ` ` + gamma);
             emitAnswerToTeacher({ alpha, beta, gamma, slide: currentSlideNumber });
+            emitSubmit();
         });
     }
 
@@ -79,26 +85,28 @@ function displaySlideImageParameters(params) {
     );
 }
 
-function addListenerShowAnswersImageParameters() {
+function getImageHiddenShownArray(){
     let answers_div = document.getElementById("student_answers_div_image");
-    let resetButton = document.querySelector("button[data-action='reset']");
     let sendAnswersButton = document.querySelector("button[data-action='send-answers']");
-    let arr = [answers_div, resetButton, /*sendAnswersButton*/];
+    return [answers_div, sendAnswersButton];
+}
+
+function addListenerShowAnswersImageParameters() {
+    let arr = getImageHiddenShownArray();
 
     let showAnswersButton = document.querySelector("button[data-action='show-images-answers']");
     showAnswersButton.addEventListener("click", () => { showAnswersButtonFunction(showAnswersButton, arr) });
 
 
-    resetButton.addEventListener("click", () => {
-        arr.forEach(c => c.classList.add("d-none"));
-        showAnswersButton.id = "hidden";
-        showAnswersButton.innerHTML = "Show answers";
-        enableOnAnswerButtons(false);
-
-        emitAnswersToStudents({ slide: currentSlideNumber }, false)
+    document.querySelector("button[data-action='see-solution']").addEventListener("click", () => {              // See solution
+        let div_solutions = document.getElementById("solution");
+        if (div_solutions.classList.contains("d-none")){
+            div_solutions.classList.remove("d-none");
+        } else {
+            div_solutions.classList.add("d-none");
+        }
     });
-    /*
-    sendAnswersButton.addEventListener("click", () => {
+    arr[1].addEventListener("click", () => {             // Send answers
         let model = {
             results: {
                 x_values_alpha,
@@ -114,13 +122,12 @@ function addListenerShowAnswersImageParameters() {
                 slide: currentSlideNumber,
                 canvas_size,
                 canvas_width,
-                canvas_height,
+                canvas_height
             },
             slide: currentSlideNumber
         };
         emitAnswersToStudents(model);
     })
-    */
 }
 
 function drawCharts(reload) {
@@ -200,9 +207,21 @@ function updateImageParametersGraphs(showButtons = true, reload = true, new_alph
         alpha_p = new_alpha_p;
         beta_gamma_p = new_beta_gamma_p;
     }
-    console.log(new_alpha_p)
-    console.log(new_beta_gamma_p)
-    document.getElementById("teacher-controls").innerHTML = ejs.views_includes_teacher_image_parameters({ alpha_p, beta_gamma_p, showButtons });
+
+    let storedid = document.querySelector("button[data-action='show-images-answers']").id;
+    let noSolution = document.getElementById("solution").classList.contains("d-none");
+    document.getElementById("teacher-controls").innerHTML = ejs.views_includes_teacher_image_parameters({ 
+        alpha_p, beta_gamma_p, showButtons, 
+        target_alpha,
+        target_beta_gamma       // Avoid division by 0
+    });
+    if (isTeacher && storedid === "shown"){
+        let arr = getImageHiddenShownArray();
+        showAnswersButtonFunction(document.querySelector("button[data-action='show-images-answers']"), arr);
+    }
+    if (isTeacher && !noSolution){
+        document.getElementById("solution").classList.remove("d-none");
+    }
     drawCharts(reload);
     MathJax.typeset();
 }

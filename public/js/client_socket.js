@@ -1,8 +1,6 @@
-let socket;
-
 function initSocket() {
     socket = io();
-    login()
+    login()           
     addConnectionListeners();
     if(isTeacher) addTeacherListeners();
 }
@@ -12,6 +10,7 @@ let studentData = {};
 function addConnectionListeners(){
     socket.on('connect', () => {
         console.log("Connected");
+        if (isTeacher) localStorage.setItem("teacherSignature", socket.id);
     });
 
     socket.on('disconnect', () => {
@@ -19,31 +18,50 @@ function addConnectionListeners(){
     });
 
     socket.on('generic_update', (state) => {
-        if (!isFollowing) {
+        showParametrizationAnswer = state.showParametrizationAnswer;
+        listOfParametrizationAnswers = state.studentParametrizationAnswers;
+        currentTeacherSlideNumber = state.slide;
+        if (!isFollowing && !(showParametrizationAnswer != state.showParametrizationAnswer && slides[currentSlideNumber].type == "question_parametrization")) {
             return;
         }
         console.log("Update", state);
         leaveSlide();
         currentSlideNumber = state.slide;
-        currentTeacherSlideNumber = state.slide;
+        console.log(currentSlideNumber)
+        console.log(state)
         displaySlide();
         slide_mutex = false;
     });
 
     socket.on('student_answer', (msg) => {
         console.log("Received answer from the student: ");
-        console.log(msg.answer);
-
+        console.log(msg);
         // If the answer should be unique for each student, filter by using msg.student (id of the student)
 
-        if (msg.slide != currentSlideNumber) return;            // The student is not on the right slide
+        if (msg.slide != currentSlideNumber && !msg.answer.midpoint) return;            // The student is not on the right slide
         manageAnswer(msg.answer, msg.student);
 
         enableOnAnswerButtons(true);
     })
 
+    socket.on('teacher_refresh', (state) => {
+        if (!isTeacher) {
+            return;
+        }
+        console.log("Update", state);
+        leaveSlide();
+        currentSlideNumber = state.slide;
+        currentTeacherSlideNumber = state.slide;
+        showParametrizationAnswer = state.showParametrizationAnswer;
+        listOfParametrizationAnswers = state.studentParametrizationAnswers;
+        console.log(state)
+        displaySlide();
+        slide_mutex = false;  
+    })
+
     socket.on('teacher_showResults', (msg) => {
         if (isTeacher) return;
+        if (currentSlideNumber != currentTeacherSlideNumber) return;
         console.log(msg);
         leaveSlide();
         currentSlideNumber = msg.results.slide;
@@ -69,9 +87,9 @@ function emitChangeSlide(index) {
     });
 }
 
-function emitAnswerToTeacher(answer) {
+function emitAnswerToTeacher(answer, skip = false) {
     if (isTeacher) return;
-    if (currentSlideNumber != currentTeacherSlideNumber) return;            // The student is not on the right slide
+    if (currentSlideNumber != currentTeacherSlideNumber && !skip) return;            // The student is not on the right slide
     console.log("Sent answer");
     console.log({
         id,             // Room id
@@ -83,6 +101,14 @@ function emitAnswerToTeacher(answer) {
         answer,         // Answer
         student: socket.id,         // Identifies the student (useful for questions where the answer per student is unique)
         slide: currentSlideNumber,
+    });
+}
+
+function emitSubmit() {
+    if (isTeacher) return;
+    if (currentSlideNumber != currentTeacherSlideNumber) return;
+    socket.emit('student_submit', {
+        id             // Room id
     });
 }
 
@@ -99,6 +125,12 @@ function emitAnswersToStudents(results, isAnswer = true) {
 
 function manageAnswer(answer, student){
     console.log(slides[currentSlideNumber].type);
+    console.log(answer)
+    if (answer.midpoint) {
+        goodStudentsMidpoint++;
+        updateCorrectMidpoint();
+        return;
+    }
     switch(slides[currentSlideNumber].type){
         case "question_open":
             let answer_container = document.getElementById(slideDefinitions[slides[currentSlideNumber].type].answer_container);
@@ -136,6 +168,10 @@ function manageAnswer(answer, student){
             updateImageParametersGraphs();
             addListenerShowAnswersImageParameters();
 
+            break;
+        case "question_midpoint":
+            goodStudentsMidpoint++;
+            updateCorrectMidpoint();
             break;
     }
 }

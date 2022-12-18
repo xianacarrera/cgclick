@@ -5,21 +5,126 @@
         <meta name="viewport">
         <title>cg.click</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-        <link href="/css/drag-drop.css" rel="stylesheet"/>
+        <link href="/css/custom.css" rel="stylesheet"/>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <script src="/js/socket.io.min.js"></script>
+        <script src="/js/fetch-api.js"></script>
+        <script src="/js/slides-examples.js" defer></script>
+        <script src="/js/import.js" defer></script>
         <script src="/js/login.js" defer></script>
     </head>
-    <body class="d-flex justify-content-center" style="height: 100vh;">
+    <body onload="start()" class="d-flex justify-content-center" style="height: 100vh;">
         <div class="login p-3 d-flex flex-column justify-content-center">
+
             <h1 class="text-center">Welcome to CG Click!</h1>
-            <div class="d-flex mt-3">
-              <input class="form-control me-2" id="id" placeholder="Enter the room PIN">
+
+            <div class="d-flex mt-4">
+              <input class="form-control me-2 border-primary" id="id" placeholder="Enter the room PIN">
               <button id="joinBtn" class="btn btn-primary" style="width: 300px;" onclick="joinRoom()" disabled>Enter room as student</button>
             </div>
             <p id="not-found-msg" class="warn-room mt-2" style="display: none; color: darkorange;">Room with this PIN does not exist.</p>
-            <button class="btn btn-outline-danger mt-3" onclick="createNewRoom()">Create a new room as teacher</button>
-            <br>
+            
+            <div class="mt-4 card border-danger">
+                <div class="card-header text-danger">
+                    Create a new room as teacher
+                </div>
+                <div class="card-body">
+                    <label for="file_import" class="form-label">Create a room by uploading your presentation JSON</label>
+                    <div class="d-flex mt-2">
+                        <input id="file_import" class="form-control me-2" type="file" name="file">
+                        <button class="btn btn-outline-danger"  style="width: 200px;" onclick="createNewRoom()">Create room</button>
+                    </div>
+                    <p class="mt-3">Or by choosing one of our predefined presentations</p>
+                    <button class="me-2 btn btn-outline-danger" onclick="selectSlides(slides_phong_playground); createNewRoom()">Phong Model</button>
+                    <button class="me-2 btn btn-outline-danger" onclick="selectSlides(slides_evaluated_only); createNewRoom()">Evaluated slides only</button>
+                    <button class="me-2 btn btn-outline-danger" onclick="selectSlides(slides_everything); createNewRoom()">All existing slides</button>
+                    <div id="div-reload-room" class="d-none">
+                        <p class="mt-3">Or join your previous room:</p>
+                        <button id="btn-reload-room" class="btn btn-outline-danger">Reload previous room</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-2 accordion">
+                <div class="accordion-item border-secondary">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                      Learn about how to create your own presentation JSON
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse">
+                    <div class="accordion-body" style="max-width: 582px; max-height: 40vh; overflow-y: scroll;">
+                      
+                        <p>You can create and upload your own presentation in the following JSON format.</p>
+
+                        <h3>Array of slides</h3>
+                        <p>The JSON presentation file is an (ordered) array of slides, where each slide is an object with the following fields (in arbitrary order):</p>
+                        <ul>
+                            <li><code>name</code> <i>(required)</i> - shorter name of the slide, as it will appear in the navigation bar</li>
+                            <li><code>title</code> - possibly longer slide title, which will appear as a heading at the top of the slide (substituted by <code>name</code> if left blank)</li>
+                            <li><code>type</code> <i>(required)</i> - name of one of the available slide templates from the list below</li>
+                            <li><code>descriptionBefore</code> - text to display above the interactive part of the slide, e.g., explanation of the topic or a description of the task</li>
+                            <li><code>descriptionAfter</code> - text to display below the interactive part of the slide, e.g., footnotes, questions to think about or a recap</li>
+                            <li><code>params</code> - object with additional fields to customize the slide template, as documented below</li>
+                        </ul>
+
+                        <h3>Available slide templates</h3>
+                        <p>There are three types of slide templates:</p>
+                        <ul>
+                            <li><b>basic slides</b> - with static content</li>
+                            <li><b>playground slides</b> - with interactive elements for the students to play with</li>
+                            <li><b>question slides</b> - with an interactive task for the students, the answers of which are submitted to the teacher and/or evaluated automatically</li>
+                        </ul>
+                        <p>The <code>type</code> field can be set to one of the following strings describing the pre-prepared slide templates:</p>
+                        <ul>
+                            <li><code>playground_phong_model</code> - a playground slide with a real-time rendering of a simple geometrical scene using the Phong reflection model for lighting, with many sliders, checkboxes and other options to play with the parameters of the renderer</li>
+                            <li><code>playground_shaders</code> - a playground slide with even more control over the WebGL code responsible for the rendering, including the ability to directly edit the code of the vertex shader and the fragment shader</li>
+                            <li><code>question_parametrization</code> - a question slide in which the students are asked to match names of different shapes with their respective parametric equations (which they can also render to see)</li>
+                            <li><code>question_midpoint</code> - an auto-evaluated question slide in which the students are supposed to colour all the pixels which would be coloured using the Midpoint algorithm for rasterization of a line between two set points</li>
+                            <li><code>question_image_parameters</code> - a question slide in which the students try to match one rendered image to a &quot;model&quot; one by changing values of tone mapping and gamma correction parameters</li>
+                            <li><code>question_complete_parametrization</code> - a question slide in which the students aim to fill in the blanks in parametric equations to display the desired shape</li>
+                            <li><code>question_open</code> - a simple question slide where the students can answer any question in the form of text</li>
+                            <li><code>slide_about</code> - a basic static slide</li>
+                        </ul>
+
+                        <h3>Customization using <code>params</code></h3>
+                        <p>Any slide can have a <code>params</code> field with an object containing other customization options. None of these are required as every slide has its default settings ready.</p>
+                        
+                        <h4>Canvas size</h4>
+                        <p>All slides except <code>question_midpoint</code>,  <code>question_open</code> and <code>slide_about</code> have a rendering canvas, the size of which can be customized. Either by setting the <code>canvas_size</code> field in the <code>params</code> object to <code>tiny</code>, <code>small</code>, <code>medium</code>, <code>large</code> or <code>huge</code> or even more specifically by setting <code>canvas_width</code> and/or <code>canvas_height</code> to an integer (in pixels).</p>
+                        
+                        <h4>Specific <code>params</code> in <code>playground_phong_model</code></h4>
+                        <p>Many different tasks can be created using the <code>playground_phong_model</code> slide by setting the following fields in the <code>params</code> object.</p>
+                        <ul>
+                            <li><code>available_scenes</code> - an (ordered) array of strings describing which geometry scenes the students will be able to switch between, the available scenes for now are <code>complex</code> (with multiple shapes), <code>triangle</code> and <code>cube</code> (the first one in the array will be the one displayed by default when entering the slide)</li>
+                            <li><code>available_scenes_descriptions</code> - an (ordered) array of strings with custom descriptions of the scenes selected in <code>available_scenes</code> (the order and the length of these two arrays should be the same)</li>
+                            <li><code>slider_camera_angles</code> - a boolean to display (if <code>true</code>) or hide (if <code>false</code>) sliders to move the camera around the scene</li>
+                            <li><code>slider_camera_distance</code> - a boolean to display or hide a slider to control camera&#39;s distance to the scene</li>
+                            <li><code>slider_camera_fov</code> - a boolean to display or hide a slider to control the camera&#39;s field of view</li>
+                            <li><code>slider_lights</code> - a boolean to display or hide sliders controlling the position of the point light source in the scene</li>
+                            <li><code>slider_face_culling</code> - a boolean to display or hide the option to turn WebGL&#39;s face culling on and off</li>
+                            <li><code>slider_depth_test</code> - a boolean to display or hide the option to turn WebGL&#39;s depth test on and off</li>
+                            <li><code>slider_gamma</code> - a boolean to display or hide a slider to control the value of gamma for the purposes of gamma correction</li>
+                            <li><code>slider_tone_mapping</code> - a boolean to display or hide sliders to control the values of alpha and beta parameters for the purposes of tone mapping</li>
+                        </ul>
+                        <p>Note that all sliders are hidden unless set to <code>true</code>.</p>
+
+                        <h4>Specific <code>params</code> in <code>question_image_parameters</code></h4>
+                        <p>The <code>question_image_parameters</code> slide is very customizable as well, with the following fields in the <code>params</code> object:</p>
+                        <ul>
+                            <li><code>target_alpha</code>, <code>target_beta</code> and <code>target_gamma</code> - the values of the &quot;model&quot; image for the students to match, i.e., the correct answers to the question (note that all combinations with the same beta/gamma ratio produce the same results and will all be considered correct)</li>
+                            <li><code>alpha</code>, <code>beta</code>, <code>gamma</code> - objects describing the sliders to control these respective values, each of them can have the following fields:<ul>
+                            <li><code>startIndex</code> - the minimal allowed value for the slider</li>
+                            <li><code>endIndex</code> - the maximal allowed value for the slider</li>
+                            <li><code>step</code> - the difference between two allowed values for the slider</li>
+                        </ul>
+                        </li>
+                        </ul>
+
+                    </div>
+                  </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

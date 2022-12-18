@@ -1,3 +1,6 @@
+var slides = [];
+
+/*
 const slides = [
     {
         name: "Open Question",
@@ -74,6 +77,9 @@ const slides = [
         name: "Shape Parametrization",
         title: "Shape Parametrization",
         type: "question_parametrization",
+        params: {
+            canvas_size: "small",
+        },
     },
     {
         name: "Shaders",
@@ -127,3 +133,4 @@ const slides = [
         },
     },
 ]
+*/
