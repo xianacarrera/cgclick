@@ -1,4 +1,4 @@
-const idLength = 9
+const idLength = 5
 
 var socket = io();
 var reloadInfo;
@@ -24,7 +24,7 @@ function reloadRoom(){
 // generateId creates a new session id.
 const generateId = () => {
     let result           = '';
-    let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let charactersLength = characters.length;
     for ( var i = 0; i < idLength; i++ ) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
