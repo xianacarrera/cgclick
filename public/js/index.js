@@ -21,6 +21,10 @@ function init(){
     slides = JSON.parse(received_slides_raw);
     localStorage.removeItem('received_slides');
 
+    if (slides.length == 0) {
+        return;
+    }
+
     currentSlideNumber = 0;
     initSocket();
     let pathname = new URL(window.location.href).pathname;
@@ -57,7 +61,7 @@ function changeSlide(newSlideNumber){
 
 function leaveSlide() {
     // Execute code necessary before leaving the current slide
-    slideDefinitions[slides[currentSlideNumber].type].leaveFunction(mergeParams());
+    slideDefinitions[slides[currentSlideNumber].type]?.leaveFunction(mergeParams());
 
     let currentURL = new URL(window.location.href);
 
@@ -76,7 +80,7 @@ function displaySlide(model) {
 
     // Update heading and descriptions
     document.getElementById("title").innerHTML = slides[currentSlideNumber].title || slides[currentSlideNumber].name || "";
-    displayEval(slideDefinitions[slides[currentSlideNumber].type].evaluation || "no_eval");
+    displayEval(slideDefinitions[slides[currentSlideNumber].type]?.evaluation || "no_eval");
 
     if (slides[currentSlideNumber].descriptionBefore) {
         document.getElementById("description-before").innerHTML = ejs.views_includes_description_card({text: slides[currentSlideNumber].descriptionBefore});
@@ -89,12 +93,12 @@ function displaySlide(model) {
     // Display the new slide and execute necessary init code
     let params = mergeParams();
     if (model) params.model = model;
-    slideDefinitions[slides[currentSlideNumber].type].displayFunction(params);
+    slideDefinitions[slides[currentSlideNumber].type]?.displayFunction(params);
 }
 
 function mergeParams() {
     let customParams = slides[currentSlideNumber].params;
-    let result = JSON.parse(JSON.stringify(slideDefinitions[slides[currentSlideNumber].type].defaultParams) || "{}");
+    let result = JSON.parse(JSON.stringify(slideDefinitions[slides[currentSlideNumber].type]?.defaultParams) || "{}");
     Object.keys(customParams || {}).forEach((key) => {
         result[key] = customParams[key];
     });
@@ -122,7 +126,7 @@ function parseStringParams(params) {
         params.canvas_height = 750;
     }
     
-    if (params.canvas_size != "exact" && slideDefinitions[slides[currentSlideNumber].type].double_canvas) {
+    if (params.canvas_size != "exact" && slideDefinitions[slides[currentSlideNumber].type]?.double_canvas) {
         params.canvas_width *= 2;
     }
 
@@ -130,7 +134,7 @@ function parseStringParams(params) {
 
     if (params.available_scenes) {
         params.available_scenes.forEach((s, i) => {
-            if (!params.available_scenes_descriptions[i]) {
+            if (params.available_scenes_descriptions && (!params.available_scenes_descriptions[i])) {
                 params.available_scenes_descriptions[i] = slideDefinitions.playground_phong_model.sceneDescriptions[s];
             }
         });
