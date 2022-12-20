@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Phong's inventions",
+        "title": "Phong reflection model & Phong shading",
+        "type": "playground_shaders",
+        "params": {
+            "slider_camera_angles": true,
+            "slider_camera_distance": true,
+            "slider_camera_fov": true
+        }
+    },
+    {
+        "name": "Phong's inventions",
+        "title": "Phong reflection model & Phong shading",
+        "descriptionBefore": "Vietnamese-born computer graphics researcher Bui Tuong Phong invented both of these very important techniques. His reflection model describes how much light a surface reflects based on the properties of said surface - the idea is to calculate three types of reflection (ambient, diffuse and specular) and then add them up. The Phong shading, on the other hand, is an algorithm which uses interpolation of geometry information to make polygonal surfaces look smoother.",
+        "type": "playground_phong_model",
+        "params": {
+            "available_scenes" : ["cube", "triangle"],
+            "slider_camera_angles": true,
+            "slider_camera_distance": true,
+            "slider_gamma": true,
+            "slider_tone_mapping": true,
+            "slider_face_culling": true,
+            "slider_depth_test": true
+        }
+    }
+]
